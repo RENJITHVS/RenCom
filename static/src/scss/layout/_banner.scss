@@ -1,0 +1,156 @@
+.banner-area {
+    &__content {
+        h2 {
+            font-size: 58px;
+            font-weight: 600;
+            line-height: 66px;
+            margin-bottom: 16px;
+        }
+
+        p {
+            margin-bottom: 32px;
+        }
+    }
+
+    &__img {
+        padding: 107px 0 87px 0;
+
+        img {
+            border-radius: 60px 8px 8px 8px;
+        }
+    }
+}
+
+// /* large devices 992 - 1169*/
+@media (min-width: 992px) and (max-width: 1200px) {
+    .banner-area {
+        &__content {
+            h2 {
+                font-size: 50px;
+                line-height: 58px;
+            }
+        }
+    }
+}
+
+// / Medium devices 768 - 991 /
+@media (min-width: 768px) and (max-width: 991px) {
+
+    .banner-area {
+        padding-top: 70px;
+
+        &__content {
+            padding: 0;
+            margin: 0;
+
+            h2 {
+                font-size: 40px;
+                line-height: 48px;
+            }
+
+            p {
+                margin-bottom: 15px;
+            }
+        }
+
+        &__img {
+            padding: 0;
+            margin-bottom: 50px;
+            img{
+                width: 100%;
+            }
+        }
+        &__content{
+            margin-bottom: 20px;
+        }
+
+    }
+}
+
+// / Small devices 575 - 767 /
+@media (min-width: 575px) and (max-width: 767px) {
+    .banner-area {
+        padding-top: 60px;
+
+        &__content {
+            padding: 0;
+            margin: 0;
+
+            h2 {
+                font-size: 32px;
+                line-height: 40px;
+                margin-bottom: 10px;
+            }
+
+            p {
+                margin-bottom: 15px;
+                font-size: 14px;
+                line-height: 22px;
+            }
+        }
+
+        &__img {
+            padding: 0;
+            margin-bottom: 45px;
+        }
+    }
+}
+
+
+// / Small devices 420 - 574 /
+@media only screen and (min-width: 420px) and (max-width: 575px) {
+    .banner-area {
+        padding-top: 50px;
+
+        &__content {
+            padding: 0;
+            margin: 0;
+
+            h2 {
+                font-size: 22px;
+                line-height: 30px;
+                margin-bottom: 5px;
+            }
+
+            p {
+                margin-bottom: 15px;
+                font-size: 14px;
+                line-height: 22px;
+            }
+        }
+
+        &__img {
+            padding: 0;
+            margin-bottom: 40px;
+        }
+    }
+}
+
+// / extra Small devices 420 /
+@media (max-width: 420px) {
+    .banner-area {
+        padding-top: 50px;
+
+        &__content {
+            padding: 0;
+            margin: 0;
+
+            h2 {
+                font-size: 22px;
+                line-height: 30px;
+                margin-bottom: 5px;
+            }
+
+            p {
+                margin-bottom: 15px;
+                font-size: 14px;
+                line-height: 22px;
+            }
+        }
+
+        &__img {
+            padding: 0;
+            margin-bottom: 30px;
+        }
+    }
+}

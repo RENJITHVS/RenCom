@@ -1,0 +1,375 @@
+.payment-area {
+    padding-top: 50px;
+    padding-bottom: 100px;
+
+    .dashboard-nav {
+        margin-bottom: 100px;
+        display: inline-block;
+    }
+
+    .shipping-info-form {
+        &-text {
+            h6 {
+                font-size: 24px;
+                font-weight: 600;
+                color: $black;
+                margin-bottom: 20px;
+            }
+        }
+
+        .shipping-info {
+            margin-bottom: 16px;
+            display: flex;
+            align-content: flex-start;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+
+            .shipping-info-text .right.mar-5 {
+                margin-left: 6px;
+            }
+
+            &-text {
+                display: flex;
+                align-content: flex-start;
+
+                .left {
+                    margin-right: 45px;
+
+                    span {
+                        font-size: 14px;
+                        font-weight: 400;
+                        color: $lightBlack;
+                    }
+                }
+
+                .right {
+                    p {
+                        font-size: 16px;
+                        font-weight: 400;
+                        color: $black;
+                        margin-bottom: 5px;
+                    }
+                }
+            }
+
+            &-button {
+                button {
+                    border: none !important;
+                    background-color: transparent;
+                    color: $lightBlack;
+                    font-size: 14px;
+                    font-weight: 500;
+                }
+            }
+        }
+
+        .mod {
+            padding-top: 16px;
+            border-top: 1px solid $gray;
+        }
+    }
+
+    .card-price {
+        margin-left: 20px;
+    }
+
+    &-payment {
+        margin-top: 30px;
+
+        .payment-methods {
+            margin-top: 30px;
+            margin-bottom: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .methods {
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                .input {
+                    margin-bottom: 0;
+                    text-align: center;
+
+                    input {
+                        width: 24px;
+                        height: 24px;
+                        cursor: pointer;
+                    }
+                }
+
+                a {
+                    padding: 12px 20px;
+                    border: 1px solid $gray;
+                    border-radius: 2px;
+
+                    svg {
+                        opacity: 0.5;
+                    }
+                }
+
+                .active {
+                    svg {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+
+        .payment-info {
+            padding: 25px;
+            border: 1px solid $gray;
+            border-radius: 4px;
+
+            .form__div {
+                margin-bottom: 20px;
+            }
+        }
+
+        .on-delivery {
+            margin-top: 50px;
+            margin-bottom: 15px;
+            padding: 25px;
+            border: 1px solid $gray;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+
+            input {
+                width: 24px;
+                height: 24px;
+                margin-right: 8px;
+            }
+
+            label {
+                margin-bottom: 0 !important;
+                cursor: pointer;
+                font-size: 24px;
+                font-weight: 600;
+                color: $black;
+            }
+        }
+
+        .save-info {
+            margin-bottom: 50px;
+            display: flex;
+            align-items: center;
+
+            input {
+                width: 15px;
+                height: 15px;
+                margin-right: 6px;
+            }
+
+            label {
+                color: $lightBlack;
+                font-size: 14px;
+                margin-bottom: 0 !important;
+                cursor: pointer;
+            }
+        }
+
+        .bottom {
+            a {
+                color: $black;
+                font-size: 16px;
+                font-weight: 500;
+            }
+        }
+    }
+
+    &-info {
+        margin-bottom: 30px;
+
+        .credit-card-option {
+            display: flex;
+            align-items: center;
+
+            input {
+                width: 24px;
+                height: 24px;
+                margin-right: 8px;
+            }
+
+            label {
+                font-size: 24px;
+                line-height: 32px;
+                color: $black;
+                font-weight: 600;
+                cursor: pointer;
+                margin: 0 !important;
+            }
+        }
+
+        .credit-card {
+            display: flex;
+            align-items: center;
+
+            a {
+                margin-right: 5px;
+                border: 1px solid $gray;
+                border-radius: 2px;
+                padding: 3px 10px;
+            }
+
+            p {
+                font-size: 10px;
+            }
+        }
+    }
+}
+
+// Responsive
+// large devices 992px - 1169px
+@media (min-width: 992px) and (max-width: 1200px) {}
+
+// Medium devices 768px - 991px
+@media (min-width: 768px) and (max-width: 991px) {
+    .payment-area .dashboard-nav {
+        margin-bottom: 50px;
+    }
+
+    .payment-area .card-price {
+        margin-left: 0;
+        margin-bottom: 50px;
+    }
+
+}
+
+// Small devices 575px - 767px
+@media (min-width: 575px) and (max-width: 767px) {
+    .payment-area .dashboard-nav {
+        margin-bottom: 50px;
+    }
+
+    .payment-area .card-price {
+        margin-left: 0;
+        margin-bottom: 50px;
+    }
+
+    .payment-area-payment .payment-methods {
+        flex-wrap: wrap;
+    }
+
+    .payment-methods .methods {
+        margin-right: 10px;
+        margin-top: 30px;
+    }
+
+    .payment-area-info .credit-card-option {
+        margin-bottom: 10px;
+    }
+
+    .payment-area-payment .on-delivery {
+        margin-top: 30px;
+    }
+
+    .payment-area-payment .save-info {
+        margin-bottom: 30px;
+    }
+
+    .payment-area {
+        padding-bottom: 30px;
+    }
+}
+
+// Small devices 420px - 574px
+@media only screen and (min-width: 420px) and (max-width: 574px) {
+    .payment-area .dashboard-nav {
+        margin-bottom: 30px;
+    }
+
+    .payment-area .card-price {
+        margin-left: 0;
+        margin-bottom: 30px;
+    }
+
+    .payment-area-payment .payment-methods {
+        flex-wrap: wrap;
+    }
+
+    .payment-methods .methods {
+        margin-right: 10px;
+        margin-top: 30px;
+    }
+
+    .payment-area-info .credit-card-option {
+        margin-bottom: 10px;
+    }
+
+    .payment-area-payment .on-delivery {
+        margin-top: 30px;
+    }
+
+    .payment-area-payment .save-info {
+        margin-bottom: 30px;
+    }
+
+    .payment-area {
+        padding-bottom: 30px;
+    }
+
+    .shipping-info-text .right {
+        margin-left: 0;
+    }
+}
+
+// extra Small devices 420px
+@media (max-width: 420px) {
+    .payment-area .dashboard-nav {
+        margin-bottom: 30px;
+    }
+
+    .payment-area .card-price {
+        margin-left: 0;
+        margin-bottom: 30px;
+    }
+
+    .payment-area-payment .payment-methods {
+        flex-wrap: wrap;
+    }
+
+    .payment-methods .methods {
+        margin-right: 10px;
+        margin-top: 30px;
+    }
+
+    .payment-area-info .credit-card-option {
+        margin-bottom: 10px;
+        // flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .payment-area-payment .on-delivery {
+        margin-top: 30px;
+    }
+
+    .payment-area-payment .save-info {
+        margin-bottom: 30px;
+        align-items: flex-start;
+
+        input {
+            margin-top: 5px;
+        }
+    }
+
+    .payment-area {
+        padding-bottom: 30px;
+    }
+
+    .shipping-info-text .right {
+        margin-left: -15px;
+    }
+
+    .payment-area-payment .bottom a {
+        margin-right: 15px;
+        margin-bottom: 15px;
+    }
+
+    .payment-area-info .credit-card-option input {
+        margin-bottom: 10px;
+        width: 35px;
+        height: 35px;
+    }
+}

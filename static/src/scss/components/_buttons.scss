@@ -1,0 +1,50 @@
+
+.btn{
+    padding: 18px 45px;
+    font-size: 16px;
+    line-height: 1;
+    font-weight: 500;
+    text-transform: uppercase;
+    border: 2px solid transparent;
+    &.bg-primary {
+        background-color: $blue;
+        color: $white;
+        &:hover{
+            background-color: transparent !important;
+            border-color: $blue;
+            color: $blue;
+        }
+    }
+    &.bg-secondary{
+        background-color: $white !important;
+        color: black !important;
+        &:hover{
+            background-color: white !important;
+        }
+    }
+}
+.border{
+    border-radius: 50px;
+}
+// Small devices 575px - 767px
+@media (min-width: 575px) and (max-width: 767px) {
+    .btn{
+        padding: 15px 30px;
+        font-size: 14px;
+    }
+}
+
+// Small devices 420px - 574px
+@media only screen and (min-width: 420px) and (max-width: 574px) {
+    .btn{
+        padding: 15px 30px;
+        font-size: 14px;
+    }
+}
+// extra Small devices 420px
+@media (max-width: 420px) {
+    .btn{
+        padding: 15px 30px;
+        font-size: 14px;
+    }
+}

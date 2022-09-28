@@ -1,0 +1,277 @@
+//Sop page Search Bar
+.search {
+    padding-top: 70px;
+
+    &-wrapper {
+        width: 830px;
+
+        &-box {
+            position: relative;
+
+            input {
+                width: 100%;
+                height: 59px;
+                border: 0;
+                border: 2px solid rgba(152, 155, 167, 0.5);
+                border-radius: 4px;
+                padding: 0 24px;
+            }
+
+            button {
+                position: absolute;
+                top: 0;
+                right: 0;
+                height: 100%;
+            }
+        }
+    }
+}
+
+//Sop Page Categori Item
+.categoryitem {
+    padding-top: 20px;
+    padding-bottom: 45px;
+
+    &-wrapper {
+        width: 830px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        &-itembox {
+            h6 {
+                font-size: 12px;
+                color: $lightBlack;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+                margin-bottom: 7px;
+            }
+
+            width: 197.5px;
+            margin-bottom: 20px;
+
+            .nice-select {
+                color: $black;
+                border: 1px solid rgba(152, 155, 167, 0.5) !important;
+                height: 44px;
+                border-radius: 3px !important;
+
+                &::after {
+                    border-bottom: 2px solid $black;
+                    border-right: 2px solid $black;
+                    width: 8px;
+                    height: 8px;
+                    right: 18px;
+                }
+
+                .list {
+                    width: 100% !important;
+
+                }
+            }
+        }
+
+        &-price {
+            h6 {
+                font-size: 12px;
+                color: $lightBlack;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+                margin-bottom: 7px;
+            }
+
+            width: 197.5px;
+            margin-bottom: 20px;
+
+            .price-item {
+                border: 1px solid rgba(152, 155, 167, 0.5);
+                border-radius: 3px;
+                height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                justify-content: space-around;
+                input{
+                    width: 40%;
+                    height: 100%;
+                    border: 0;
+                    padding-left: 12px;
+                    &::placeholder{
+                        font-size: 14px;
+                        color: $black;
+                    }
+                }
+            }
+        }
+    }
+}
+//product-item
+.shop-product{
+    .product-item{
+        margin-bottom: 40px;
+    }
+}
+
+//Sop Page Pagination 
+.pagination {
+    padding-bottom: 100px  ;
+    &-group {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .p_prev,
+    .p_next {
+        border: 1px solid #989BA7;
+        border-radius: 100%;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 25px;
+        &:first-child{
+            margin-left: 0;
+        }
+        &:last-child{
+            margin-right: 0;
+        }
+
+        &:hover {
+            background-color: $blue;
+            border-color: $blue;
+
+            svg {
+                path {
+                    stroke: $white;
+                }
+            }
+        }
+    }
+    .cdp_i{
+        color: $lightBlack;
+        font-size: 16px;
+        line-height: 1.3;
+        transition: .3s;
+        margin: 0 10px;
+        padding: 8px 0;
+        &.active{
+            color: $black;
+            text-decoration: underline;
+
+        }
+        &:hover{
+            color: $black;
+
+        }
+    }
+}
+
+// Responsive
+// large devices 992px - 1169px
+@media (min-width: 992px) and (max-width: 1200px) {}
+
+// Medium devices 768px - 991px
+@media (min-width: 768px) and (max-width: 991px) {
+    .categoryitem-wrapper-itembox {
+        width: 150px;
+    }
+    .pagination{
+        padding-bottom: 70px;
+    }
+    .categoryitem-wrapper-price {
+        width: 150px;
+    }
+    .categoryitem-wrapper-price .price-item input {
+        padding-left: 8px;
+    }
+}
+
+// Small devices 575px - 767px
+@media (min-width: 575px) and (max-width: 767px) {
+    .categoryitem-wrapper-itembox {
+        width: 120px;
+    }
+    .categoryitem-wrapper-price {
+        width: 120px;
+    }
+    .categoryitem-wrapper-price .price-item input {
+        padding-left: 2px;
+    }
+
+}
+
+// Small devices 420px - 574px
+@media only screen and (min-width: 420px) and (max-width: 574px) {
+    .categoryitem-wrapper {
+        padding: 0 15px;
+    }
+    .categoryitem-wrapper-itembox {
+        width: 120px;
+    }
+    .categoryitem-wrapper-price {
+        width: 120px;
+    }
+    .categoryitem {
+        padding-bottom: 20px;
+    }
+    .search{
+        padding-top: 50px;
+        &-wrapper {
+        width: 100%;
+        padding: 0 15px;
+        &-box{
+            input{
+                height: 50px;
+            }
+        }
+    }
+    }
+    .pagination {
+        padding-bottom: 50px;
+    }
+    .pagination .p_prev, .pagination .p_next {
+        width: 45px;
+        height: 45px;
+    }
+    .categoryitem-wrapper-price .price-item input {
+        padding-left: 2px;
+    }
+}
+
+// extra Small devices 420px
+@media (max-width: 420px) {
+    .search{
+        padding: 0 15px;
+    }
+    .categoryitem-wrapper {
+        padding: 0 15px;
+    }
+    .categoryitem-wrapper-itembox {
+        width: 140px;
+    }
+    .categoryitem-wrapper-price {
+        width: 140px;
+    }
+    .search-wrapper-box input {
+        height: 50px;
+    }
+    .categoryitem-wrapper-price .price-item input {
+        padding-left: 8px;
+    }
+    .categoryitem {
+        padding-bottom: 20px;
+    }
+    .pagination {
+        padding-bottom: 50px;
+    }
+    .pagination .p_prev, .pagination .p_next {
+        width: 40px;
+        height: 40px;
+        margin: 0 10px;
+    }
+    .pagination .cdp_i {
+        padding: 8px 0;
+    }
+}

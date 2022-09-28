@@ -1,0 +1,372 @@
+footer {
+    padding: 70px 0px 30px 0px;
+    background-color: $black;
+
+    .newsletter-area {
+        margin-bottom: 70px;
+
+        &-text {
+            h4 {
+                margin-bottom: 12px;
+                font-size: 40px;
+                font-weight: 600;
+                line-height: 48px;
+            }
+
+            p {
+                font-size: 16px;
+                color: $lightBlack;
+                font-weight: 400;
+                line-height: 24px;
+            }
+        }
+
+        &-button {
+            .form {
+                position: relative;
+                margin-right: -15px;
+                input {
+                    color: #ffffff;
+                    padding: 30px 0px 30px 30px;
+                    border-radius: 40px;
+                    border: 1px solid $lightBlack;
+                    background-color: $black;
+
+                    &:focus {
+                        box-shadow: none;
+                    }
+                }
+
+                button {
+                    padding: 12px 24px;
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    border: none !important;
+                    transition: 0.3s all linear;
+                    &:focus {
+                        box-shadow: none;
+                    }
+                    &:hover{
+                        background-color: $blue !important;
+                        color: #ffffff !important;
+                        border: none !important;
+                    }
+                }
+            }
+        }
+    }
+
+    .main-footer {
+        padding: 100px 0px;
+        border-top: 1px solid #ffffff;
+        border-bottom: 1px solid #ffffff;
+
+        &-info {
+            p {
+                margin-top: 24px;
+                font-size: 16px;
+                line-height: 24px;
+                color: $lightBlack;
+            }
+        }
+
+        &-quicklinks {
+            h6 {
+                color: #ffffff;
+                font-size: 18px;
+                font-weight: 600;
+            }
+
+            .quicklink {
+                margin-top: 24px;
+
+                li {
+                    a {
+                        margin-bottom: 10px;
+                        display: block;
+                        color: $lightBlack;
+                        font-size: 14px;
+                        font-weight: 400;
+                        transition: 0.3s all linear;
+                        &:hover{
+                            color: #ffffff;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .copyright {
+        padding-top: 28px;
+
+        &-text {
+            p {
+                color: $lightBlack;
+                font-size: 14px;
+
+                a {
+                    color: #ffffff;
+                    font-weight: 600;
+                    transition: 0.3s all linear;
+                    &:hover{
+                        color: $lightBlack;
+                    }
+                }
+            }
+        }
+
+        &-links {
+            a {
+                color: #ffffff;
+                font-weight: 600;
+                margin-left: 26px;
+                transition: 0.3s all linear;
+                &:hover{
+                    color: $lightBlack;
+                }
+            }
+        }
+    }
+}
+
+// large devices 992px - 1169px
+@media (min-width: 992px) and (max-width: 1200px) {}
+
+// Medium devices 768px - 991px
+@media (min-width: 768px) and (max-width: 991px) {
+    footer {
+        .newsletter-area {
+            margin-bottom: 50px;
+
+            &-text {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            &-button {
+                .form {
+                    width: 70%;
+                    margin: auto;
+                    margin-right: 0px;
+                }
+            }
+        }
+    }
+
+    footer .newsletter-area-button .form input {
+        padding: 25px 0px 25px 25px;
+    }
+
+    footer .newsletter-area-button .form button {
+        top: 5px;
+        right: 5px;
+    }
+
+    footer .main-footer {
+        padding: 30px 0px;
+    }
+
+    footer .main-footer-info p {
+        margin-top: 20px;
+        margin-bottom: 25px;
+    }
+
+    footer .copyright-text p {
+        margin-bottom: 0;
+    }
+
+}
+
+// Small devices 575px - 767px
+@media (min-width: 575px) and (max-width: 767px) {
+    footer .newsletter-area-text h4{
+        font-size: 32px !important;
+    }
+    footer {
+        .newsletter-area {
+            margin-bottom: 40px;
+
+            &-text {
+                text-align: center;
+                margin-bottom: 30px;
+
+                p {
+                    font-size: 14px;
+                    text-align: left;
+                }
+            }
+        }
+        .main-footer-quicklinks{
+            margin-top: 30px;
+        }
+        footer .newsletter-area-text h4 {
+            font-size: 28px;
+            line-height: 36px;
+        }
+
+        footer .newsletter-area-button .form input {
+            padding: 25px 0px 25px 25px;
+        }
+
+        footer .newsletter-area-button .form button {
+            top: 5px;
+            right: 5px;
+        }
+
+        footer .main-footer {
+            padding: 30px 0px;
+        }
+
+        footer .main-footer-info p {
+            margin-top: 20px;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        footer .copyright-text p {
+            margin-bottom: 0;
+        }
+    }
+    footer .newsletter-area-button .form{
+        margin-right: 0;
+    }
+}
+
+// Small devices 420px - 574px
+@media only screen and (min-width: 420px) and (max-width: 574px) {
+    footer {
+        padding: 50px 0px 20px 0px;
+
+        .newsletter-area {
+            margin-bottom: 30px;
+
+            &-text {
+                text-align: center;
+                margin-bottom: 30px;
+
+                p {
+                    font-size: 14px;
+                    text-align: left;
+                }
+            }
+        }
+    }
+
+    footer .newsletter-area-text h4 {
+        font-size: 26px;
+        line-height: 32px;
+    }
+    .main-footer-quicklinks{
+        margin-bottom: 30px;
+    }
+    footer .main-footer-quicklinks .quicklink {
+        margin-top: 15px;
+    }
+
+    footer .newsletter-area-button .form input {
+        padding: 25px 0px 25px 25px;
+    }
+
+    footer .newsletter-area-button .form button {
+        top: 5px;
+        right: 5px;
+    }
+
+    footer .main-footer {
+        padding: 30px 0px;
+    }
+
+    footer .main-footer-info p {
+        margin-top: 20px;
+        margin-bottom: 25px;
+        font-size: 14px;
+    }
+
+    footer .copyright-text p {
+        margin-bottom: 0;
+        line-height: 30px;
+    }
+
+    footer .copyright-links a {
+        margin-left: 10px;
+    }
+
+    footer .copyright {
+        flex-wrap: wrap;
+    }
+    footer .newsletter-area-button .form{
+        margin-right: 0;
+    }
+}
+
+// extra Small devices 420px
+@media (max-width: 420px) {
+    footer {
+        padding: 30px 0px 10px 0px;
+
+        .newsletter-area {
+            margin-bottom: 25px;
+
+            &-text {
+                text-align: center;
+                margin-bottom: 15px;
+
+                p {
+                    font-size: 14px;
+                    text-align: left;
+                }
+            }
+        }
+    }
+
+    footer .newsletter-area-text h4 {
+        font-size: 19px;
+        line-height: 27px;
+    }
+
+    footer .main-footer-quicklinks .quicklink {
+        margin-top: 15px;
+    }
+
+    footer .newsletter-area-button .form input {
+        padding: 25px 0px 25px 25px;
+    }
+
+    footer .newsletter-area-button .form button {
+        top: 5px;
+        right: 5px;
+    }
+
+    footer .main-footer {
+        padding: 30px 0px;
+        padding-bottom: 0;
+    }
+
+    footer .main-footer-info p {
+        margin-top: 20px;
+        margin-bottom: 25px;
+        font-size: 14px;
+    }
+
+    .main-footer-quicklinks {
+        margin-bottom: 30px;
+    }
+   
+    footer .copyright-text p {
+        margin-bottom: 0;
+        line-height: 35px;
+        font-size: 13px;
+    }
+
+    footer .copyright-links a {
+        margin-left: 10px;
+    }
+
+    footer .copyright {
+        flex-wrap: wrap;
+    }
+    footer .newsletter-area-button .form{
+        margin-right: 0;
+    }
+}

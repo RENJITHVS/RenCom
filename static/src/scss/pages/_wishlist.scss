@@ -1,0 +1,29 @@
+.wishlist-area{
+    padding-top: 50px;
+    padding-bottom: 100px;
+    .dashboard-nav{
+        margin-bottom: 100px;
+    }
+}
+// large devices 992px - 1169px
+@media (min-width: 992px) and (max-width: 1200px) {
+
+}
+
+// Medium devices 768px - 991px
+@media (min-width: 768px) and (max-width: 991px) {
+}
+
+// Small devices 575px - 767px
+@media (min-width: 575px) and (max-width: 767px) {
+}
+
+// Small devices 420px - 574px
+@media only screen and (min-width: 420px) and (max-width: 574px) {
+    
+}
+
+// extra Small devices 420px
+@media (max-width: 420px) {
+   
+}

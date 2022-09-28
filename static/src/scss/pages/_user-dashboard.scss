@@ -1,0 +1,343 @@
+.account {
+    padding-top: 50px;
+    padding-bottom: 100px;
+
+    .dashboard-nav {
+        margin-bottom: 100px;
+    }
+
+    &-setting {
+        padding: 25px;
+        border-radius: 5px;
+        border: 1px solid $gray;
+
+        h6 {
+            color: $black;
+            font-size: 24px;
+            line-height: 32px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        form {
+            .form__div {
+                margin-bottom: 30px;
+
+                input {
+                    border: 1px solid $lightBlack;
+                    border-radius: 4px;
+                    padding: 18px;
+                    width: 100% !important;
+                }
+
+                label {
+                    cursor: pointer;
+                    font-size: 14px;
+                    color: $lightBlack;
+                }
+            }
+
+            button {
+                border: 2px solid $blue;
+
+                &:focus {
+                    box-shadow: none;
+                }
+            }
+        }
+    }
+
+    .change-password {
+        padding: 25px;
+        border-radius: 5px;
+        border: 1px solid $gray;
+
+        h6 {
+            color: $black;
+            font-size: 24px;
+            line-height: 32px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        form {
+            .form__div {
+                margin-bottom: 30px;
+
+                input {
+                    border: 1px solid $lightBlack;
+                    border-radius: 4px;
+                    padding: 18px;
+                    width: 100% !important;
+                }
+
+                label {
+                    cursor: pointer;
+                    font-size: 14px;
+                    color: $lightBlack;
+                    margin-bottom: 0;
+                }
+            }
+
+            button {
+                margin-top: 10px;
+                border: 2px solid $blue;
+
+                &:focus {
+                    box-shadow: none;
+                }
+            }
+        }
+    }
+}
+
+// Dashboard-Nav
+.dashboard-nav {
+    .list-inline {
+        max-width: 740px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid $gray;
+
+        &-item {
+            a {
+                font-size: 16px;
+                font-weight: 500;
+                color: $lightBlack;
+                margin-right: 25px;
+            }
+
+            .active {
+                color: $black;
+                position: relative;
+
+                &::after {
+                    position: absolute;
+                    content: '';
+                    bottom: -10px;
+                    left: 0;
+                    height: 1px;
+                    width: 100%;
+                    background-color: $black;
+                }
+            }
+        }
+    }
+}
+
+// Responsive
+// large devices 992px - 1169px
+@media (min-width: 992px) and (max-width: 1200px) {}
+
+// Medium devices 768px - 991px
+@media (min-width: 768px) and (max-width: 991px) {
+    .account {
+        padding: 50px 0;
+
+        &-setting {
+            padding: 10px 40px 20px 40px;
+
+            h6 {
+                margin-top: 15px;
+            }
+        }
+
+        .change-password {
+            margin-top: 30px;
+            padding: 0 40px 10px 40px;
+            background-color: white;
+            border-radius: 5px;
+
+            form {
+                button {
+                    margin-top: 0;
+                }
+            }
+        }
+    }
+
+    .account .dashboard-nav {
+        margin-bottom: 30px;
+    }
+
+    .change-password,
+    .account-setting {
+        padding: 10px !important;
+    }
+
+    .dashboard-nav .list-inline-item .active {
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+
+    .dashboard-nav .list-inline-item .active::after {
+        bottom: -3px !important;
+    }
+}
+
+// Small devices 575px - 767px
+@media (min-width: 575px) and (max-width: 767px) {
+    .account {
+        padding: 50px 0;
+
+        &-setting {
+            padding: 10px 40px 20px 40px;
+
+            h6 {
+                margin-top: 10px;
+                margin-bottom: 15px;
+                font-size: 20px;
+                line-height: 28px;
+            }
+        }
+
+        .change-password {
+            margin-top: 30px;
+            padding: 0 40px 10px 40px;
+            background-color: white;
+            border-radius: 5px;
+
+            h6 {
+                font-size: 20px;
+                line-height: 28px;
+                margin-bottom: 15px;
+            }
+        }
+    }
+
+    .account .dashboard-nav {
+        margin-bottom: 30px;
+    }
+
+    .change-password,
+    .account-setting {
+        padding: 10px !important;
+    }
+
+    .dashboard-nav .list-inline-item .active {
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+
+    .dashboard-nav .list-inline-item .active::after {
+        bottom: -3px !important;
+    }
+}
+
+// Small devices 420px - 574px
+@media only screen and (min-width: 420px) and (max-width: 574px) {
+    .account {
+        padding: 50px 0;
+
+        &-setting {
+            padding: 10px 40px 20px 40px;
+
+            h6 {
+                margin-top: 10px;
+                margin-bottom: 15px;
+                font-size: 20px;
+                line-height: 28px;
+            }
+
+            form {
+                button {
+                    margin-top: 0;
+                }
+            }
+        }
+
+        .change-password {
+            margin-top: 30px;
+            padding: 70px 40px 10px 40px;
+            background-color: white;
+            border-radius: 5px;
+
+            h6 {
+                font-size: 20px;
+                line-height: 28px;
+                margin-bottom: 15px;
+            }
+
+            form {
+                button {
+                    margin-top: 0;
+                }
+            }
+        }
+    }
+
+    .account .dashboard-nav {
+        margin-bottom: 30px;
+    }
+
+    .change-password,
+    .account-setting {
+        padding: 10px !important;
+    }
+
+    .dashboard-nav .list-inline-item .active {
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+
+    .dashboard-nav .list-inline-item .active::after {
+        bottom: -3px !important;
+    }
+}
+
+// extra Small devices 420px
+@media (max-width: 420px) {
+    .account {
+        padding: 50px 0;
+
+        &-setting {
+            padding: 10px 40px 20px 40px;
+
+            h6 {
+                margin-bottom: 15px;
+                font-size: 20px;
+                line-height: 28px;
+            }
+        }
+
+        .change-password {
+            margin-top: 30px;
+
+            h6 {
+                font-size: 20px;
+                line-height: 28px;
+                margin-bottom: 15px;
+            }
+
+            form {
+                button {
+                    margin-top: 0;
+                }
+            }
+        }
+    }
+
+    .account .dashboard-nav {
+        margin-bottom: 30px;
+    }
+
+    .change-password,
+    .account-setting {
+        padding: 10px !important;
+    }
+
+    .dashboard-nav .list-inline-item .active {
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+
+    .dashboard-nav .list-inline-item .active::after {
+        bottom: -3px;
+    }
+
+    .dashboard-nav .list-inline-item a {
+        margin-right: 15px;
+        margin-bottom: 10px;
+        display: inline-block;
+        font-size: 14px;
+    }
+}
