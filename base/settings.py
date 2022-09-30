@@ -12,7 +12,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 environ.Env.read_env()
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -37,10 +36,13 @@ INSTALLED_APPS = [
     'shop.apps.ShopConfig',
     'customers.apps.CustomersConfig',
     'vendors.apps.VendorsConfig',
+    'cart.apps.CartConfig',
+    
     #third-party apps
     'mptt',
     'crispy_forms',
     'crispy_bootstrap5',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -66,6 +68,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                    # custom context processor 
+                'shop.context_processors.featured_products_and_brands', #show featured products and brands
+                'cart.context_processors.cart', #cart_data
             ],
         },
     },
@@ -127,11 +132,10 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATIC_URL = "/static/"
-
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Custom user model
 AUTH_USER_MODEL = "customers.User"
@@ -149,9 +153,17 @@ MESSAGE_TAGS = {
         messages.ERROR: 'error',
  }
 
+#E-mail backend view
 EMAIL_BACKEND = env('EMAIL_BACKEND')
 EMAIL_HOST = env('EMAIL_HOST')
 EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 EMAIL_PORT = env('EMAIL_PORT')
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+
+#Login redirect url
+LOGIN_REDIRECT_URL= '/'
+
+#session
+SESSION_COOKIE_AGE = 86400
+CART_SESSION_ID = "cart"

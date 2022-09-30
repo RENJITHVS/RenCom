@@ -1,5 +1,6 @@
 {% extends '../base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block content %}
   <!-- Account-Login -->
 <section class="account-sign">
@@ -8,25 +9,38 @@
                     <div class="col-lg-6 col-md-12 mx-auto">
                         <div class="account-sign-in">
                             <h5 class="text-center">Sign in</h5>
-                            <form action="#">
-                                <div class="form__div">
-                                    <input type="email" class="form__input" placeholder=" ">
-                                    <label for="" class="form__label">Email</label>
+                            {% if form.errors %}
+                            <div class="alert alert-primary" role="alert">
+                                Error: Username or Password not correct!
+                            </div>
+                            {% endif %}
+                            <form method='post'>
+                                 {% csrf_token %}
+                                {% comment %} <div class="my-1">
+                                    {{ form.email| as_crispy_field }}
                                 </div>
-                                <div class="form__div mb-0">
-                                    <input type="password" class="form__input" placeholder=" ">
-                                    <label for="" class="form__label">Password</label>
+                            
+                                <div class="my-1">
+                                    {{ form.password| as_crispy_field }}
+                                </div> {% endcomment %}
+                                <div class="form__div">
+                                    <input type="email" name='email' class="form__input" placeholder=" ">
+                                    <label for="email" class="form__label">Email</label>
+                                </div>
+                                <div class="form__div">
+                                    <input type="password" name='password' class="form__input" placeholder=" ">
+                                    <label for="password" class="form__label">Password</label>
                                 </div>
                                 <div class="password-info d-flex align-items-center justify-content-between flex-wrap">
-                                    <div class="password-info-left">
+                                    {% comment %} <div class="password-info-left">
                                         <input type="checkbox" id="showpass" class="mb-0">
                                         <label for="showpass" class="mb-0">Show Password</label>
-                                    </div>
+                                    </div> {% endcomment %}
                                     <div class="password-info-right">
-                                        <a href="forget-password.html">Forget Password</a>
+                                        <a href="#">Forget Password</a>
                                     </div>
                                 </div>
-                                <a href="user-dashboard.html" class="btn bg-primary">Sign in</a>
+                                <button type='submit' class="btn bg-primary">Sign in</button>
                             </form>
                             <div class="social-signing">
                                 <p class="text-center">or sign in with</p>

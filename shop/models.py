@@ -1,3 +1,4 @@
+
 from django.db import models
 
 from django.urls import reverse
@@ -6,22 +7,24 @@ from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
 from vendors.models import VendorProfile
+from django.template.defaultfilters import slugify
 
 # Create your models here.
-class Category(MPTTModel):
-    STATUS = (
-        ('True', 'True'),
-        ('False', 'False'),
-    )
-    parent = TreeForeignKey('self',blank=True, null=True ,related_name='children', on_delete=models.CASCADE)
+
+
+class BrandName(MPTTModel):
+    """
+    MPTT category for brand model
+
+    """
     title = models.CharField(max_length=50)
-    keywords = models.CharField(max_length=255)
-    description = models.TextField(max_length=255)
-    image=models.ImageField(blank=True,upload_to='images/')
-    status=models.CharField(max_length=10, choices=STATUS)
+    image = models.ImageField(blank=True, upload_to='brands/')
+    parent = TreeForeignKey('self', blank=True, null=True,
+                            related_name='children', on_delete=models.CASCADE)
     slug = models.SlugField(null=False, unique=True)
-    create_at=models.DateTimeField(auto_now_add=True)
-    update_at=models.DateTimeField(auto_now=True)
+    status = models.BooleanField(default=True)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
@@ -32,29 +35,74 @@ class Category(MPTTModel):
     # def get_absolute_url(self):
     #     return reverse('category_detail', kwargs={'slug': self.slug})
 
-    def __str__(self):                           # __str__ method elaborated later in
-        full_path = [self.title]                  # post.  use __unicode__ in place of
-        k = self.parent
-        while k is not None:
-            full_path.append(k.title)
-            k = k.parent
-        return ' / '.join(full_path[::-1])
+
+class ProductType(models.Model):
+    """
+    ProductType Table will provide a list of the different types
+    of products that are for sale.
+    """
+
+    name = models.CharField(verbose_name="Product Name",
+                            help_text="Required", max_length=255, unique=True)
+    image = models.ImageField(
+        upload_to='product_type_images/', default='images/default-image.jpg', blank=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "Product Type"
+        verbose_name_plural = "Product Types"
+
+    def __str__(self):
+        return self.name
+
+
+class ProductSpecification(models.Model):
+    """
+    The Product Specification Table contains product
+    specifiction or features for the product types.
+    """
+
+    product_type = models.ForeignKey(ProductType, on_delete=models.RESTRICT)
+    name = models.CharField(verbose_name="Name",
+                            help_text="Required", max_length=255)
+
+    class Meta:
+        verbose_name = "Product Specification"
+        verbose_name_plural = "Product Specifications"
+
+    def __str__(self):
+        return self.name
+
 
 class ProductManager(models.Manager):
+    """
+    filter only active products
+    """
+
     def get_queryset(self):
         return super(ProductManager, self).get_queryset().filter(is_active=True)
 
+
 class Product(models.Model):
-    category = models.ForeignKey(Category, related_name='product', on_delete=models.CASCADE)
-    created_by = models.ForeignKey(VendorProfile, on_delete=models.CASCADE, related_name='vendor')
+    """
+    This table contain details of all product
+    """
+    product_type = models.ForeignKey(
+        ProductType, related_name='type_name', on_delete=models.RESTRICT)
+    brand = models.ForeignKey(
+        BrandName, related_name='brand', on_delete=models.RESTRICT)
+    created_by = models.ForeignKey(
+        VendorProfile, on_delete=models.CASCADE, related_name='vendor')
     title = models.CharField(max_length=255)
-    author = models.CharField(max_length=255, default='admin')
+    author = models.CharField(max_length=255)
     description = models.TextField(blank=True)
-    image = models.ImageField(upload_to='images/', default='images/default.png')
+    image = models.ImageField(
+        upload_to='product_images/', default='default-image.jpg')
     slug = models.SlugField(max_length=255)
-    price = models.DecimalField(max_digits=4, decimal_places=2)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
     in_stock = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
+    is_featured = models.BooleanField(default= False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     objects = models.Manager()
@@ -64,8 +112,32 @@ class Product(models.Model):
         verbose_name_plural = 'Products'
         ordering = ('-created',)
 
-    # def get_absolute_url(self):
-    #     return reverse('store:product_detail', args=[self.slug])
+
+    def get_absolute_url(self):
+        return reverse('shop:product_details', args=[self.slug])
+    
 
     def __str__(self):
         return self.title
+
+
+class ProductSpecificationValue(models.Model):
+    """
+    The Product Specification Value table holds each of the
+    products individual specification or bespoke features.
+    """
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    specification = models.ForeignKey(
+        ProductSpecification, on_delete=models.RESTRICT)
+    value = models.CharField(
+        verbose_name="value",
+        help_text="Product specification value (maximum of 255 words",
+        max_length=255,
+    )
+
+    class Meta:
+        verbose_name = "Product Specification Value"
+        verbose_name_plural = "Product Specification Values"
+
+    def __str__(self):
+        return self.value

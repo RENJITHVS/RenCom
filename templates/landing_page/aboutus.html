@@ -1,0 +1,93 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block title %}Cart {% endblock %}
+{% block content %}
+<!-- About Area Start -->
+<section class="about-area">
+    <div class="container">
+        <div class="about-area-content">
+            <div class="row align-items-center">
+                <div class="col-lg-6 ">
+                    <div class="about-area-content-img">
+                        <img src="{% static 'dist/images/feature/medicine.jpg' %}" alt="img" class="img-fluid">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about-area-content-text">
+                        <h3>Why Shop with Olog</h3>
+                        <p>Fortify your hair follicles, give thinning areas some volume, and treat your
+                            body’s
+                            skin like driving your dream car off the lot.</p>
+                        <div class="icon-area-content">
+                            <div class="icon-area">
+                                <i class="far fa-check-circle"></i>
+                                <span>Secure Payment Method.</span>
+                            </div>
+                            <div class="icon-area">
+                                <i class="far fa-check-circle"></i>
+                                <span>24/7 Customers Services.</span>
+                            </div>
+                            <div class="icon-area">
+                                <i class="far fa-check-circle"></i>
+                                <span>Shop in 2 languages</span>
+                            </div>
+                            <div class="icon-area">
+                                <i class="far fa-check-circle"></i>
+                                <span>Mauris congue eros in iaculis.</span>
+                            </div>
+                        </div>
+
+                        <a class="btn bg-primary" href="#">Get Started</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- About Area End -->
+<!--Banner Area Start -->
+<section class="banner-area">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 order-2 order-lg-1">
+                <div class="banner-area__content">
+                    <h2>Premium care for
+                        premium people.</h2>
+                    <p>Not ready for a subscription? Shop all a la carté skin, hair, and body care.</p>
+                    <a class="btn bg-primary" href="#">Shop Now</a>
+                </div>
+            </div>
+            <div class="col-lg-6 order-1 order-lg-2">
+                <div class="banner-area__img">
+                    <img src="{% static 'dist/images/banner.jpg' %}" alt="banner-img" class="img-fluid">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="brand-area">
+                    <div class="brand-area-image">
+                        <img src="{% static 'dist/images/brand/01.png' %}" alt="Brand" class="img-fluid">
+                    </div>
+                    <div class="brand-area-image">
+                        <img src="{% static 'dist/images/brand/02.png' %}" alt="Brand" class="img-fluid">
+                    </div>
+                    <div class="brand-area-image">
+                        <img src="{% static 'dist/images/brand/03.png' %}" alt="Brand" class="img-fluid">
+                    </div>
+                    <div class="brand-area-image">
+                        <img src="{% static 'dist/images/brand/04.png' %}" alt="Brand" class="img-fluid">
+                    </div>
+                    <div class="brand-area-image">
+                        <img src="{% static 'dist/images/brand/02.png' %}" alt="Brand" class="img-fluid">
+                    </div>
+                    <div class="brand-area-image">
+                        <img src="{% static 'dist/images/brand/05.png' %}" alt="Brand" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Banner Area End -->
+{% endblock %}

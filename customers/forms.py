@@ -1,8 +1,12 @@
+import string
 from django import forms
 from phonenumber_field.formfields import PhoneNumberField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
 from .models import User
+from django.contrib.auth.forms import (AuthenticationForm, PasswordResetForm,
+                                       SetPasswordForm)
+
 
 
 class RegistrationForm(forms.ModelForm):
@@ -17,13 +21,14 @@ class RegistrationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email','email_verified')
+        fields = ('email',)
     
-    def clean_full_anme(self):
+    def clean_full_name(self):
         full_name = self.cleaned_data['full_name'].lower()
-        if User.objects.filter(full_name=full_name, is_active=True).exists():
+        res =  all(c.isalpha() or c==" " for c in full_name)
+        if not res:
             raise forms.ValidationError(
-                'This Email is already taken')
+                "Don't use number or special character on your name")
         return full_name
 
     def clean_email(self):
@@ -51,5 +56,20 @@ class RegistrationForm(forms.ModelForm):
             {'class': 'form-control-lg mb-3', 'placeholder': 'Password'})
         self.fields['password2'].widget.attrs.update(
             {'class': 'form-control-lg', 'placeholder': 'Repeat Password'})
-        self.fields['email_verified'].widget = forms.HiddenInput()
    
+class UserLoginForm(AuthenticationForm):
+
+    email = forms.CharField(widget=forms.EmailInput(
+        attrs={'class': 'form-control-lg mb-3', 'placeholder': 'Enter Email',}))
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={
+            'class': 'form-control-lg',
+            'placeholder': 'Password',
+        }
+    ))
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_show_labels = False
+        

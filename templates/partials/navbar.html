@@ -23,7 +23,7 @@
                                     </svg>
                                 </div>
                                 <div class="text">
-                                    <span>olog.wetbise@mail.com</span>
+                                    <span>Rencom@mail.com</span>
                                 </div>
                             </div>
                             <div class="cta">
@@ -39,7 +39,7 @@
                                     </svg>
                                 </div>
                                 <div class="text">
-                                    <span>+8801658 874521</span>
+                                    <span>+91 9894521212</span>
                                 </div>
                             </div>
                         </div>
@@ -71,15 +71,12 @@
             <div class="d-none d-lg-block">
                 <nav class="menu-area d-flex align-items-center">
                     <div class="logo">
-                        <a href="index.html"><img src="{% static 'dist/images/logo/logo.png' %}" alt="logo" /></a>
+                        <a href="{% url 'customers:home' %}"><img src="{% static 'dist/images/logo/logo.png' %}" alt="logo" style="max-width:10rem"/></a>
                     </div>
                     <ul class="main-menu d-flex align-items-center">
-                        <li><a class="active" href="index.html">Home</a></li>
-                        <li><a href="shop.html">Men</a></li>
-                        <li><a href="shop.html">Women</a></li>
-                        <li><a href="shop.html">Shop</a></li>
+                        <li><a class="active" href="{% url 'customers:home' %}">Home</a></li>
                         <li>
-                            <a href="javascript:void(0)" class="d-flex flex-row"><div class="right d-inline mx-2">Category</div>
+                            <a href="{% url 'customers:home' %}" class="d-flex flex-row"><div class="right d-inline mx-2">Category</div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="9.98" height="5.69"
                                     viewBox="0 0 9.98 5.69" class="left d-inline mt-1">
                                     <g id="Arrow" transform="translate(0.99 0.99)">
@@ -99,6 +96,7 @@
                         </li>
                     </ul>
                     <div class="search-bar">
+                        {% if not no_search %}
                         <input type="text" placeholder="Search for product...">
                         <div class="icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20.414" height="20.414"
@@ -113,6 +111,7 @@
                                 </g>
                             </svg>
                         </div>
+                        {% endif %}
                     </div>
                     <div class="menu-icon ml-auto">
                         <ul>
@@ -131,7 +130,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="cart.html"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                                <a href="{% url 'cart:cart_items'%}"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                                         viewBox="0 0 22 22">
                                         <g id="Icon" transform="translate(-1524 -89)">
                                             <ellipse id="Ellipse_2" data-name="Ellipse 2" cx="0.909" cy="0.952"
@@ -148,11 +147,19 @@
                                                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
                                         </g>
                                     </svg>
-                                    <span class="cart">3</span>
+                                    {% with total_qty=cart|length %}
+                                    {% if total_qty > 0 %}
+                                    <span class="cart">{{ total_qty }}</span>
+                                    {% else %}
+                                    <span class="cart">0</span>
+                                    {% endif %}
+                                    </div>
+                                    {% endwith %}
+                                    
                                 </a>
                             </li>
-                            <li>
-                                <a href="account.html"><svg xmlns="http://www.w3.org/2000/svg" width="18"
+                            <li class="mx-3">
+                                <a href="#">{% if request.user %} {{ request.user.full_name }} {% endif %} <svg xmlns="http://www.w3.org/2000/svg" width="18"
                                         height="20" viewBox="0 0 18 20">
                                         <g id="Account" transform="translate(1 1)">
                                             <path id="Path_86" data-name="Path 86"
@@ -170,7 +177,7 @@
                 </nav>
             </div>
             <!-- Mobile Menu -->
-            <aside class="d-lg-none">
+            {% comment %} <aside class="d-lg-none">
                 <div id="mySidenav" class="sidenav">
                     <div class="close-mobile-menu">
                         <a href="javascript:void(0)" id="menu-close" class="closebtn"
@@ -253,7 +260,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="cart.html">
+                                <a href="{% url 'cart:cart_items'%}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                                         viewBox="0 0 22 22">
                                         <g id="Icon" transform="translate(-1524 -89)">
@@ -271,11 +278,18 @@
                                                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
                                         </g>
                                     </svg>
-                                    <span class="cart">3</span>
+                                    {% with total_qty=cart|length %}
+                                    {% if total_qty > 0 %}
+                                    <span class="cart">{{ total_qty }}</span>
+                                    {% else %}
+                                    <span class="cart">0</span>
+                                    {% endif %}
+                                    </div>
+                                    {% endwith %}
                                 </a>
                             </li>
                             <li>
-                                <a href="account.html">
+                                <a href="">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20"
                                         viewBox="0 0 18 20">
                                         <g id="Account" transform="translate(1 1)">
@@ -296,7 +310,7 @@
                         <a style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</a>
                     </div>
                 </div>
-            </aside>
+            </aside> {% endcomment %}
             <!-- Body overlay -->
             <div class="overlay" id="overlayy"></div>
         </div>

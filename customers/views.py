@@ -1,4 +1,4 @@
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.contrib.sites.shortcuts import get_current_site
@@ -7,16 +7,41 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.contrib import messages
-from .forms import RegistrationForm
+from .forms import RegistrationForm, UserLoginForm
 from .models import User
 from django.utils.encoding import force_bytes, force_str
+from shop.models import Product
 
 # Create your views here.
 def index(request):
-    return render(request, "landing_page/home.html")
+    product = Product.products.all()
+    context={
+        'products': product
+    }
+    return render(request, "landing_page/home.html", context)
 
-def customerLogin(request):
-    return render(request, "user/userLogin.html")
+def CustomerloginPage(request):
+
+    if request.user.is_authenticated:
+        return redirect('customers:home')
+    if request.method == 'POST':
+        email = request.POST.get('email').lower()
+        password = request.POST.get('password')
+        try:
+            user = User.objects.get(email=email)
+        except:
+            messages.warning(request, 'User does not exist Please Register')
+            return redirect('customers:signupUser')
+
+        user = authenticate(request, email=email, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('customers:home')
+        else:
+            messages.error(request, "Email and passwoed doesn't match")
+
+    return render(request, 'user/Userlogin.html')
 
 def customerSignup(request):
     if request.user.is_authenticated:
