@@ -1,16 +1,17 @@
 {% extends '../base.html' %}
 {% load static %}
-{% block title %}All products {% endblock %}
+{% block title %} All products {% endblock %}
+{% load crispy_forms_tags %}
 {% block content %}
+
 <!-- Catagory Search Start -->
+<form method="get">
 <section class="search">
     <div class="container">
         <div class="row justify-content-center">
             <div class="search-wrapper">
-                <form class="search-wrapper-box">
-                    <input type="text" placeholder="Search Heare.">
-                    <button class="btn bg-primary" type="submit">SEARCH</button>
-                </form>
+                {{ products.form.title |as_crispy_field }}
+                <button type="submit" class="btn btn-primary btn-block mx-auto">Search</button>
             </div>
         </div>
     </div>
@@ -23,51 +24,33 @@
         <div class="row justify-content-center">
             <div class="categoryitem-wrapper">
                 <div class="categoryitem-wrapper-itembox">
-                    <h6>Category</h6>
-                    <select>
-                        <option data-display="Men">Men</option>
-                        <option value="1">Men</option>
-                        <option value="2">Men</option>
-                        <option value="4">Men</option>
-                    </select>
-                </div>
-                <div class="categoryitem-wrapper-itembox">
                     <h6>Brand</h6>
-                    <select>
-                        <option data-display="Men">Men</option>
-                        <option value="1">Men</option>
-                        <option value="2">Men</option>
-                        <option value="4">Men</option>
-                    </select>
-                </div>
-                <div class="categoryitem-wrapper-price">
-                    <h6>Price</h6>
-                    <form class="price-item">
-                        <input type="number" placeholder="$ Min">
-                        <span>|</span>
-                        <input type="number" placeholder="$ Max">
-                    </form>
+                    {{ products.form.brand |as_crispy_field }}
                 </div>
                 <div class="categoryitem-wrapper-itembox">
-                    <h6>Sort By</h6>
-                    <select>
-                        <option data-display="Men">Men</option>
-                        <option value="1">Men</option>
-                        <option value="2">Men</option>
-                        <option value="4">Men</option>
-                    </select>
+                    <h6>Product Type</h6>
+                    {{ products.form.product_type |as_crispy_field }}
+                </div>
+                <div class="categoryitem-wrapper-itembox">
+                    <h6>Price Greater than</h6>
+                    {{ products.form.price__gt|as_crispy_field }}
+                </div>
+                <div class="categoryitem-wrapper-itembox">
+                    <h6>Price Less than</h6>
+                    {{ products.form.price__lt|as_crispy_field }}
                 </div>
             </div>
         </div>
     </div>
 </section>
 <!-- Catagory item End -->
+</form>
 
 <!-- Populer Product Strat -->
 <section class="populerproduct bg-white p-0 shop-product">
     <div class="container">
         <div class="row">
-            {% for product in products %}
+            {% for product in products.qs %}
             <div class="col-md-4 col-sm-6">
                 <div class="product-item">
                     <div class="product-item-image">

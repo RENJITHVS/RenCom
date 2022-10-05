@@ -5,6 +5,7 @@ from django.urls import reverse
 
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
+from customers.models import CustomerProfile
 
 from vendors.models import VendorProfile
 from django.template.defaultfilters import slugify
@@ -105,6 +106,7 @@ class Product(models.Model):
     is_featured = models.BooleanField(default= False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    wishlist_user = models.ManyToManyField(CustomerProfile, related_name="user_wishlist", blank=True)
     objects = models.Manager()
     products = ProductManager()
 

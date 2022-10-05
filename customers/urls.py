@@ -17,4 +17,8 @@ urlpatterns = [
     path("logout/", auth_views.LogoutView.as_view(next_page="/"), name="logoutUser"),
     path('signup/',views.customerSignup, name="signupUser"),
     path("activate/<slug:uidb64>/<slug:token>)/", views.account_activate, name="activate"),
+    path('billing/', views.billing_details, name='billing_details'),
+    path('wishlist/', views.user_wishlist, name='wishlist'),
+    path('addwishlist/<int:id>/', views.add_to_wishlist, name='add_wishlist'),
+    # path('htmx/add-billing/', views.add_billing_address, name='add_billing_address'),
 ]

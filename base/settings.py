@@ -32,13 +32,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #my apps
+    # my apps
     'shop.apps.ShopConfig',
     'customers.apps.CustomersConfig',
     'vendors.apps.VendorsConfig',
     'cart.apps.CartConfig',
-    
-    #third-party apps
+    'orders.apps.OrdersConfig',
+    # third-party apps
     'mptt',
     'crispy_forms',
     'crispy_bootstrap5',
@@ -60,7 +60,7 @@ ROOT_URLCONF = 'base.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ BASE_DIR / "templates"],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,9 +68,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                    # custom context processor 
-                'shop.context_processors.featured_products_and_brands', #show featured products and brands
-                'cart.context_processors.cart', #cart_data
+                # custom context processor
+                # show featured products and brands
+                'shop.context_processors.featured_products_and_brands',
+                'cart.context_processors.cart',  # cart_data
             ],
         },
     },
@@ -146,14 +147,14 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 
 MESSAGE_TAGS = {
-        messages.DEBUG: 'question',
-        messages.INFO: 'info',
-        messages.SUCCESS: 'success',
-        messages.WARNING: 'warning',
-        messages.ERROR: 'error',
- }
+    messages.DEBUG: 'question',
+    messages.INFO: 'info',
+    messages.SUCCESS: 'success',
+    messages.WARNING: 'warning',
+    messages.ERROR: 'error',
+}
 
-#E-mail backend view
+# E-mail backend view
 EMAIL_BACKEND = env('EMAIL_BACKEND')
 EMAIL_HOST = env('EMAIL_HOST')
 EMAIL_USE_TLS = env('EMAIL_USE_TLS')
@@ -161,9 +162,9 @@ EMAIL_PORT = env('EMAIL_PORT')
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
-#Login redirect url
-LOGIN_REDIRECT_URL= '/'
+# Login redirect url
+LOGIN_REDIRECT_URL = '/'
 
-#session
+# session
 SESSION_COOKIE_AGE = 86400
 CART_SESSION_ID = "cart"

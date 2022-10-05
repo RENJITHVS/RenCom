@@ -1,4 +1,4 @@
-from email.policy import default
+import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.mail import send_mail
@@ -91,6 +91,28 @@ class VendorUser(User):
 
     def welcome(self):
         return "Only for Vendors"
+
+class Address(models.Model):
+    """
+    Address
+    """
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    customer = models.ForeignKey(CustomerProfile, verbose_name="Customer", on_delete=models.CASCADE)
+    full_name = models.CharField(verbose_name="Full Name", max_length=150)
+    phone = models.CharField(verbose_name= "Phone Number" , max_length=50)
+    address_line = models.CharField(verbose_name="Address Line 1", max_length=255)
+    city = models.CharField(verbose_name="Town/City/State", max_length=150)
+    pincode = models.CharField(verbose_name="Pincode", max_length=50)
+    created_at = models.DateTimeField(verbose_name="Created at", auto_now_add=True)
+    updated_at = models.DateTimeField(verbose_name="Updated at", auto_now=True)
+    default = models.BooleanField(verbose_name="Default", default=False)
+
+    class Meta:
+        verbose_name = "Address"
+        verbose_name_plural = "Addresses"
+
+    def __str__(self):
+        return "Address"
 
 
 

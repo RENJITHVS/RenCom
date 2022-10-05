@@ -21,8 +21,8 @@
                         <a href="{{ prod.get_absolute_url }}"><img src="{{prod.image.url}}" alt="Product Name"
                                 class="img-fluid"></a>
                         <div class="cart-icon">
-                            <a href="#"><i class="far fa-heart"></i></a>
-                            <a href="#">
+                            <a href="{% url 'customers:add_wishlist' prod.id %}"><i class="far fa-heart"></i></a>
+                            <a class="add-cart" value={{ prod.id }}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16.75" height="16.75"
                                     viewBox="0 0 16.75 16.75">
                                     <g id="Your_Bag" data-name="Your Bag" transform="translate(0.75)">
@@ -129,8 +129,8 @@
                         <a href="{{ product.get_absolute_url }}"><img src="{{ product.image.url}}" alt="Product Name"
                                 class="img-fluid"></a>
                         <div class="cart-icon">
-                            <a href="#"><i class="far fa-heart"></i></a>
-                            <a href="#">
+                            <a href="{% url 'customers:add_wishlist' product.id %}"><i class="far fa-heart"></i></a>
+                            <a class="add-cart" value={{ product.id }}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16.75" height="16.75"
                                     viewBox="0 0 16.75 16.75">
                                     <g id="Your_Bag" data-name="Your Bag" transform="translate(0.75)">
@@ -377,4 +377,33 @@
     </div>
 </section>
 <!-- Features Section End -->
+<script>
+    [...document.getElementsByClassName("add-cart")].forEach(function(e){
+        e.addEventListener("click", function() {
+            
+            product_id= Number(this.getAttribute('value'))
+            console.log(product_id);
+                
+            const formData = new FormData();
+            //console.log(name);
+            formData.append('productid', product_id);
+            formData.append('productqty', 1);
+    
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+            console.log(formData);
+            fetch('{% url "cart:cart_add" %}', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                location.reload();
+                console.log('Success:', data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        })
+      });
+</script>
 {% endblock content %}

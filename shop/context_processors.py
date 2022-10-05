@@ -8,4 +8,10 @@ def featured_products_and_brands(request):
     featuredProducts = Product.products.filter(
         is_featured=True)  # query the featured products
     brands = BrandName.objects.exclude(parent=None)  # query the brands details
-    return {'fproducts': featuredProducts, 'brands': brands}
+    if  request.user.is_anonymous:
+      wishlist_num= 1
+    elif request.user.role == "CUSTOMER":
+      wishlist_num = Product.objects.filter(wishlist_user=request.user.customerprofile).count()
+    else:
+      wishlist_num= 1
+    return {'fproducts': featuredProducts, 'brands': brands, 'wishlist_num': wishlist_num}

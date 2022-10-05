@@ -1,7 +1,7 @@
 {% extends '../base.html' %}
 {% load static %}
+{% block title %} {{ product.title }} {% endblock %}
 {% block content %}
-
 <!-- Product Details Area Start -->
 <section class="product">
     <div class="container">
@@ -40,7 +40,7 @@
                             </ul>
                         </div>
                     </div>
-                    <p>{{product.description}}</p>
+                    <p>{{product.description|linebreaks }}</p>
                     <div class="product-pricelist-selector">
                         <div class="product-pricelist-selector-size">
                             <h6>Sizes</h6>
