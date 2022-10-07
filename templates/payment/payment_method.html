@@ -1,0 +1,207 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block title %} Select Payment Method {% endblock %}
+{% block content %}
+
+<!-- Billing Info Area Start -->
+<section class="billing-info-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- Dashboard-Nav  Start-->
+                <div class="dashboard-nav">
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><a href="#" class="active">Billing
+                                information</a>
+                            <i class="fas fa-angle-right"></i></li>
+                        <li class="list-inline-item"><a href="#">Shipping</a> <i
+                                class="fas fa-angle-right"></i></li>
+                        <li class="list-inline-item"><a href="#" class="mr-0">Payment</a></li>
+                    </ul>
+                </div>
+                <!-- Dashboard-Nav  End-->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-7 order-2 order-lg-1">
+                <div class="payment-method-area">
+                    <h5>Available payment methods</h5>
+                    <div class="payment-method d-flex justify-content-center align-items-center flex-wrap">
+                        
+                        <div class="method">
+                            <a href="#">
+                                <svg id="masterclass" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="66.418" height="27.232" viewBox="0 0 330 70">
+                                    <g id="Logo" transform="translate(0)">
+                                    <path d="M246.41,368.18l-2.63,9.66,15-9.72L249,404.79h10l14.52-54.15" transform="translate(-226.1 -350.64)" style="fill:#3395ff"/>
+                                    <path d="M230.24,389.38,226.1,404.8h20.46l8.37-31.36-24.69,15.94m71.05-13.57a6.53,6.53,0,0,1-2.9,4.1,11.67,11.67,0,0,1-6,1.31H284.1l2.9-10.8h8.25c2.59,0,4.38.43,5.34,1.32s1.2,2.23.7,4.1m8.54-.23q1.57-5.85-1.3-9t-10.08-3.13H280L269,404.82h8.95l4.47-16.67h5.87a6.48,6.48,0,0,1,3.11.63,2.82,2.82,0,0,1,1.34,2.27l1.6,13.77h9.58L302.31,392q-.47-4.3-3.93-5.05a17,17,0,0,0,7.38-4.23,15.43,15.43,0,0,0,4.07-7.08M331.58,390a13.39,13.39,0,0,1-3.45,6.4,7.8,7.8,0,0,1-5.59,2.22c-2.21,0-3.71-.72-4.5-2.17s-.82-3.55-.08-6.3a13.57,13.57,0,0,1,3.53-6.45,7.94,7.94,0,0,1,5.68-2.32c2.17,0,3.65.75,4.4,2.24s.78,3.63,0,6.42Zm3.92-14.63-1.12,4.18a6.63,6.63,0,0,0-2.81-3.6,9.44,9.44,0,0,0-5.16-1.33,14.61,14.61,0,0,0-7.25,1.95,19.17,19.17,0,0,0-6.08,5.5,24.19,24.19,0,0,0-3.82,8.07,17.38,17.38,0,0,0-.48,8,8.7,8.7,0,0,0,3.17,5.32,10,10,0,0,0,6.27,1.87,14.09,14.09,0,0,0,10.6-4.82l-1.17,4.36h8.65l7.9-29.46H335.5Zm39.78,0H350.12l-1.76,6.57H363l-19.35,16.72L342,404.83h26l1.76-6.57H354l19.65-17M397.41,390a13.47,13.47,0,0,1-3.46,6.5,7.8,7.8,0,0,1-5.54,2.15q-6.8,0-4.48-8.65a13.39,13.39,0,0,1,3.48-6.47,7.93,7.93,0,0,1,5.64-2.18q3.25,0,4.38,2.18t0,6.48m5.06-13.47a14.22,14.22,0,0,0-7.63-1.86,20.55,20.55,0,0,0-8.72,1.85,18.85,18.85,0,0,0-6.83,5.34,21.59,21.59,0,0,0-4.07,8.13,15.66,15.66,0,0,0-.28,8.12,8.77,8.77,0,0,0,4,5.33,14.5,14.5,0,0,0,7.73,1.86,20.13,20.13,0,0,0,8.63-1.86,19,19,0,0,0,6.8-5.35,21.66,21.66,0,0,0,4.07-8.13,15.55,15.55,0,0,0,.3-8.13,8.83,8.83,0,0,0-3.93-5.34m30.85,6.8,2.22-8a6.52,6.52,0,0,0-3-.58,11.82,11.82,0,0,0-5.72,1.48,12.48,12.48,0,0,0-4.05,3.52l1.15-4.32h-8.68l-7.95,29.45h8.77l4.13-15.39a9.74,9.74,0,0,1,3.24-5.25,8.93,8.93,0,0,1,5.82-1.88,8.63,8.63,0,0,1,4,1m24.42,6.85a13.12,13.12,0,0,1-3.43,6.3,7.87,7.87,0,0,1-5.58,2.18c-2.17,0-3.65-.73-4.43-2.2s-.82-3.6-.07-6.39a13.28,13.28,0,0,1,3.48-6.42,7.9,7.9,0,0,1,5.62-2.24c2.13,0,3.57.77,4.33,2.32s.78,3.7,0,6.45m6.13-13.57a9.65,9.65,0,0,0-6.22-1.95,13.76,13.76,0,0,0-6.3,1.51,13.14,13.14,0,0,0-4.85,4.12l0-.2,1.47-4.68h-8.57l-2.18,8.15-.07.28-9,33.57H437l4.53-16.9a6.07,6.07,0,0,0,2.77,3.54,9.82,9.82,0,0,0,5.18,1.27,15.27,15.27,0,0,0,7.29-1.85,18,18,0,0,0,6-5.32,23.49,23.49,0,0,0,3.77-8A17.77,17.77,0,0,0,467,382a9,9,0,0,0-3.15-5.48M493,390a13.36,13.36,0,0,1-3.45,6.38,7.81,7.81,0,0,1-5.58,2.21c-2.22,0-3.72-.72-4.5-2.17s-.82-3.55-.08-6.3a13.53,13.53,0,0,1,3.52-6.45,7.94,7.94,0,0,1,5.68-2.32c2.17,0,3.63.75,4.4,2.23s.77,3.63,0,6.42Zm3.92-14.64-1.12,4.18a6.57,6.57,0,0,0-2.8-3.6,9.43,9.43,0,0,0-5.17-1.33,14.68,14.68,0,0,0-7.27,1.95,19.19,19.19,0,0,0-6.08,5.48,24.13,24.13,0,0,0-3.82,8.07,17.3,17.3,0,0,0-.48,8,8.67,8.67,0,0,0,3.17,5.32,10.08,10.08,0,0,0,6.27,1.86,13.86,13.86,0,0,0,5.87-1.28,13.72,13.72,0,0,0,4.72-3.54L489,404.8h8.65l7.9-29.45h-8.66Zm45,0h-8.55l-1.42,2-.35.47-.15.23-11.21,15.61-2.32-18.28h-9.18l4.65,27.78-10.27,14.22h9.15l2.48-3.52.22-.3,2.9-4.12.08-.12,13-18.42,10.95-15.5h0Z" transform="translate(-226.1 -350.64)" style="fill:#072654"/></svg>
+                                    </g>       
+                                </a>
+                        </div>
+                        <div class="method">
+                            <a href="#">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="85.556" height="23.828"
+                                    viewBox="0 0 85.556 23.828">
+                                    <g id="Logo" transform="translate(0)">
+                                        <path id="Path_26" data-name="Path 26"
+                                            d="M45.927,6.749H39.272a.938.938,0,0,0-.914.816L35.667,25.4a.6.6,0,0,0,.127.467.545.545,0,0,0,.422.2h3.177a.938.938,0,0,0,.914-.817l.726-4.81a.938.938,0,0,1,.913-.817h2.107c4.384,0,6.913-2.217,7.574-6.61a5.548,5.548,0,0,0-.848-4.49c-.946-1.161-2.623-1.776-4.851-1.776Zm.768,6.514c-.364,2.5-2.188,2.5-3.953,2.5h-1l.7-4.661a.563.563,0,0,1,.548-.489h.46c1.2,0,2.335,0,2.921.716a2.4,2.4,0,0,1,.323,1.938Zm19.124-.08H62.632a.563.563,0,0,0-.548.489l-.141.932-.223-.338c-.69-1.046-2.228-1.4-3.764-1.4-3.521,0-6.529,2.788-7.115,6.7a6.5,6.5,0,0,0,1.187,5.117,4.881,4.881,0,0,0,4.014,1.694,6,6,0,0,0,4.411-1.907l-.142.925a.6.6,0,0,0,.125.467.545.545,0,0,0,.421.2h2.87a.938.938,0,0,0,.914-.817l1.722-11.4a.6.6,0,0,0-.125-.466.543.543,0,0,0-.421-.2Zm-4.442,6.482a3.6,3.6,0,0,1-3.6,3.18,2.632,2.632,0,0,1-2.14-.9,2.93,2.93,0,0,1-.5-2.34A3.62,3.62,0,0,1,58.712,16.4a2.633,2.633,0,0,1,2.125.907,2.981,2.981,0,0,1,.539,2.356ZM82.79,13.183h-3.2a.918.918,0,0,0-.766.424l-4.417,6.8-1.872-6.534a.933.933,0,0,0-.887-.69H68.5a.548.548,0,0,0-.452.242.6.6,0,0,0-.074.525L71.5,24.768l-3.316,4.893a.6.6,0,0,0-.041.6.552.552,0,0,0,.493.314h3.2a.913.913,0,0,0,.76-.415L83.246,14.093a.6.6,0,0,0,.036-.6.552.552,0,0,0-.491-.311Z"
+                                            transform="translate(-35.66 -6.748)" fill="#253b80" />
+                                        <path id="Path_27" data-name="Path 27"
+                                            d="M94.708,6.749H88.052a.938.938,0,0,0-.913.816L84.448,25.4a.6.6,0,0,0,.126.466.544.544,0,0,0,.421.2H88.41a.657.657,0,0,0,.638-.572l.764-5.055a.938.938,0,0,1,.913-.817h2.106c4.385,0,6.913-2.217,7.575-6.61a5.544,5.544,0,0,0-.849-4.49c-.945-1.161-2.621-1.776-4.849-1.776Zm.768,6.514c-.363,2.5-2.187,2.5-3.953,2.5h-1l.705-4.661a.561.561,0,0,1,.547-.489h.46c1.2,0,2.335,0,2.921.716a2.4,2.4,0,0,1,.322,1.938Zm19.123-.08h-3.185a.56.56,0,0,0-.547.489l-.141.932-.224-.338c-.69-1.046-2.227-1.4-3.763-1.4-3.521,0-6.528,2.788-7.114,6.7a6.5,6.5,0,0,0,1.186,5.117,4.884,4.884,0,0,0,4.014,1.694,6,6,0,0,0,4.411-1.907l-.142.925a.6.6,0,0,0,.126.468.545.545,0,0,0,.423.2h2.869a.938.938,0,0,0,.913-.817l1.723-11.4a.6.6,0,0,0-.128-.467.546.546,0,0,0-.422-.2Zm-4.442,6.482a3.6,3.6,0,0,1-3.6,3.18,2.634,2.634,0,0,1-2.14-.9,2.937,2.937,0,0,1-.5-2.34,3.621,3.621,0,0,1,3.571-3.206,2.633,2.633,0,0,1,2.125.907A2.966,2.966,0,0,1,110.157,19.665Zm8.2-12.427L115.624,25.4a.6.6,0,0,0,.126.466.544.544,0,0,0,.421.2h2.746a.937.937,0,0,0,.914-.817l2.693-17.834a.6.6,0,0,0-.126-.467.545.545,0,0,0-.421-.2H118.9a.564.564,0,0,0-.547.49Z"
+                                            transform="translate(-36.975 -6.748)" fill="#179bd7" />
+                                    </g>
+                                </svg>
+                            </a>
+                        </div>
+                        
+                    </div>
+                    <div class="payment-method-area-text text-center my-2">
+                        <p>or</p>
+                        <h6>Cash on Delivery</h6>
+                    </div>
+                </div>
+                <div class='paypal my-2' id ="paypal-button-container">
+                </div>
+                <a class="btn btn-primary btn-block razorpay" id="rzp-button1">RazoryPay</a>
+            </div>
+            <div class="col-md-5">
+                <div class="card-price">
+                    <h6>Check Summery</h6>
+                    <div class="card-price-list d-flex justify-content-between align-items-center">
+                        <div class="item">
+                            <p>{{ cart.qty}} item</p>
+                        </div>
+                        <div class="price">
+                            <p>Rs {{ cart.get_subtotal_price }}</p>
+                        </div>
+                    </div>
+                    <div class="card-price-list d-flex justify-content-between align-items-center">
+                        <div class="item">
+                            <p>Shipping Cost</p>
+                        </div>
+                        <div class="price">
+                            <p>Rs 500.00</p>
+                        </div>
+                    </div>
+                    <div class="card-price-list d-flex justify-content-between align-items-center">
+                        <div class="item">
+                            <p>Discount</p>
+                        </div>
+                        <div class="price">
+                            <p>5%</p>
+                        </div>
+                    </div>
+                    <div class="card-price-subtotal d-flex justify-content-between align-items-center">
+                        <div class="total-text">
+                            <p>Total Price</p>
+                        </div>
+                        <div class="total-price">
+                            <p>Rs  {{ cart.get_total_price}}</p>
+                        </div>
+
+                    </div>
+                    <form action="#" class="my-2">
+                        <a href="{% url 'payment:set-payment-method' %}" class="btn bg-primary" style="width: 100%;">Checkout Now</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Replace "test" with your own sandbox Business account app client ID -->
+<script src="https://www.paypal.com/sdk/js?client-id=AbwvoEfcVJAj1PVNKpg5i5_PVxxJpidlu4NREThCEmhNcH6e8KEzVQhmQDBstQOw5VxCxYvq6bNtGXFB&currency=USD"></script>
+
+<script>
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+      var csrftoken = getCookie('csrftoken');
+    
+    
+      function initPayPalButton() {
+        paypal.Buttons({
+          style: {
+            shape: 'rect',
+            color: 'gold',
+            layout: 'vertical',
+            label: 'paypal',
+    
+          },
+        createOrder: function (data, actions) {
+            return actions.order.create({
+              purchase_units: [{
+                "amount": {
+                  "value": '{{cart.get_total_price}}'
+                }
+              }]
+            });
+          },
+        onApprove: function (data) {
+            var url = "{% url 'payment:paypal_payment_complete' %}"
+            return fetch(url, {
+              method: 'POST',
+              headers: {
+                'content-type': 'application/json',
+                'X-CSRFToken': csrftoken,
+              },
+              body: JSON.stringify({
+                orderID: data.orderID
+              })
+            }).then(data => {
+              location.href = '{% url 'payment:payment_successful' %}';
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+          },
+        }).render('#paypal-button-container');
+      }
+      initPayPalButton();
+    
+  </script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+    var options = {
+        "key": "rzp_test_UraxEsmw2QBc7X", // Enter the Key ID generated from the Dashboard
+        "amount": "100", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "rencom",
+        "description": "Test Transaction",
+        "image": "https://example.com/your_logo",
+        "order_id": "{{ razor_payment.id }}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "handler": function (response){
+            alert(response.razorpay_payment_id);
+            alert(response.razorpay_order_id);
+            alert(response.razorpay_signature)
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function (response){
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+    });
+    document.getElementById('rzp-button1').onclick = function(e){
+        rzp1.open();
+        e.preventDefault();
+    }
+</script>
+{% endblock %}

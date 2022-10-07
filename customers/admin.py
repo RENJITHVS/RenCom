@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+
 from .models import Address, Customer, CustomerProfile, User, VendorUser
 # Register your models here.
 

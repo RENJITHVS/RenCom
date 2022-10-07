@@ -38,11 +38,13 @@ INSTALLED_APPS = [
     'vendors.apps.VendorsConfig',
     'cart.apps.CartConfig',
     'orders.apps.OrdersConfig',
+    'payment.apps.PaymentConfig',
     # third-party apps
     'mptt',
     'crispy_forms',
     'crispy_bootstrap5',
     'django_filters',
+
 ]
 
 MIDDLEWARE = [
@@ -162,9 +164,22 @@ EMAIL_PORT = env('EMAIL_PORT')
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
+# login url;
+LOGIN_URL = '/login'
 # Login redirect url
 LOGIN_REDIRECT_URL = '/'
 
 # session
 SESSION_COOKIE_AGE = 86400
 CART_SESSION_ID = "cart"
+
+# allow pop-up
+SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'
+
+# razorpay-integration
+RAZOR_PAY_KEY_ID = env('RAZOR_PAY_KEY_ID')
+KEY_SECRET = env('KEY_SECRET')
+
+# paypal integrations
+CLIENT_ID = env('CLIENT_ID')
+CLIENT_SECRET = env('CLIENT_SECRET')
