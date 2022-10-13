@@ -12,9 +12,9 @@
                         <div class="exzoom_img_box">
                             <ul class='exzoom_img_ul'>
                                 <li><img src="{{product.image.url}}" /></li>
-                                <li><img src="#" /></li>
-                                <li><img src="#" /></li>
-                                <li><img src="#" /></li>
+                                {% comment %} <li><img src="{{product.image.url}}" /></li>
+                                <li><img src="{{product.image.url}}" /></li>
+                                <li><img src="{{product.image.url}}" /></li> {% endcomment %}
                             </ul>
                         </div>
                         <div class="exzoom_nav"></div>
@@ -40,25 +40,41 @@
                             </ul>
                         </div>
                     </div>
-                    <p>{{product.description|linebreaks }}</p>
+                    <p class= "my-3">{{product.description|safe }}</p>
+                    {% if product.attributes.all.count != 0 %}
+                    <div class ="row">
+                        <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                                {% for val in product.attributes.all %}
+                              <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.counter == 1 %}class="active" {% endif %} aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
+                              {% endfor %}
+                            </div>
+                            
+                            <div class="carousel-inner"
+                                {% for val in product.attributes.all %}
+                              <div class="carousel-item {% if forloop.counter == 1 %}active {% endif %}" data-bs-interval="3000">
+                                <div class="new_html_code"></div>
+                                <div class="carousel-caption d-flex justify-content-between mb-4" style="border-color: {{ val.color.color_code }};">
+                                  <div class="" style="color: {{ val.color.color_code }};">Rs {{ val.price }}</div>
+                                  <div class="" style="color: {{ val.color.color_code }};">Size :{{ val.size }}</div>
+                                  <div class="" style="color: {{ val.color.color_code }};">Color: {{ val.color.title }} </div>
+                                </div>
+                              </div>
+                              {% endfor %}
+                            </div>
+
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                    {% endif  %}
                     <div class="product-pricelist-selector">
-                        <div class="product-pricelist-selector-size">
-                            <h6>Sizes</h6>
-                            <div class="sizes" id="sizes">
-                                <li class="sizes-all">S</li>
-                                <li class="sizes-all active">M</li>
-                                <li class="sizes-all">L</li>
-                                <li class="sizes-all">XL</li>
-                                <li class="sizes-all">XXL</li>
-                            </div>
-                        </div>
-                        <div class="product-pricelist-selector-color">
-                            <h6>Colors</h6>
-                            <div class="colors" id="colors">
-                                <li class="colorall color-1 active"></li>
-                                <li class="colorall color-2"></li>
-                            </div>
-                        </div>
                         <div class="product-pricelist-selector-quantity">
                             <h6>quantity</h6>
                             <div class="wan-spinner wan-spinner-4">
@@ -170,6 +186,7 @@
                                 <p>Cash on Delivery</p>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>
@@ -193,7 +210,7 @@
                 {% for prod in fproducts %}
                 <div class="product-item">
                     <div class="product-item-image">
-                        <a href="{{ prod.get_absolute_url }}"><img src="{{prod.image.url}}" alt="Product Name"
+                        <a href="{{ prod.get_absolute_url }}"><img src="{{prod.thumbnail.url}}" alt="Product Name"
                                 class="img-fluid"></a>
                         <div class="cart-icon">
                             <a href="#"><i class="far fa-heart"></i></a>
@@ -259,6 +276,25 @@
     </div>
 </section>
 <!-- Features Section End -->
+<style>
+    
+        div.new_html_code {
+          width:150px;
+          height:200px;
+          min-width:150px;
+          min-height:150px;
+          max-width:200px;
+          max-height:150px;
+          overflow:hidden;
+          display:block;
+          
+        }
+      
+</style>
+<script src="{% static 'src/js/jquery.min.js' %}"></script>
+<script src="{% static 'src/scss/vendors/plugin/js/slick.min.js' %}"></script>
+<script src="{% static 'src/scss/vendors/plugin/js/jquery.exzoom.js' %}"></script>
+<script src="{% static 'src/scss/vendors/plugin/js/jquery.nice-select.min.js' %}"></script>
 
 <script>
     function addProduct() {

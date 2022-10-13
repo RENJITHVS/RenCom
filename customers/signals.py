@@ -10,7 +10,8 @@ def create_customer_profile(sender, instance, created, **kwargs):
             CustomerProfile.objects.get_or_create(user=instance)
 
 
-@receiver(post_save, sender=VendorUser)
+@receiver(post_save, sender=User)
 def create_vendor_profile(sender, instance, created, **kwargs):
-    if created and instance.role == "VENDOR":
-        VendorProfile.objects.create(user=instance)
+    if not created:
+        if instance.email_verified and instance.role == "VENDOR":
+            VendorProfile.objects.get_or_create(user=instance)

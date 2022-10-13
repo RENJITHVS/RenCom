@@ -17,12 +17,12 @@
             <div class="features-active">
                 {% for prod in fproducts %}
                 <div class="product-item">
-                    <div class="product-item-image">
-                        <a href="{{ prod.get_absolute_url }}"><img src="{{prod.image.url}}" alt="Product Name"
-                                class="img-fluid"></a>
+                    <div class="product-item-image text-left shadow" >
+                        <a href="{{ prod.get_absolute_url }}" class="text-center"><img src="{{prod.thumbnail.url}}" alt="Product Name"
+                                class="img-fluid mx-auto"></a>
                         <div class="cart-icon">
-                            <a href="{% url 'customers:add_wishlist' prod.id %}"><i class="far fa-heart"></i></a>
-                            <a class="add-cart" value={{ prod.id }}>
+                            <a href="{% url 'customers:add_wishlist' prod.id %}"><i class="far fa-heart shadow"></i></a>
+                            <a class="add-cart shadow" value={{ prod.id }}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16.75" height="16.75"
                                     viewBox="0 0 16.75 16.75">
                                     <g id="Your_Bag" data-name="Your Bag" transform="translate(0.75)">
@@ -48,7 +48,7 @@
                     </div>
                     <div class="product-item-info">
                         <a href="{{ prod.get_absolute_url }}">{{ prod.title|truncatechars:20 }}</a>
-                        <span>Rs {{ prod.price }}</span> <del>Rs 999</del>
+                        <span>Rs {{ prod.price }}</span> <del>Rs {{ prod.mrp_price }}</del>
                     </div>
                     
                 </div>
@@ -100,7 +100,7 @@
                 <div class="brand-area">
                     {% for brand in brands %}
                     <div class="brand-area-image">
-                        <img src="{{ brand.image.url }}" alt="{{ brand.title }}" class="img-fluid">
+                        <img src="{{ brand.image.url }}" alt="{{ brand.title }}" class="img-fluid" style="width:100px ; height :100px" >
                     </div>
                     {% endfor %}
                 </div>
@@ -122,15 +122,15 @@
             </div>
         </div>
         <div class="row">
-            {% for product in products %}
-            <div class="col-md-4 col-sm-6">
+            {% for product in page_obj %}
+            <div class="col-md-3 col-sm-6">
                 <div class="product-item">
-                    <div class="product-item-image">
-                        <a href="{{ product.get_absolute_url }}"><img src="{{ product.image.url}}" alt="Product Name"
-                                class="img-fluid"></a>
+                    <div class="product-item-image text-center">
+                        <a href="{{ product.get_absolute_url }}" class="text-center"><img src="{{ product.thumbnail.url}}" alt="Product Name"
+                                class="img-fluid "></a>
                         <div class="cart-icon">
-                            <a href="{% url 'customers:add_wishlist' product.id %}"><i class="far fa-heart"></i></a>
-                            <a class="add-cart" value={{ product.id }}>
+                            <a href="{% url 'customers:add_wishlist' product.id %}"><i class="far fa-heart shadow"></i></a>
+                            <a class="add-cart shadow" value={{ product.id }}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16.75" height="16.75"
                                     viewBox="0 0 16.75 16.75">
                                     <g id="Your_Bag" data-name="Your Bag" transform="translate(0.75)">
@@ -155,8 +155,8 @@
                         </div>
                     </div>
                     <div class="product-item-info">
-                        <a href="{{ product.get_absolute_url }}">{{ product.title|truncatechars:20 }}</a>
-                        <span>Rs {{ product.price }}</span> <del>Rs 999</del>
+                        <a href="{{ product.get_absolute_url }}">{{ product.title|truncatechars:30 }}</a>
+                        <span>Rs {{ product.price }}</span> <del>Rs {{ prod.mrp_price }}</del>
                     </div>
                 </div>
             </div>
@@ -165,6 +165,46 @@
     </div>
 </section>
 <!-- Populer Product End -->
+<!-- Pagination Start -->
+<section class="pagination">
+    <div class="container">
+        <div class="d-flex justify-content-center">
+
+            <ul class="pagination my-1">
+              {% if page_obj.has_previous %}
+              <li class="page-item" aria-current="page">
+                <a class="page-link" href="?page=1">First</a>
+              </li>
+              <li class="page-item" aria-current="page">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+              </li>
+              {% endif %}
+    
+              {% for num in page_obj.paginator.page_range %}
+              {% if page_obj.number == num %}
+              <li class="page-item active"><a href="?page={{ num }}" class="page-link">{{ num }}</a>
+              </li>
+              {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a>
+              </li>
+              {% endif %}
+              {% endfor %}
+    
+              {% if page_obj.has_next %}
+              <li class="page-item" aria-current="page">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+              </li>
+              <li class="page-item" aria-current="page">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages}}">Last</a>
+              </li>
+              {% endif %}
+    
+            </ul>
+            
+          </div>
+    </div>
+</section>
+<!-- Pagination End -->
 
 <!-- Categorys Section Start -->
 <section class="categorys">
@@ -177,110 +217,21 @@
             </div>
         </div>
         <div class="row">
+            {% for cat in categories %}
             <div class="col-lg-3 col-md-4 col-sm-6 col-6">
                 <div class="productcategory text-center">
                     <div class="productcategory-img">
-                        <a href="#"><img src="{% static 'dist/images/categorys/tree dasher.jpg' %}" alt="images"></a>
+                        <a href="#"><img src="{{ cat.image.url }}" alt="images" style="width:120px; height:100px;"></a>
                     </div>
                     <div class="productcategory-text">
                         <a href="#">
-                            <h6>Tree Dasher</h6>
-                            <span>480 Products</span>
+                            <h6>{{ cat.title }}</h6>
+                            <span>{{ cat.get_recursive_product_count }}</span>
                         </a>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 col-6">
-                <div class="productcategory text-center">
-                    <div class="productcategory-img">
-                        <a href="#"><img src="{% static 'dist/images/categorys/wool-shoe.jpg' %}" alt="images"> </a>
-                    </div>
-                    <div class="productcategory-text">
-                        <a href="#">
-                            <h6>Wool Runner Shoes</h6>
-                            <span>40 Products</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 col-6">
-                <div class="productcategory text-center">
-                    <div class="productcategory-img">
-                        <a href="#"><img src="{% static 'dist/images/categorys/jumper.jpg' %}" alt="images"></a>
-                    </div>
-                    <div class="productcategory-text">
-                        <a href="#">
-                            <h6>Jumper</h6>
-                            <span>75 Products</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 col-6">
-                <div class="productcategory text-center">
-                    <div class="productcategory-img">
-                        <a href="#"><img src="{% static 'dist/images/categorys/iphone.jpg' %}" alt="images"></a>
-                    </div>
-                    <div class="productcategory-text">
-                        <a href="#">
-                            <h6>Apple</h6>
-                            <span>12 Products</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 col-6">
-                <div class="productcategory text-center">
-                    <div class="productcategory-img">
-                        <a href="#"><img src="{% static 'dist/images/categorys/iphone.jpg' %}" alt="images"></a>
-                    </div>
-                    <div class="productcategory-text">
-                        <a href="#">
-                            <h6>Electronic</h6>
-                            <span>50 Products</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 col-6">
-                <div class="productcategory text-center">
-                    <div class="productcategory-img">
-                        <a href="#"><img src="{% static 'dist/images/categorys/drone.jpg' %}" alt="images"></a>
-                    </div>
-                    <div class="productcategory-text">
-                        <a href="#">
-                            <h6>Drone</h6>
-                            <span>20 Products</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 col-6">
-                <div class="productcategory text-center">
-                    <div class="productcategory-img">
-                        <a href="#"><img src="{% static 'dist/images/categorys/headphone.jpg' %}" alt="images"></a>
-                    </div>
-                    <div class="productcategory-text">
-                        <a href="#">
-                            <h6>Headphone</h6>
-                            <span>10 Products</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 col-6">
-                <div class="productcategory text-center">
-                    <div class="productcategory-img">
-                        <a href="#"><img src="{% static 'dist/images/categorys/chosma.jpg' %}" alt="images"></a>
-                    </div>
-                    <div class="productcategory-text">
-                        <a href="#">
-                            <h6>Sunglass</h6>
-                            <span>25 Products</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
         <div class="row">
             <div class="col-sm-12">

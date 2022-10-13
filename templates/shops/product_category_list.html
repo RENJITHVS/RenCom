@@ -4,48 +4,16 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-<!-- Catagory Search Start -->
-<form method="get">
-<section class="search">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="search-wrapper">
-                {{ products.form.title |as_crispy_field }}
-                <button type="submit" class="btn btn-primary btn-block mx-auto">Search</button>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Catagory Search End -->
-
-<!-- Catagory item start -->
-<section class="categoryitem">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="categoryitem-wrapper">
-                <div class="categoryitem-wrapper-itembox">
-                    <h6>Brand</h6>
-                    {{ products.form.brand |as_crispy_field }}
-                </div>
-                
-                <div class="categoryitem-wrapper-itembox">
-                    <h6>Price Greater than</h6>
-                    {{ products.form.price__gt|as_crispy_field }}
-                </div>
-                <div class="categoryitem-wrapper-itembox">
-                    <h6>Price Less than</h6>
-                    {{ products.form.price__lt|as_crispy_field }}
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Catagory item End -->
-</form>
-
 <!-- Populer Product Strat -->
 <section class="populerproduct bg-white p-0 shop-product">
     <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="section-title">
+                    <h2>Category Objects</h2>
+                </div>
+            </div>
+        </div>
         <div class="row">
             {% for product in page_obj %}
             <div class="col-md-3 col-sm-6">

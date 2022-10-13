@@ -1,0 +1,72 @@
+{% extends '../base_vendor.html' %}
+{% load static %}
+{% block title %} Add products {% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+{{ form.media }}
+<section class="populerproduct">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="section-title">
+                    <h2>Add New Products</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- Dashboard-Nav  Start-->
+                <div class="dashboard-nav">
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><a href="billing-information.html" class="active">Add Product</a>
+                            <i class="fas fa-angle-right"></i></li>
+                        <li class="list-inline-item"><a href="shipping.html">Add Varations</a> <i
+                                class="fas fa-angle-right"></i></li>
+                        <li class="list-inline-item"><a href="payment.html" class="mr-0">Add Images</a></li>
+                    </ul>
+                </div>
+                <!-- Dashboard-Nav  End-->
+            </div>
+        </div>
+        <div class="row">
+            <form class="row my-4" method='post' enctype='multipart/form-data'>
+                {% csrf_token %}
+                <div class="col-md-3 my-1">
+                    {{ form.brand |as_crispy_field }}
+                </div>
+                <div class="col-md-9 my-1">
+                    {{ form.title |as_crispy_field }}
+                </div>
+                <div class="my-1">
+                    {{ form.description |as_crispy_field }}
+                </div>
+                <div class="col-md-6 my-1">
+                    {{ form.price |as_crispy_field }}
+                </div>
+                <div class="col-md-6 my-1">
+                    {{ form.mrp_price |as_crispy_field }}
+                </div>  
+                <div class="col-md-6 my-1">
+                    {{ form.is_featured|as_crispy_field }}
+                </div>
+                
+                {% comment %} <div class="row form-row spacer">
+                    <div class="col-2">
+                        <label>{{form.color.label}}</label>
+                    </div>
+                    <div class="col-4">
+                        <div class="input-group">
+                            {{form.color}}
+                            <div class="input-group-append">
+                                <button class="btn btn-success add-form-row">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> {% endcomment %}
+                <button type="submit" class="btn btn-block btn-primary "> Submit </button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

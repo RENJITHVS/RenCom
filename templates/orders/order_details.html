@@ -1,0 +1,108 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block title %} Orders{% endblock %}
+{% block content %}
+<!-- Order Area Start -->
+<section class="order-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- Dashboard-Nav  Start-->
+                <div class="dashboard-nav">
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><a href="#">Account
+                                settings</a></li>
+                        <li class="list-inline-item"><a href="{% url 'payment:add-address' %}">Billing information</a></li>
+                        <li class="list-inline-item"><a href="{% url 'customers:wishlist' %}">My wishlist</a></li>
+                        <li class="list-inline-item"><a href="{% url 'cart:cart_items' %}">My cart</a></li>
+                        <li class="list-inline-item"><a href="#" class="active">Order</a></li>
+                        <li class="list-inline-item"><a href="{% url 'customers:logoutUser' %}" class="mr-0">Log-out</a></li>
+                    </ul>
+                </div>
+                <!-- Dashboard-Nav  End-->
+            </div>
+        </div>
+        <div class="rows">
+                <!-- Order Item Start -->
+                <div class="cart-items">
+                    <div class="header">
+                        <div class="image">
+                            Image
+                        </div>
+                        <div class="name">
+                            Name
+                        </div>
+                        <div class="price">
+                            Prices
+                        </div>
+                        <div class="rating">
+                            Rating
+                        </div>
+                        <div class="info">
+                            Info
+                        </div>
+                    </div>
+                    <div class="body">
+                        {% if orders|length == 0 %}
+                        <div class="col-12">You havn't ordered yet, <a href="">Shop</a></div>
+                        {% else %}
+                        {% for product in orders %}
+                        <div class="item">
+                            <div class="image">
+                                <img src="{{ product.product.thumbnail.url }}">
+                            </div>
+                            <div class="name">
+                                <div class="name-text">
+                                    <p> {{ product.product.title }}</p>
+                                </div>
+                                <div class="button">
+                                    <a class="btn bg-primary" href="#">Order again</a>
+                                    <a class="cart-btn" href="#">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="18"
+                                            viewBox="0 0 20 18">
+                                            <g id="Heart" transform="translate(1 1)">
+                                                <path id="Heart-2" data-name="Heart"
+                                                    d="M18.161,4.413a4.674,4.674,0,0,0-6.7,0l-.913.93-.913-.93a4.675,4.675,0,0,0-6.7,0,4.893,4.893,0,0,0,0,6.828l.913.93L10.548,19l6.7-6.828.913-.93a4.892,4.892,0,0,0,0-6.828Z"
+                                                    transform="translate(-1.549 -2.998)" fill="#fff" stroke="#1a2224"
+                                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                                            </g>
+                                        </svg>
+                                    </a>
+                                    <a class="btn btn-secondary" href="#">remove</a>
+                                </div>
+                            </div>
+                            <div class="price">
+                                <span>Rs {{product.price}}</span> 
+                            </div>
+                            <div class="rating">
+                                <i class="fas fa-star"></i> 5.0
+                            </div>
+                            <div class="info status">
+                                <div class="status-timer">
+                                    <h6>
+                                        Arriving on!
+                                    </h6>
+                                    <ul>
+                                        <li>1
+                                            <p>Day</p>
+                                        </li>
+                                        <li>19
+                                            <p>Hours</p>
+                                        </li>
+                                        <li>34
+                                            <p>Min</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                       {% endfor %}
+                       {% endif %}
+                    </div>
+                </div>
+                <!-- Order Item End -->
+        </div>
+    </div>
+</section>
+<!-- Order Area End -->
+{% endblock %}

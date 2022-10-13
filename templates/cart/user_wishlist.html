@@ -12,11 +12,11 @@
                     <ul class="list-inline">
                         <li class="list-inline-item"><a href="user-dashboard.html">Account
                                 settings</a></li>
-                        <li class="list-inline-item"><a href="deliver-info.html">Billing information</a></li>
-                        <li class="list-inline-item"><a href="wishlist.html" class="active">My wishlist</a></li>
-                        <li class="list-inline-item"><a href="cart.html">My cart</a></li>
-                        <li class="list-inline-item"><a href="order.html">Order</a></li>
-                        <li class="list-inline-item"><a href="account.html" class="mr-0">Log-out</a></li>
+                        <li class="list-inline-item"><a href="{% url 'payment:add-address' %}">Billing information</a></li>
+                        <li class="list-inline-item"><a href="#" class="active">My wishlist</a></li>
+                        <li class="list-inline-item"><a href="{% url 'cart:cart_items' %}">My cart</a></li>
+                        <li class="list-inline-item"><a href="{% url 'orders:view-orders' %}">Order</a></li>
+                        <li class="list-inline-item"><a href="{% url 'customers:logoutUser' %}" class="mr-0">Log-out</a></li>
                     </ul>
                 </div>
                 <!-- Dashboard-Nav  End-->
@@ -43,13 +43,13 @@
                     </div>
                 </div>
                 <div class="body">
-                    {% if wishlist|length == 0 %}
+                    {% if page_obj.count == 0 %}
                     <div class="col-12">Your wishlist is empty <a href="">Shop</a></div>
                     {% else %}
-                    {% for product in wishlist %}
+                    {% for product in page_obj %}
                     <div class="item">
                         <div class="image">
-                            <img src="{{ product.image.url }}">
+                            <img src="{{ product.thumbnail.url }}">
                         </div>
                         <div class="name">
                             <div class="name-text">
@@ -68,7 +68,7 @@
                                         </g>
                                     </svg>
                                 </a>
-                                <a class="btn btn-secondary"  value="{{product.id}}">Delete</a>
+                                <a class="btn btn-secondary remove-from-whishlist"  value="{{product.id}}">Remove</a>
                             </div>
                         </div>
                         <div class="price">
@@ -101,4 +101,74 @@
         </div>
     </div>
 </section>
+<!-- Pagination Start -->
+<section class="pagination">
+    <div class="container">
+        <div class="d-flex justify-content-center">
+
+            <ul class="pagination my-1">
+              {% if page_obj.has_previous %}
+              <li class="page-item" aria-current="page">
+                <a class="page-link" href="?page=1">First</a>
+              </li>
+              <li class="page-item" aria-current="page">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+              </li>
+              {% endif %}
+    
+              {% for num in page_obj.paginator.page_range %}
+              {% if page_obj.number == num %}
+              <li class="page-item active"><a href="?page={{ num }}" class="page-link">{{ num }}</a>
+              </li>
+              {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a>
+              </li>
+              {% endif %}
+              {% endfor %}
+    
+              {% if page_obj.has_next %}
+              <li class="page-item" aria-current="page">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+              </li>
+              <li class="page-item" aria-current="page">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages}}">Last</a>
+              </li>
+              {% endif %}
+    
+            </ul>
+            
+          </div>
+    </div>
+</section>
+
+<!-- Pagination End -->
+<script>
+    [...document.getElementsByClassName(".remove-from-whishlist")].forEach(function(e){
+    e.addEventListener("click", function() {
+        
+        product_id= Number(this.getAttribute('value'))
+        console.log(product_id);
+            
+        const formData = new FormData();
+        //console.log(name);
+        formData.append('productid', product_id);
+        formData.append('productqty', 1);
+
+        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        console.log(formData);
+        fetch('{% url "cart:cart_add" %}', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            location.reload();
+            console.log('Success:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    })
+  });
+</script>
 {% endblock %}

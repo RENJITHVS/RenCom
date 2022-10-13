@@ -4,6 +4,12 @@ from customers.models import CustomerProfile
 from vendors.models import VendorProfile
 from shop.models import Product
 
+# Order
+status_choice=(
+        ('process','In Process'),
+        ('shipped','Shipped'),
+        ('delivered','Delivered'),
+    )
 
 class Order(models.Model):
     user = models.ForeignKey(
@@ -21,6 +27,7 @@ class Order(models.Model):
     order_key = models.CharField(max_length=200)
     payment_option = models.CharField(max_length=200, blank=True)
     billing_status = models.BooleanField(default=False)
+    order_status=models.CharField(choices=status_choice,default='process',max_length=150)
     # vendors = models.ManyToManyField(VendorProfile, related_name='order_vendors',blank = True)
 
     class Meta:

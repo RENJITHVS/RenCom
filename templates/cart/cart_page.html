@@ -12,11 +12,11 @@
                     <ul class="list-inline">
                         <li class="list-inline-item"><a href="user-dashboard.html">Account
                                 settings</a></li>
-                        <li class="list-inline-item"><a href="deliver-info.html">Billing information</a></li>
-                        <li class="list-inline-item"><a href="wishlist.html">My wishlist</a></li>
-                        <li class="list-inline-item"><a href="cart.html" class="active">My cart</a></li>
-                        <li class="list-inline-item"><a href="order.html">Order</a></li>
-                        <li class="list-inline-item"><a href="account.html" class="mr-0">Log-out</a></li>
+                        <li class="list-inline-item"><a href="{% url 'payment:add-address' %}">Billing information</a></li>
+                        <li class="list-inline-item"><a href="{% url 'customers:wishlist' %}">My wishlist</a></li>
+                        <li class="list-inline-item"><a href="#" class="active">My cart</a></li>
+                        <li class="list-inline-item"><a href="{% url 'orders:view-orders' %}">Order</a></li>
+                        <li class="list-inline-item"><a href="{% url 'customers:logoutUser' %}" class="mr-0">Log-out</a></li>
                     </ul>
                 </div>
                 <!-- Dashboard-Nav  End-->
@@ -49,7 +49,7 @@
                     {% with product=item.product %}
                     <div class="item">
                         <div class="image">
-                            <img src="{{ product.image.url }}">
+                            <img src="{{ product.thumbnail.url }}">
                         </div>
                         <div class="name">
                             <div class="name-text">
@@ -68,7 +68,7 @@
                                         </g>
                                     </svg>
                                 </a>
-                                <a class="btn btn-secondary delete-from-cart"  value="{{product.id}}">Delete</a>
+                                <a class="btn btn-secondary delete-from-cart"  value="{{product.id}}">Remove</a>
                             </div>
                         </div>
                         <div class="price">
@@ -185,6 +185,7 @@
     </div>
 </section>
 <!-- Cart Area End -->
+
 
 <script>
     $("input[type='number']").inputSpinner()

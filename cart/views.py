@@ -8,11 +8,15 @@ from shop.models import Product
 from django.contrib import messages
 
 from .cart import Cart
+from django.core.paginator import Paginator
+from django.core.paginator import EmptyPage
+from django.core.paginator import PageNotAnInteger
 
 
 def cart_items(request):
     cart = Cart(request)
     return render(request, 'cart/cart_page.html', {'cart': cart})
+
 
 def cart_add_product(request):
     cart = Cart(request)
@@ -26,6 +30,7 @@ def cart_add_product(request):
         response = JsonResponse({'qty': cartqty})
         messages.success(request, 'product added successfully')
         return response
+
 
 def cart_delete_product(request):
     cart = Cart(request)
@@ -50,5 +55,3 @@ def cart_update_product(request):
         carttotal = cart.get_total_price()
         response = JsonResponse({'qty': cartqty, 'subtotal': carttotal})
         return response
-    
-

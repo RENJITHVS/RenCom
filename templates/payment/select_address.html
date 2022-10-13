@@ -14,10 +14,10 @@
                         <li class="list-inline-item"><a href="#">Account
                                 settings</a></li>
                         <li class="list-inline-item"><a href="#" class="active">Billing information</a></li>
-                        <li class="list-inline-item"><a href="#" >My wishlist</a></li>
-                        <li class="list-inline-item"><a href="#">My cart</a></li>
-                        <li class="list-inline-item"><a href="#">Order</a></li>
-                        <li class="list-inline-item"><a href="#" class="mr-0">Log-out</a></li>
+                        <li class="list-inline-item"><a href="{% url 'customers:wishlist' %}" >My wishlist</a></li>
+                        <li class="list-inline-item"><a href="{% url 'cart:cart_items' %}">My cart</a></li>
+                        <li class="list-inline-item"><a href="{% url 'orders:view-orders' %}">Order</a></li>
+                        <li class="list-inline-item"><a href="{% url 'customers:logoutUser' %}" class="mr-0">Log-out</a></li>
                     </ul>
                 </div>
                 <!-- Dashboard-Nav  End-->

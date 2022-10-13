@@ -59,9 +59,10 @@
                         <h6>Cash on Delivery</h6>
                     </div>
                 </div>
+                <a class="btn btn-secondary btn-block text-light razorpay" id="rzp-button1">RazoryPay</a>
                 <div class='paypal my-2' id ="paypal-button-container">
                 </div>
-                <a class="btn btn-primary btn-block razorpay" id="rzp-button1">RazoryPay</a>
+               
             </div>
             <div class="col-md-5">
                 <div class="card-price">
@@ -99,9 +100,7 @@
                         </div>
 
                     </div>
-                    <form action="#" class="my-2">
-                        <a href="{% url 'payment:set-payment-method' %}" class="btn bg-primary" style="width: 100%;">Checkout Now</a>
-                    </form>
+                
                 </div>
             </div>
         </div>
@@ -174,16 +173,31 @@
     <script>
     var options = {
         "key": "rzp_test_UraxEsmw2QBc7X", // Enter the Key ID generated from the Dashboard
-        "amount": "100", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "amount": "{{ raz_payment.amount }}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
         "currency": "INR",
         "name": "rencom",
         "description": "Test Transaction",
         "image": "https://example.com/your_logo",
-        "order_id": "{{ razor_payment.id }}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "order_id": "{{ raz_payment.id }}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
         "handler": function (response){
+            var url = "{% url 'payment:razorpay_payment_complete' %}"
+            return fetch(url, {
+              method: 'POST',
+              headers: {
+                'content-type': 'application/json',
+                'X-CSRFToken': csrftoken,
+              },
+              body: JSON.stringify({
+                orderID: response.razorpay_order_id
+              })
+            }).then(data => {
+              location.href = '{% url 'payment:payment_successful' %}';
+            }).catch(error => {
+                console.error('Error:', error);
+            });
             alert(response.razorpay_payment_id);
-            alert(response.razorpay_order_id);
-            alert(response.razorpay_signature)
+            //alert(response.razorpay_order_id);
+            //alert(response.razorpay_signature)
         },
         "theme": {
             "color": "#3399cc"

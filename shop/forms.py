@@ -1,18 +1,22 @@
+
 from django import forms
 import django_filters
-from .models import BrandName, Product, ProductType
-from django.template.context_processors import csrf
-from crispy_forms.utils import render_crispy_form
+from .models import  Category, Product,  ProductAttribute
 
+from crispy_forms.utils import render_crispy_form
+from ckeditor.widgets import CKEditorWidget
+from django.core.exceptions import ValidationError
+from mptt.forms import TreeNodeChoiceField
+from django.forms import modelformset_factory
 
 
 class ProductFilter(django_filters.FilterSet):
     title = django_filters.CharFilter(label='', lookup_expr='icontains', widget=forms.widgets.TextInput(
         attrs={'placeholder': 'Enter Your Product..', 'style': 'height:4rem'}))
-    brand = django_filters.ModelChoiceFilter(label='', queryset=BrandName.objects.exclude(
+    brand = django_filters.ModelChoiceFilter(label='', queryset=Category.objects.exclude(
         parent=None), widget=forms.widgets.Select(attrs={'class': 'form-control', 'placeholder': 'Hi-'}))
-    product_type = django_filters.ModelChoiceFilter(
-        label='', queryset=ProductType.objects.all())
+    # product_type = django_filters.ModelChoiceFilter(
+    #     label='', queryset=ProductType.objects.all())
     price__gt = django_filters.NumberFilter(
         label='', field_name='price', lookup_expr='gt')
     price__lt = django_filters.NumberFilter(
@@ -20,8 +24,69 @@ class ProductFilter(django_filters.FilterSet):
 
     class Meta:
         model = Product
-        fields = ['title', 'brand', 'product_type', 'price']
+        fields = ['title', 'brand',  'price']
 
     # def __init__(self, data):
     #     super(ProductFilter, self).__init__()
     #     self.fields['title'].value = data
+
+
+class AddProductForm(forms.ModelForm):
+
+    brand = TreeNodeChoiceField(queryset=Category.objects.all(),
+                                level_indicator='---', required=True)
+
+    class Meta:
+        model = Product
+        exclude = ['created_by', 'slug', 'created', 'updated',
+                   'thumbnail', 'wishlist_user', 'image', 'approve', "is_active"]
+
+    def clean_brand(self):
+        brand = self.cleaned_data['brand']
+        if brand.is_leaf_node() == False:
+            raise ValidationError("please select from a listed Brand")
+        return brand
+
+
+ProductVarationFormset = modelformset_factory(
+    ProductAttribute,
+    fields=('color', 'size', 'price', 'in_stock'),
+    extra=1,
+    # widgets={
+    #     'color': forms.TextInput(
+    #         attrs={
+    #             'class': 'col',
+    #             'placeholder': 'Enter Colour ',
+    #             'labels': 'None'
+    #         }
+    #     ),
+    #     'size': forms.TextInput(
+    #         attrs={
+    #             'class': 'col',
+    #             'placeholder': 'Enter size',
+    #             'labels': 'None'
+    #         }
+    #     ),
+    #     'price': forms.NumberInput(
+    #         attrs={
+    #             'class': 'col',
+    #             'placeholder': 'Enter size',
+    #             'labels': 'None'
+    #         }
+    #     ),
+    #     'in_stock': forms.CheckboxInput(
+    #         attrs={
+    #             'class': 'col',
+    #             'labels': 'None'
+    #         }
+    #     )
+    # }
+)
+
+
+class AddProductImagesForm(forms.ModelForm):
+
+    class Meta:
+        model = Product
+        fields = ['image', 'is_active']
+

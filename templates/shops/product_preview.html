@@ -1,0 +1,91 @@
+{% extends '../base_vendor.html' %}
+{% load static %}
+{% block title %} {{ product.title }} {% endblock %}
+{% block content %}
+<section class="product mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="section-title">
+                    <h2>Product Preview</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-5 col-12">
+                <div class="product-slider">
+                    <div class="exzoom" id="exzoom">
+                        <div class="exzoom_img_box">
+                            <ul class='exzoom_img_ul'>
+                                <li><img src="{{product.image.url}}" class="mb-5"/></li>
+                                {% comment %} <li><img src="{{product.image.url}}" /></li>
+                                <li><img src="{{product.image.url}}" /></li>
+                                <li><img src="{{product.image.url}}" /></li> {% endcomment %}
+                            </ul>
+                        </div>
+                        <div class="exzoom_nav"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-7 col-12">
+                <div class="product-pricelist">
+                    <h2>{{ product.title }}</h2>
+                    <div class="product-pricelist-ratting">
+                        <div class="price">
+                            <span>Rs {{ product.price}} </span> <del>Rs {{ product.mrp_price}}</del>
+                        </div>
+                        
+                    </div>
+                    <p class= "my-3">{{product.description|safe }}</p>
+                    {% if product.attributes.all.count != 0 %}
+                    <div class ="row my-3">
+                        <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                                {% for val in product.attributes.all %}
+                              <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.counter == 1 %}class="active" {% endif %} aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
+                              {% endfor %}
+                            </div>
+                            
+                            <div class="carousel-inner"
+                                {% for val in product.attributes.all %}
+                              <div class="carousel-item {% if forloop.counter == 1 %}active {% endif %}" data-bs-interval="3000">
+                                <div class="new_html_code"></div>
+                                <div class="carousel-caption d-flex justify-content-between mb-4" style="border-color: {{ val.color.color_code }};">
+                                  <div class="" style="color: {{ val.color.color_code }};">Rs {{ val.price }}</div>
+                                  <div class="" style="color: {{ val.color.color_code }};">Size :{{ val.size }}</div>
+                                  <div class="" style="color: {{ val.color.color_code }};">Color: {{ val.color.title }} </div>
+                                </div>
+                              </div>
+                              {% endfor %}
+                            </div>
+
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                    {% endif  %}
+                    
+                    <div class="product-pricelist-selector-button">
+                        <button class="btn cart-bg" id="add-to-cart" value={{ product.id }}>Edit
+                            
+                        </button>
+                        <button class="btn cart-bg" id="add-to-cart" value={{ product.id }}>Delete
+                           
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Product Details Area End -->
+
+
+
+{% endblock %}

@@ -13771,6 +13771,7 @@ footer .copyright-links a {
 
 .product-item-image img {
   border-radius: 12px;
+  
 }
 
 .product-item-image .cart-icon {
@@ -15868,3 +15869,8 @@ footer .copyright-links a {
 }
 
 /*# sourceMappingURL=main.css.map */
+
+/* cropping */
+.not-visible {
+    display: none;
+}

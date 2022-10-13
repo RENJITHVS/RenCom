@@ -1,4 +1,5 @@
 
+from ckeditor.configs import DEFAULT_CONFIG
 import os
 from pathlib import Path
 import environ
@@ -44,6 +45,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'django_filters',
+    'ckeditor',
+    'ckeditor_uploader'
 
 ]
 
@@ -73,7 +76,7 @@ TEMPLATES = [
                 # custom context processor
                 # show featured products and brands
                 'shop.context_processors.featured_products_and_brands',
-                'cart.context_processors.cart',  # cart_data
+                'cart.context_processors.cart',  # cart_data    
             ],
         },
     },
@@ -127,15 +130,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATIC_URL = "/static/"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -183,3 +186,65 @@ KEY_SECRET = env('KEY_SECRET')
 # paypal integrations
 CLIENT_ID = env('CLIENT_ID')
 CLIENT_SECRET = env('CLIENT_SECRET')
+
+
+# CKeditor config
+
+CKEDITOR_UPLOAD_PATH = "Media/uploads/"
+CKEDITOR_IMAGE_BACKEND = "pillow"
+CKEDITOR_THUMBNAIL_SIZE = (300, 300)
+CKEDITOR_IMAGE_QUALITY = 40
+CKEDITOR_BROWSE_SHOW_DIRS = True
+CKEDITOR_ALLOW_NONIMAGE_FILES = True
+CKEDITOR_UPLOAD_SLUGIFY_FILENAME = False
+CKEDITOR_JQUERY_URL = 'http://libs.baidu.com/jquery/2.0.3/jquery.min.js'
+
+
+CUSTOM_TOOLBAR = [
+    {
+        "name": "document",
+        "items": [
+            "Styles", "Format", "Bold", "Italic", "Underline", "Strike", "-",
+            "TextColor", "BGColor",  "-",
+            "JustifyLeft", "JustifyCenter", "JustifyRight", "JustifyBlock",
+        ],
+    },
+    {
+        "name": "widgets",
+        "items": [
+            "Undo", "Redo", "-",
+            "NumberedList", "BulletedList", "-",
+            "Outdent", "Indent", "-",
+            "Link", "Unlink", "-",
+            "Image", "CodeSnippet", "Table", "HorizontalRule", "Smiley", "SpecialChar", "-",
+            "Blockquote", "-",
+            "ShowBlocks", "Maximize",
+        ],
+    },
+]
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': (
+            ['div', 'Source', '-', 'Save', 'NewPage', 'Preview', '-', 'Templates'],
+            ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord',
+                '-', 'Print', 'SpellChecker', 'Scayt'],
+            ['Undo', 'Redo', '-', 'Find', 'Replace',
+                '-', 'SelectAll', 'RemoveFormat'],
+            ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea',
+                'Select', 'Button', 'ImageButton', 'HiddenField'],
+            ['Bold', 'Italic', 'Underline', 'Strike',
+                '-', 'Subscript', 'Superscript'],
+            ['NumberedList', 'BulletedList', '-',
+                'Outdent', 'Indent', 'Blockquote'],
+            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink', 'Anchor'],
+            ['Image', 'Flash', 'Table', 'HorizontalRule',
+                'Smiley', 'SpecialChar', 'PageBreak'],
+            ['Styles', 'Format', 'Font', 'FontSize'],
+            ['TextColor', 'BGColor'],
+            ['Maximize', 'ShowBlocks', '-', 'About', 'pbckcode'],
+        ),
+        'height': 'full',
+        'width': 'full',
+    }
+}

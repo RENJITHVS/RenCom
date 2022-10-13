@@ -16,14 +16,26 @@ from django.utils.encoding import force_bytes, force_str
 from shop.models import Product
 from cart.cart import Cart
 
+from django.core.paginator import Paginator
+from django.core.paginator import EmptyPage
+from django.core.paginator import PageNotAnInteger
+
 
 # Create your views here.
 
-
 def index(request):
     product = Product.products.all()
+    paginated_by = 20
+    paginator = Paginator(product, paginated_by)
+    page = request.GET.get('page')
+    try:
+        products_paginated = paginator.get_page(page)
+    except PageNotAnInteger:
+        products_paginated = paginator.get_page(1)
+    except EmptyPage:
+        products_paginated = paginator.get_page(paginator.num_pages)
     context = {
-        'products': product
+        'page_obj': products_paginated,
     }
     return render(request, "landing_page/home.html", context)
 
@@ -36,7 +48,7 @@ def CustomerloginPage(request):
         email = request.POST.get('email').lower()
         password = request.POST.get('password')
         try:
-            user = User.objects.get(email=email)
+            user = User.objects.get(email=email, role = "CUSTOMER")
         except:
             messages.warning(request, 'User does not exist Please Register')
             return redirect('customers:signupUser')
@@ -53,7 +65,7 @@ def CustomerloginPage(request):
 
 
 def customerSignup(request):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and request.user.role == 'CUSTOMER':
         return redirect('customers:home')
     registerForm = RegistrationForm()
 
@@ -93,7 +105,11 @@ def account_activate(request, uidb64, token):
         login(request, user)
         messages.success(
             request, f"Hi {user.full_name}! verification Successfull")
-        return redirect('customers:home')
+        if request.user.role == "VENDOR":
+            return redirect('vendors:vendor_home')
+        if request.user.role == "CUSTOMERS":
+            return redirect('customers:home')
+        
     else:
         messages.error(request, "User Verification Succesfull")
         return render(request, 'user/activation_invalid.html')
@@ -119,7 +135,17 @@ def billing_details(request):
 @login_required
 def user_wishlist(request):
     products = Product.objects.filter(wishlist_user=request.user.customerprofile)
-    return render(request, "cart/user_wishlist.html", {"wishlist": products})
+    paginated_by = 5
+    paginator = Paginator(products, paginated_by)
+    page = request.GET.get('page')
+    try:
+        products_paginated = paginator.get_page(page)
+    except PageNotAnInteger:
+        products_paginated = paginator.get_page(1)
+    except EmptyPage:
+        products_paginated = paginator.get_page(paginator.num_pages)
+   
+    return render(request, "cart/user_wishlist.html", {"page_obj": products_paginated})
 
 @login_required
 def add_to_wishlist(request, id):
