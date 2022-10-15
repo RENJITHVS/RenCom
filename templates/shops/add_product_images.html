@@ -35,9 +35,8 @@
             <form  id="image-form" method='post' enctype="multipart/form-data">
                 <div class="form-group container mt-5">
                   {% csrf_token %}
-                    <input class="form-control box" accept="image/*" type="file" name="image"  required id="id_image"/>
+                    {{form.image| as_crispy_field}}
                 </div>
-               
                 <div class="box-2">
                     <div class="result"></div>
                 </div>
@@ -56,7 +55,7 @@
                     <!-- save btn -->
                     <button class="btn btn-primary save hide">Save</button>
                     <!-- download btn -->
-                    <button type="submit" class="btn btn-secondary download hide">Submit</button>
+                    <button type="submit" class="btn btn-secondary download">Submit</button>
                 </div>
             </form>
         </div>  

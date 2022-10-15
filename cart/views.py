@@ -12,7 +12,15 @@ from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
 from django.core.paginator import PageNotAnInteger
 
+from django.contrib.auth.decorators import user_passes_test, login_required
+from shop.forms import ProductFilter
 
+def test_user(user):
+    return user.role == "CUSTOMER"
+
+# Create your views here.
+@login_required(login_url='/login')
+@user_passes_test(test_user ,login_url='/login',redirect_field_name='next')
 def cart_items(request):
     cart = Cart(request)
     return render(request, 'cart/cart_page.html', {'cart': cart})

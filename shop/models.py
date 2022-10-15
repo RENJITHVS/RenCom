@@ -1,4 +1,6 @@
 
+from email.policy import default
+from tabnanny import verbose
 from django.db import models
 from io import BytesIO
 from PIL import Image
@@ -12,9 +14,10 @@ from customers.models import CustomerProfile
 
 from vendors.models import VendorProfile
 from django.template.defaultfilters import slugify
-from ckeditor.fields import RichTextField
 from django.utils.text import slugify
 from random import randint
+
+from django.db.models import Avg, Count
 
 # Create your models here.
 
@@ -37,22 +40,23 @@ class Category(MPTTModel):
         return self.title
 
     class MPTTMeta:
+        verbose_name_plural = 'Categories'
         order_insertion_by = ['title']
 
     def get_absolute_url(self):
-        return reverse('shop:category_list', kwargs={'slug': self.slug})
+        return reverse('shop:category_list', args=[self.slug])
 
-    def get_slug_list(self):
-        try:
-            ancestors = self.get_ancestors(include_self=True)
-        except:
-            ancestors = []
-        else:
-            ancestors = [ i.slug for i in ancestors]
-            slugs = []
-            for i in range(len(ancestors)):
-                slugs.append('/'.join(ancestors[:i+1]))
-            return slugs
+    # def get_slug_list(self):
+    #     try:
+    #         ancestors = self.get_ancestors(include_self=True)
+    #     except:
+    #         ancestors = []
+    #     else:
+    #         ancestors = [i.slug for i in ancestors]
+    #         slugs = []
+    #         for i in range(len(ancestors)):
+    #             slugs.append('/'.join(ancestors[:i+1]))
+    #         return slugs
 
     def get_recursive_product_count(self):
         return Product.products.filter(brand__in=self.get_descendants(include_self=True)).count()
@@ -72,46 +76,6 @@ class Category(MPTTModel):
         thumbnail = File(thumb_io, name=image.name)
 
         return thumbnail
-
-
-# class ProductType(MPTTModel):
-#     """
-#     MPTT category for Product type
-#     """
-#     DEFAULT_PK=1
-#     title = models.CharField(max_length=50)
-#     image = models.ImageField(blank=True, upload_to='brands/')
-#     parent = TreeForeignKey('self', blank=True, null=True,
-#                             related_name='children', on_delete=models.CASCADE)
-#     slug = models.SlugField(null=False, unique=True)
-#     status = models.BooleanField(default=True)
-#     create_at = models.DateTimeField(auto_now_add=True)
-#     update_at = models.DateTimeField(auto_now=True)
-
-#     def __str__(self):
-#         return self.title
-
-#     class MPTTMeta:
-#         order_insertion_by = ['title']
-
-#     # def get_absolute_url(self):
-#     #     return reverse('category_detail', kwargs={'slug': self.slug})
-
-#     def save(self, *args, **kwargs):
-#         self.image = self.make_thumbnail(self.image)
-#         super().save(*args, **kwargs)
-
-#     def make_thumbnail(self, image, size=(300, 200)):
-#         img = Image.open(image)
-#         img.convert('RGB')
-#         img.thumbnail(size)
-
-#         thumb_io = BytesIO()
-#         img.save(thumb_io, 'JPEG', quality=85)
-
-#         thumbnail = File(thumb_io, name=image.name)
-
-#         return thumbnail
 
 
 class Color(models.Model):
@@ -167,7 +131,7 @@ class Product(models.Model):
     created_by = models.ForeignKey(
         VendorProfile, on_delete=models.CASCADE, related_name='vendor')
     title = models.CharField(max_length=255)
-    description = RichTextField()
+    description = models.TextField()
     image = models.ImageField(
         upload_to='product_images/', default='images/default-image.jpg')
     slug = models.SlugField(max_length=255,)
@@ -175,6 +139,8 @@ class Product(models.Model):
         verbose_name="Your Price", max_digits=8, decimal_places=2)
     mrp_price = models.DecimalField(verbose_name="MRP Price",
                                     max_digits=8, decimal_places=2, blank=True, null=True)
+    delivery_charges = models.DecimalField(
+        verbose_name="Delivery Charges", max_digits=6, decimal_places=2, default=0.00)
     is_active = models.BooleanField(default=False)
     is_featured = models.BooleanField(default=False)
     approve = models.BooleanField(default=False)
@@ -200,21 +166,25 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         self.thumbnail = self.make_thumbnail(self.image)
         extra = str(randint(1, 100))
-        self.slug = slugify(self.title) + '-' + extra
+        if self.slug == '':
+            self.slug = slugify(self.title) + '-' + extra
         super(Product, self).save(*args, **kwargs)
 
+    def avarege_review(self):
+        reviews = ProductReview.objects.filter(
+            product=self, is_active=True).aggregate(average=Avg('review_rating'))
+        avg = 0
+        if reviews["average"] is not None:
+            avg = float(reviews["average"])
+        return avg
 
-    # def get_thumbnail(self):
-    #     if self.thumbnail:
-    #         return self.thumbnail.url
-    #     else:
-    #         if self.image:
-    #             self.thumbnail = self.make_thumbnail(self.image)
-    #             self.save()
-
-    #             return self.thumbnail.url
-    #         else:
-    #             return ''
+    def count_review(self):
+        reviews = ProductReview.objects.filter(
+            product=self, is_active=True).aggregate(count=Count(int('id')))
+        cnt = 0
+        if reviews["count"] is not None:
+            cnt = int(reviews["count"])
+        return cnt
 
     def make_thumbnail(self, image, size=(300, 200)):
         img = Image.open(image)
@@ -244,7 +214,7 @@ class ProductAttribute(models.Model):
         verbose_name="Product in stock", default=True)
 
     class Meta:
-        verbose_name_plural = 'ProductAttributes'
+        verbose_name_plural = 'Product Attributes'
 
     # def __str__(self):
     #     return self.product.title
@@ -278,3 +248,27 @@ class ProductImage(models.Model):
         thumbnail = File(thumb_io, name=image.name)
 
         return thumbnail
+
+
+# Product Review
+RATING = (
+    (1, '1'),
+    (2, '2'),
+    (3, '3'),
+    (4, '4'),
+    (5, '5'),
+)
+
+
+class ProductReview(models.Model):
+    user = models.ForeignKey(CustomerProfile, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    review_text = models.TextField()
+    review_rating = models.CharField(choices=RATING, max_length=150)
+    created_at = models.DateTimeField(auto_now_add=True,)
+
+    class Meta:
+        verbose_name_plural = 'Reviews'
+
+    def get_review_rating(self):
+        return self.review_rating

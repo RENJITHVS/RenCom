@@ -1,7 +1,7 @@
 
 from django.contrib import messages
 from django.urls import reverse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.db.models import Q
 from .models import Category, Product, ProductAttribute
 from .forms import ProductFilter, AddProductForm, ProductVarationFormset, AddProductImagesForm
@@ -11,7 +11,6 @@ from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
 from django.core.paginator import PageNotAnInteger
 # Create your views here.
-
 
 
 def all_products(request):
@@ -54,19 +53,38 @@ def add_products(request):
             return HttpResponseRedirect(reverse('shop:add_product_variations', kwargs={'prodslug': product.slug}))
     if request.method == "GET":
         form = AddProductForm(request.GET or None)
+    return render(request, 'shops/add_products.html', {'form': form, })\
+
+
+
+def update_products(request, prodslug):
+    product = get_object_or_404(Product, slug=prodslug)
+    if request.method == "POST":
+        form = AddProductForm(request.POST, instance=product)
+        if form.is_valid():
+            product = form.save(commit=False)
+            product.created_by = request.user.vendorprofile
+            product.save()
+            messages.success(
+                request, "Product details updated  ! Please add any varations")
+            return HttpResponseRedirect(reverse('shop:add_product_variations', kwargs={'prodslug': product.slug}))
+    if request.method == "GET":
+        form = AddProductForm(instance=product)
     return render(request, 'shops/add_products.html', {'form': form, })
 
 
 def add_products_varations(request, prodslug):
     product = get_object_or_404(Product, slug=prodslug)
-    formset = ProductVarationFormset(queryset=ProductAttribute.objects.none())
+    formset = ProductVarationFormset(
+        queryset=ProductAttribute.objects.filter(product=product.id))
+
     if request.method == "POST":
         formset = ProductVarationFormset(request.POST)
         if formset.is_valid():
             instances = formset.save(commit=False)
-            print(instances)
+
             for instance in instances:
-                print(instance)
+
                 instance.product = product
                 instance.save()
             messages.success(request, "Product Varaition added Successfully")
@@ -78,7 +96,8 @@ def add_products_varations(request, prodslug):
 def add_products_images(request, prodslug):
     product = get_object_or_404(Product, slug=prodslug)
     if request.method == "POST":
-        form = AddProductImagesForm(request.POST , request.FILES , instance=product)
+        form = AddProductImagesForm(
+            request.POST, request.FILES, instance=product)
         if form.is_valid():
             form.save(commit=False)
             form.is_active = True
@@ -88,13 +107,42 @@ def add_products_images(request, prodslug):
     form = AddProductImagesForm(instance=product)
     return render(request, 'shops/add_product_images.html', {'form': form})
 
+
 def product_previews(request, prodslug):
     product = get_object_or_404(Product, slug=prodslug)
-    return render(request,'shops/product_preview.html', {"product":product})
+    return render(request, 'shops/product_preview.html', {"product": product})
+
+
+def publish_product(request, prodslug):
+    product = get_object_or_404(Product, slug=prodslug)
+    if request.method == "POST":
+        if product.is_active:
+            product.is_active = False
+        else:
+            product.is_active = True
+        product.save()
+        messages.success(request, "Your product Status Updated !")
+        return redirect('vendors:vendor_home')
+    else:
+        messages.warning(request, "error occured")
+        return render(request, 'shops/product_preview.html', {"product": product})
+
+
+def delete_product(request, prodslug):
+    product = get_object_or_404(Product, slug=prodslug)
+    if (request.user.vendorprofile == product.created_by) or (request.user.role == 'ADMIN'):
+        product.delete()
+        messages.success(request, "product deleted successfully")
+        return redirect('vendors:vendor_home')
+    else:
+        messages.success(request, "error occured")
+        return redirect('vendors:vendor_home')
+
 
 def category_list(request, prodslug):
-    category = get_object_or_404(Category, slug = prodslug)
-    products = Product.products.filter(category__in=category.get_descendants(True))
+    category = get_object_or_404(Category, slug=prodslug)
+    products = Product.products.filter(
+        brand__in=category.get_descendants(True))
     paginated_by = 20
     paginator = Paginator(products, paginated_by)
     page = request.GET.get('page')
@@ -105,4 +153,4 @@ def category_list(request, prodslug):
     except EmptyPage:
         products_paginated = paginator.get_page(paginator.num_pages)
 
-    return render(request, 'shops/product_category_list', {"page_obj":products_paginated})
+    return render(request, 'shops/product_category_list.html', {"page_obj": products_paginated})

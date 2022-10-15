@@ -5,7 +5,7 @@ from .models import Address, Customer, CustomerProfile, User, VendorUser
 from vendors.models import VendorProfile
 # Register your models here.
 
-admin.site.register(User)
+
 admin.site.register(Customer)
 admin.site.register(VendorUser)
 admin.site.register(CustomerProfile)

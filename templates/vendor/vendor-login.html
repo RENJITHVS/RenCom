@@ -1,5 +1,6 @@
 {% extends '../base_vendor.html' %}
 {% load static %}
+{% block title %}Sign in{% endblock title %}
 {% load crispy_forms_tags %}
 {% block content %}
   <!-- Account-Login -->
@@ -16,13 +17,7 @@
                             {% endif %}
                             <form method='post'>
                                  {% csrf_token %}
-                                {% comment %} <div class="my-1">
-                                    {{ form.email| as_crispy_field }}
-                                </div>
-                            
-                                <div class="my-1">
-                                    {{ form.password| as_crispy_field }}
-                                </div> {% endcomment %}
+                                
                                 <div class="form__div">
                                     <input type="email" name='email' class="form__input" placeholder=" ">
                                     <label for="email" class="form__label">Email</label>
@@ -31,15 +26,9 @@
                                     <input type="password" name='password' class="form__input" placeholder=" ">
                                     <label for="password" class="form__label">Password</label>
                                 </div>
-                               
-                                    {% comment %} <div class="password-info-left">
-                                        <input type="checkbox" id="showpass" class="mb-0">
-                                        <label for="showpass" class="mb-0">Show Password</label>
-                                    </div> {% endcomment %}
-                                    <div class="password-info-right my-2">
-                                        <a href="#">Forget Password</a>
-                                    </div>
-                               
+                                <div class="password-info-right my-2">
+                                    <a href="#">Forget Password</a>
+                                </div>
                                 <button type='submit' class="btn bg-primary">Sign in</button>
                             </form>
                             <div class="social-signing">

@@ -1,0 +1,393 @@
+[
+{
+  "model": "shop.category",
+  "pk": 1,
+  "fields": {
+    "title": "Washing Machine",
+    "image": "brands/111629580_qC11XwT.jpg",
+    "parent": null,
+    "slug": "washing-machine",
+    "status": true,
+    "create_at": "2022-10-15T05:29:32.458Z",
+    "update_at": "2022-10-15T05:29:32.458Z",
+    "lft": 1,
+    "rght": 6,
+    "tree_id": 9,
+    "level": 0
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 2,
+  "fields": {
+    "title": "TV",
+    "image": "brands/HTB17XcNXcnrK1RjSspkq6yuvXXar_9nohyvn.jpg",
+    "parent": null,
+    "slug": "tv",
+    "status": true,
+    "create_at": "2022-10-15T05:30:07.816Z",
+    "update_at": "2022-10-15T05:30:07.816Z",
+    "lft": 1,
+    "rght": 4,
+    "tree_id": 8,
+    "level": 0
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 3,
+  "fields": {
+    "title": "Laptops",
+    "image": "brands/2020-07-03-product-6_UKiFA0W.jpg",
+    "parent": null,
+    "slug": "laptops",
+    "status": true,
+    "create_at": "2022-10-15T05:30:43.612Z",
+    "update_at": "2022-10-15T05:30:43.612Z",
+    "lft": 1,
+    "rght": 12,
+    "tree_id": 4,
+    "level": 0
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 4,
+  "fields": {
+    "title": "SmartPhone",
+    "image": "brands/71geVdy6-OS._SX569_.jpg",
+    "parent": null,
+    "slug": "smartphone",
+    "status": true,
+    "create_at": "2022-10-15T05:31:44.159Z",
+    "update_at": "2022-10-15T05:31:44.159Z",
+    "lft": 1,
+    "rght": 8,
+    "tree_id": 7,
+    "level": 0
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 5,
+  "fields": {
+    "title": "Cooler",
+    "image": "brands/havells-70-l-desert-air-coolerwhite-grey-freddo-1_ZpJBQUW.jpeg",
+    "parent": null,
+    "slug": "cooler",
+    "status": true,
+    "create_at": "2022-10-15T05:32:59.916Z",
+    "update_at": "2022-10-15T05:32:59.917Z",
+    "lft": 1,
+    "rght": 6,
+    "tree_id": 3,
+    "level": 0
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 6,
+  "fields": {
+    "title": "Air Conditioner",
+    "image": "brands/Air-Conditioner-Wall-AC_Hd_iZSsqDd.jpg",
+    "parent": null,
+    "slug": "air-conditioner",
+    "status": true,
+    "create_at": "2022-10-15T05:33:25.058Z",
+    "update_at": "2022-10-15T05:33:25.058Z",
+    "lft": 1,
+    "rght": 10,
+    "tree_id": 1,
+    "level": 0
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 7,
+  "fields": {
+    "title": "MI",
+    "image": "brands/brands/mi-logo_hSdmCHp.jpg",
+    "parent": 4,
+    "slug": "mi",
+    "status": true,
+    "create_at": "2022-10-15T05:34:29.554Z",
+    "update_at": "2022-10-15T05:34:39.317Z",
+    "lft": 4,
+    "rght": 5,
+    "tree_id": 7,
+    "level": 1
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 8,
+  "fields": {
+    "title": "Apple",
+    "image": "brands/Apple-150x150_3DPX0My.jpg",
+    "parent": 4,
+    "slug": "apple",
+    "status": true,
+    "create_at": "2022-10-15T05:34:54.863Z",
+    "update_at": "2022-10-15T05:34:54.863Z",
+    "lft": 2,
+    "rght": 3,
+    "tree_id": 7,
+    "level": 1
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 9,
+  "fields": {
+    "title": "Ssmsung",
+    "image": "brands/samsung-new-logo_GDlLwIE.jpg",
+    "parent": 4,
+    "slug": "ssmsung",
+    "status": true,
+    "create_at": "2022-10-15T05:35:27.170Z",
+    "update_at": "2022-10-15T05:35:27.170Z",
+    "lft": 6,
+    "rght": 7,
+    "tree_id": 7,
+    "level": 1
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 10,
+  "fields": {
+    "title": "Symphony",
+    "image": "brands/brands/brands/1678819_8ybHlM9.jpg",
+    "parent": 5,
+    "slug": "symphony",
+    "status": true,
+    "create_at": "2022-10-15T05:35:56.844Z",
+    "update_at": "2022-10-15T05:40:04.238Z",
+    "lft": 4,
+    "rght": 5,
+    "tree_id": 3,
+    "level": 1
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 11,
+  "fields": {
+    "title": "Hindware",
+    "image": "brands/brands/original_489685_D7HmbBns6c9S2YgmgIdaLqV99_kFFRxEU.jpg",
+    "parent": 5,
+    "slug": "hindware",
+    "status": true,
+    "create_at": "2022-10-15T05:36:12.996Z",
+    "update_at": "2022-10-15T05:39:19.610Z",
+    "lft": 2,
+    "rght": 3,
+    "tree_id": 3,
+    "level": 1
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 12,
+  "fields": {
+    "title": "Dell",
+    "image": "brands/Dell-150x150_ad2grvc.jpg",
+    "parent": 3,
+    "slug": "dell",
+    "status": true,
+    "create_at": "2022-10-15T05:36:30.318Z",
+    "update_at": "2022-10-15T05:36:30.318Z",
+    "lft": 4,
+    "rght": 5,
+    "tree_id": 4,
+    "level": 1
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 13,
+  "fields": {
+    "title": "Hp",
+    "image": "brands/HP-150x150_aAyzrcY.jpg",
+    "parent": 3,
+    "slug": "hp",
+    "status": true,
+    "create_at": "2022-10-15T05:36:50.268Z",
+    "update_at": "2022-10-15T05:36:50.268Z",
+    "lft": 8,
+    "rght": 9,
+    "tree_id": 4,
+    "level": 1
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 14,
+  "fields": {
+    "title": "Apple",
+    "image": "brands/brands/brands/brands/brands/brands/brands/Apple-150x150_ywPKypV.jpg",
+    "parent": 3,
+    "slug": "apple-lap",
+    "status": true,
+    "create_at": "2022-10-15T05:37:39.711Z",
+    "update_at": "2022-10-15T07:25:15.577Z",
+    "lft": 6,
+    "rght": 7,
+    "tree_id": 4,
+    "level": 1
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 15,
+  "fields": {
+    "title": "IFB",
+    "image": "brands/IFB-Logo_jstAIak.jpg",
+    "parent": 1,
+    "slug": "ifb",
+    "status": true,
+    "create_at": "2022-10-15T05:37:59.934Z",
+    "update_at": "2022-10-15T05:37:59.934Z",
+    "lft": 4,
+    "rght": 5,
+    "tree_id": 9,
+    "level": 1
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 16,
+  "fields": {
+    "title": "BOSCH",
+    "image": "brands/Free-Vector-Bosch-Logo_W27pXTR.jpg",
+    "parent": 1,
+    "slug": "bosch",
+    "status": true,
+    "create_at": "2022-10-15T05:38:31.780Z",
+    "update_at": "2022-10-15T05:38:31.780Z",
+    "lft": 2,
+    "rght": 3,
+    "tree_id": 9,
+    "level": 1
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 17,
+  "fields": {
+    "title": "Asus",
+    "image": "brands/ASUS-Brand-300x98_8nnWQa5.jpg",
+    "parent": 3,
+    "slug": "asus",
+    "status": true,
+    "create_at": "2022-10-15T05:38:48.306Z",
+    "update_at": "2022-10-15T05:38:48.306Z",
+    "lft": 2,
+    "rght": 3,
+    "tree_id": 4,
+    "level": 1
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 18,
+  "fields": {
+    "title": "Lenovo",
+    "image": "brands/Lenovo-300x98_UrADon0.jpg",
+    "parent": 3,
+    "slug": "lenovo",
+    "status": true,
+    "create_at": "2022-10-15T05:39:12.224Z",
+    "update_at": "2022-10-15T05:39:12.224Z",
+    "lft": 10,
+    "rght": 11,
+    "tree_id": 4,
+    "level": 1
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 19,
+  "fields": {
+    "title": "LG",
+    "image": "brands/LG-AC-Brand_4OewjGq.jpg",
+    "parent": 6,
+    "slug": "lg",
+    "status": true,
+    "create_at": "2022-10-15T05:40:45.080Z",
+    "update_at": "2022-10-15T05:40:45.081Z",
+    "lft": 4,
+    "rght": 5,
+    "tree_id": 1,
+    "level": 1
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 20,
+  "fields": {
+    "title": "Samsung",
+    "image": "brands/Samsung-AC_6N72P4V.jpg",
+    "parent": 6,
+    "slug": "samsung",
+    "status": true,
+    "create_at": "2022-10-15T05:40:58.265Z",
+    "update_at": "2022-10-15T05:40:58.265Z",
+    "lft": 6,
+    "rght": 7,
+    "tree_id": 1,
+    "level": 1
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 21,
+  "fields": {
+    "title": "Voltas",
+    "image": "brands/brands/brands/Voltas-AC_iWbr459.jpg",
+    "parent": 6,
+    "slug": "voltas",
+    "status": true,
+    "create_at": "2022-10-15T05:41:14.521Z",
+    "update_at": "2022-10-15T05:42:06.145Z",
+    "lft": 8,
+    "rght": 9,
+    "tree_id": 1,
+    "level": 1
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 22,
+  "fields": {
+    "title": "Hitachi",
+    "image": "brands/Hitachi-AC_06zIIh0.jpg",
+    "parent": 6,
+    "slug": "hitachi",
+    "status": true,
+    "create_at": "2022-10-15T05:41:28.612Z",
+    "update_at": "2022-10-15T05:41:28.613Z",
+    "lft": 2,
+    "rght": 3,
+    "tree_id": 1,
+    "level": 1
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 23,
+  "fields": {
+    "title": "LG",
+    "image": "brands/gMFdEVZR_400x400_PZ1FkwH.jpg",
+    "parent": 2,
+    "slug": "lg-tv",
+    "status": true,
+    "create_at": "2022-10-15T05:46:45.628Z",
+    "update_at": "2022-10-15T05:46:45.628Z",
+    "lft": 2,
+    "rght": 3,
+    "tree_id": 8,
+    "level": 1
+  }
+}
+]

@@ -17,12 +17,15 @@ from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
 from django.core.paginator import PageNotAnInteger
 
+
 def test_vendor(user):
     return user.role == "VENDOR"
 
 # Create your views here.
+
+
 @login_required(login_url='/vendor/login')
-@user_passes_test(test_vendor ,login_url='/vendor/login',redirect_field_name='next')
+@user_passes_test(test_vendor, login_url='/vendor/login', redirect_field_name='next')
 def vendor_home(request):
     filtered_products = ProductFilter(
         request.GET, queryset=Product.objects.filter(created_by=request.user.vendorprofile.id))
@@ -44,11 +47,13 @@ def vendor_home(request):
     }
     return render(request, 'vendor/home.html', context)
 
+
 def vendor_signup(request):
-    if request.user.is_authenticated and request.user.role == 'VENDOR':
-        return redirect('vendor')
     registerForm = RegistrationForm()
 
+    if request.user.is_authenticated and request.user.role == 'VENDOR':
+        return redirect('vendor')
+    
     if request.method == 'POST':
         registerForm = RegistrationForm(request.POST)
         if registerForm.is_valid():
@@ -77,12 +82,20 @@ def vendor_login(request):
 
     if request.user.is_authenticated and request.user.role == "VENDOR":
         return redirect('vendors:vendor_home')
+
     if request.method == 'POST':
         email = request.POST.get('email').lower()
         password = request.POST.get('password')
         try:
-            user = User.objects.get(email=email, role = "VENDOR")
+            user = User.objects.get(email=email, role="VENDOR")
+
+            if not user.email_verified:
+                messages.warning(
+                    request, 'Your account is not yet verified, Please verify from mail!')
+                return render(request, 'vendor/vendor-login.html')
+
         except:
+
             messages.warning(request, 'User does not exist Please Register')
             return redirect('vendors:vendor_signup')
 
@@ -92,6 +105,6 @@ def vendor_login(request):
             login(request, user)
             return redirect('vendors:vendor_home')
         else:
-            messages.error(request, "Email and passwoed doesn't match")
+            messages.error(request, "Email and password doesn't match")
 
     return render(request, 'vendor/vendor-login.html')

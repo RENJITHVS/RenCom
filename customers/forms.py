@@ -7,6 +7,7 @@ from crispy_forms.layout import Layout, Submit, Row, Column
 from .models import Address, CustomerProfile, User
 from django.contrib.auth.forms import (AuthenticationForm, PasswordResetForm,
                                        SetPasswordForm)
+from django.contrib.auth.password_validation import validate_password
 
 
 class RegistrationForm(forms.ModelForm):
@@ -15,7 +16,8 @@ class RegistrationForm(forms.ModelForm):
     email = forms.EmailField(max_length=100, error_messages={
         'required': 'Sorry, you will need an email'})
     # phone = PhoneNumberField(region="IN",required=False)
-    password = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password = forms.CharField(
+        label='Password', widget=forms.PasswordInput, validators=[validate_password])
     password2 = forms.CharField(
         label='Repeat password', widget=forms.PasswordInput)
 
@@ -23,26 +25,29 @@ class RegistrationForm(forms.ModelForm):
         model = User
         fields = ('email',)
 
-    def clean_full_name(self):
-        full_name = self.cleaned_data['full_name'].lower()
+    def clean(self):
+
+        cleaned_data = super(RegistrationForm, self).clean()
+        email = cleaned_data.get('email').lower()
+        full_name = cleaned_data.get('full_name').lower()
+        password = cleaned_data.get("password")
+        password2 = cleaned_data.get("password2")
+
         res = all(c.isalpha() or c == " " for c in full_name)
+
         if not res:
             raise forms.ValidationError(
                 "Don't use number or special character on your name")
-        return full_name
-
-    def clean_email(self):
-        email = self.cleaned_data['email'].lower()
-        if User.objects.filter(email=email, is_active=True).exists():
+        elif User.objects.filter(email=email, email_verified=False).exists():
+            raise forms.ValidationError(
+                'User is already registerd, Please check your Inbox for activation link')
+        elif User.objects.filter(email=email, is_active=True).exists():
             raise forms.ValidationError(
                 'This Email is already taken')
-        return email
-
-    def clean_password2(self):
-        cd = self.cleaned_data
-        if cd['password'] != cd['password2']:
-            raise forms.ValidationError('Passwords do not match.')
-        return cd['password2']
+        elif password != password2:
+            raise forms.ValidationError(
+                "password and confirm password does not match"
+            )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -93,6 +98,5 @@ class AddressInlineBaseformset(BaseInlineFormSet):
             self.forms[0].fields['default'].initial = True
 
 
-AddressFormSet = inlineformset_factory(CustomerProfile,
-                                       Address, fields=('full_name', 'phone', 'address_line', 'city', 'pincode', 'default',), extra=1, formset=AddressInlineBaseformset
-                                       )
+AddressFormSet = inlineformset_factory(CustomerProfile, Address, fields=(
+    'full_name', 'phone', 'address_line', 'city', 'pincode', 'default',), extra=1, formset=AddressInlineBaseformset)

@@ -10,3 +10,5 @@ class VendorProfile(models.Model):
 
     def __str__(self):
         return self.user.full_name
+
+

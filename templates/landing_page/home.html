@@ -221,7 +221,7 @@
             <div class="col-lg-3 col-md-4 col-sm-6 col-6">
                 <div class="productcategory text-center">
                     <div class="productcategory-img">
-                        <a href="#"><img src="{{ cat.image.url }}" alt="images" style="width:120px; height:100px;"></a>
+                        <a href="{{ cat.get_absolute_url }}"><img src="{{ cat.image.url }}" alt="images" style="width:120px; height:100px;"></a>
                     </div>
                     <div class="productcategory-text">
                         <a href="#">
@@ -327,6 +327,7 @@
         </div>
     </div>
 </section>
+
 <!-- Features Section End -->
 <script>
     [...document.getElementsByClassName("add-cart")].forEach(function(e){

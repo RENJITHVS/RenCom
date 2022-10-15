@@ -3,6 +3,7 @@ from django.contrib import admin
 from mptt.admin import DraggableMPTTAdmin
 # Register your models here.
 from .models import *
+from django_summernote.admin import SummernoteModelAdmin
 
 
 @admin.register(Category)
@@ -51,7 +52,10 @@ class ProductAttributeInline(admin.TabularInline):
 
 
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(SummernoteModelAdmin):
     inlines = [
         ProductAttributeInline,
     ]
+    summernote_fields = ('description',)
+
+

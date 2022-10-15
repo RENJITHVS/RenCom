@@ -1,5 +1,4 @@
 
-from ckeditor.configs import DEFAULT_CONFIG
 import os
 from pathlib import Path
 import environ
@@ -27,6 +26,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # admin
+    'jazzmin',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,12 +43,12 @@ INSTALLED_APPS = [
     'orders.apps.OrdersConfig',
     'payment.apps.PaymentConfig',
     # third-party apps
+    'reset_migrations',
     'mptt',
     'crispy_forms',
     'crispy_bootstrap5',
     'django_filters',
-    'ckeditor',
-    'ckeditor_uploader'
+    'django_summernote'
 
 ]
 
@@ -76,7 +78,7 @@ TEMPLATES = [
                 # custom context processor
                 # show featured products and brands
                 'shop.context_processors.featured_products_and_brands',
-                'cart.context_processors.cart',  # cart_data    
+                'cart.context_processors.cart',  # cart_data
             ],
         },
     },
@@ -120,7 +122,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -188,63 +190,46 @@ CLIENT_ID = env('CLIENT_ID')
 CLIENT_SECRET = env('CLIENT_SECRET')
 
 
-# CKeditor config
+JAZZMIN_SETTINGS = {
+    # title of the window (Will default to current_admin_site.site_title if absent or None)
+    "site_title": "Rencom. Admin",
 
-CKEDITOR_UPLOAD_PATH = "Media/uploads/"
-CKEDITOR_IMAGE_BACKEND = "pillow"
-CKEDITOR_THUMBNAIL_SIZE = (300, 300)
-CKEDITOR_IMAGE_QUALITY = 40
-CKEDITOR_BROWSE_SHOW_DIRS = True
-CKEDITOR_ALLOW_NONIMAGE_FILES = True
-CKEDITOR_UPLOAD_SLUGIFY_FILENAME = False
-CKEDITOR_JQUERY_URL = 'http://libs.baidu.com/jquery/2.0.3/jquery.min.js'
+    # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+    "site_header": "Rencom. Admin",
 
+    # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+    "site_brand": "Administration",
 
-CUSTOM_TOOLBAR = [
-    {
-        "name": "document",
-        "items": [
-            "Styles", "Format", "Bold", "Italic", "Underline", "Strike", "-",
-            "TextColor", "BGColor",  "-",
-            "JustifyLeft", "JustifyCenter", "JustifyRight", "JustifyBlock",
-        ],
+    # Logo to use for your site, must be present in static files, used for brand on top left
+    "site_logo": "dist/images/logo/logo.png",
+
+    # Logo to use for your site, must be present in static files, used for login form logo (defaults to site_logo)
+    "login_logo": 'dist/images/logo/logo.png',
+
+    # CSS classes that are applied to the logo above
+    "site_logo_classes": "img-thumbnail mx-auto",
+
+    # Welcome text on the login screen
+    "welcome_sign": "Admin Rencom.",
+
+    # Custom icons for side menu apps/models See https://fontawesome.com/icons?d=gallery&m=free&v=5.0.0,5.0.1,5.0.10,5.0.11,5.0.12,5.0.13,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1,5.4.0,5.4.1,5.4.2,5.13.0,5.12.0,5.11.2,5.11.1,5.10.0,5.9.0,5.8.2,5.8.1,5.7.2,5.7.1,5.7.0,5.6.3,5.5.0,5.4.2
+    # for the full list of 5.13.0 free icon classes
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+
+        "customers.Address": "fa fa-address-card",
+        'customers.customerprofile': "fa fa-id-badge",
+        "customers.customer": 'fa fa-user',
+        'customers.vendoruser': "fa fa-user",
+
+        'orders.orderitem': 'fas fa-receipt',
+        'orders.order': 'fas fa-receipt',
+
+        'vendors.vendorprofile': 'fa fa-id-badge'
     },
-    {
-        "name": "widgets",
-        "items": [
-            "Undo", "Redo", "-",
-            "NumberedList", "BulletedList", "-",
-            "Outdent", "Indent", "-",
-            "Link", "Unlink", "-",
-            "Image", "CodeSnippet", "Table", "HorizontalRule", "Smiley", "SpecialChar", "-",
-            "Blockquote", "-",
-            "ShowBlocks", "Maximize",
-        ],
-    },
-]
-CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar': (
-            ['div', 'Source', '-', 'Save', 'NewPage', 'Preview', '-', 'Templates'],
-            ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord',
-                '-', 'Print', 'SpellChecker', 'Scayt'],
-            ['Undo', 'Redo', '-', 'Find', 'Replace',
-                '-', 'SelectAll', 'RemoveFormat'],
-            ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea',
-                'Select', 'Button', 'ImageButton', 'HiddenField'],
-            ['Bold', 'Italic', 'Underline', 'Strike',
-                '-', 'Subscript', 'Superscript'],
-            ['NumberedList', 'BulletedList', '-',
-                'Outdent', 'Indent', 'Blockquote'],
-            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-            ['Link', 'Unlink', 'Anchor'],
-            ['Image', 'Flash', 'Table', 'HorizontalRule',
-                'Smiley', 'SpecialChar', 'PageBreak'],
-            ['Styles', 'Format', 'Font', 'FontSize'],
-            ['TextColor', 'BGColor'],
-            ['Maximize', 'ShowBlocks', '-', 'About', 'pbckcode'],
-        ),
-        'height': 'full',
-        'width': 'full',
-    }
+
 }
+
+SUMMERNOTE_THEME = 'bs5'

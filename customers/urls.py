@@ -14,7 +14,7 @@ urlpatterns = [
     #     name="loginUser",
     # ),
     path('login/', views.CustomerloginPage, name='loginUser'),
-    path("logout/", auth_views.LogoutView.as_view(next_page="/"), name="logoutUser"),
+    path("logout/", auth_views.LogoutView.as_view(next_page="/"), name="logout"),
     path('signup/',views.customerSignup, name="signupUser"),
     path("activate/<slug:uidb64>/<slug:token>)/", views.account_activate, name="activate"),
     path('billing/', views.billing_details, name='billing_details'),

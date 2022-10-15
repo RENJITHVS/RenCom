@@ -4,13 +4,7 @@
 {% block content %}
 <section class="product mb-5">
     <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="section-title">
-                    <h2>Product Preview</h2>
-                </div>
-            </div>
-        </div>
+        
         <div class="row">
             <div class="col-lg-6 col-md-5 col-12">
                 <div class="product-slider">
@@ -37,28 +31,32 @@
                         
                     </div>
                     <p class= "my-3">{{product.description|safe }}</p>
+
+                    
                     {% if product.attributes.all.count != 0 %}
-                    <div class ="row my-3">
+                    <div class ="row">
                         <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
-                            <div class="carousel-indicators">
+                            
+                            <div class="carousel-indicators ">
+                                
                                 {% for val in product.attributes.all %}
                               <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.counter == 1 %}class="active" {% endif %} aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
                               {% endfor %}
                             </div>
                             
-                            <div class="carousel-inner"
+                            <div class="carousel-inner">
                                 {% for val in product.attributes.all %}
                               <div class="carousel-item {% if forloop.counter == 1 %}active {% endif %}" data-bs-interval="3000">
                                 <div class="new_html_code"></div>
                                 <div class="carousel-caption d-flex justify-content-between mb-4" style="border-color: {{ val.color.color_code }};">
-                                  <div class="" style="color: {{ val.color.color_code }};">Rs {{ val.price }}</div>
-                                  <div class="" style="color: {{ val.color.color_code }};">Size :{{ val.size }}</div>
-                                  <div class="" style="color: {{ val.color.color_code }};">Color: {{ val.color.title }} </div>
+                                  <div class="fs-5" style="color: {{ val.color.color_code }};"> <strong>Rs {{ val.price }}</strong> </div>
+                                  <div class="fs-5" style="color: {{ val.color.color_code }};"> <strong>Size :{{ val.size }}</strong></div>
+                                  <div class="fs-5" style="color: {{ val.color.color_code }};"> <strong>Color: {{ val.color.title }}</strong> </div>
                                 </div>
                               </div>
                               {% endfor %}
                             </div>
-
+                            
                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
                               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                               <span class="visually-hidden">Previous</span>
@@ -67,17 +65,30 @@
                               <span class="carousel-control-next-icon" aria-hidden="true"></span>
                               <span class="visually-hidden">Next</span>
                             </button>
+                            
                         </div>
                     </div>
                     {% endif  %}
-                    
-                    <div class="product-pricelist-selector-button">
-                        <button class="btn cart-bg" id="add-to-cart" value={{ product.id }}>Edit
+                    <h6 class="mx-auto text-center"> Product variations<h6>
+                    <div class="product-pricelist-selector-button mt-4 d-flex justify-content-around">
+                        {% if not product.is_active %}
+                        <form action="{% url 'shop:publish_product' product.slug %}" method="POST">
+                            {% csrf_token %}
+                            <input class="btn btn-primary" type="submit" value="Publish"></input>
+                          </form>
+                          {% else %}
+                          <form action="{% url 'shop:publish_product' product.slug %}" method="POST">
+                            {% csrf_token %}
+                            <input class="btn btn-warning" type="submit" value="Unpublish"></input>
+                          </form>
+                          {% endif %}
+                        <a class="btn btn-secondary" href="{% url 'shop:update_product' product.slug %}" >Edit
                             
-                        </button>
-                        <button class="btn cart-bg" id="add-to-cart" value={{ product.id }}>Delete
-                           
-                        </button>
+                        </a>
+                        <!-- Button trigger modal -->
+                        <a class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal">Delete
+                        </a>
+                        
                     </div>
                 </div>
             </div>
@@ -85,6 +96,39 @@
     </div>
 </section>
 <!-- Product Details Area End -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"> Are you sure?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            delete <strong>{{ product.title }} ?</strong>
+        </div>
+        <div class="modal-footer">
+          <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</a>
+          <a href="{% url 'shop:delete_product' product.slug %}" class="btn btn-danger">Delete</a>
+        </div>
+      </div>
+    </div>
+</div>
+<style>
+    
+    div.new_html_code {
+      width:150px;
+      height:200px;
+      min-width:150px;
+      min-height:150px;
+      max-width:200px;
+      max-height:150px;
+      overflow:hidden;
+      display:block;
+      
+    }
+  
+</style>
 
 
 

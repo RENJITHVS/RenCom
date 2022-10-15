@@ -26,7 +26,7 @@
                     <h2>{{ product.title }}</h2>
                     <div class="product-pricelist-ratting">
                         <div class="price">
-                            <span>Rs {{ product.price}} </span> <del>$11.99</del>
+                            <span>Rs {{ product.price}} </span> <del>{{ product.mrp_price}}</del>
                         </div>
                         <div class="star">
                             <ul>
@@ -124,6 +124,8 @@
                                     </g>
                                 </g>
                             </svg>
+                        </a>
+                        <a class="btn cart-bg ml-4" id="checkout" href={% url 'cart:cart_items' %}>Buy Now
                         </a>
                         <div class="product-pricelist-selector-button-item">
                             <div class="shipping">

@@ -5,8 +5,11 @@ from decimal import Decimal
 from django.conf import settings
 
 from shop.models import Product
+from orders.models import Coupon
+
 
 class Cart(object):
+
     def __init__(self, request):
         self.session = request.session
         cart = self.session.get(settings.CART_SESSION_ID)
@@ -23,7 +26,7 @@ class Cart(object):
         if product_id in self.cart:
             self.cart[product_id]["qty"] = qty
         else:
-            self.cart[product_id] = {"price": str(product.price), "qty": qty}
+            self.cart[product_id] = {"price": str(product.price), "qty": qty, "delivery_price": str(product.delivery_charges), "orginal_amount":str(product.mrp_price)}
 
         self.save()
 
@@ -42,6 +45,8 @@ class Cart(object):
         for item in cart.values():
             item["price"] = Decimal(item["price"])
             item["total_price"] = item["price"] * item["qty"]
+            item["delivery_price"] = Decimal(item["delivery_price"])
+            item['orginal_amount'] = Decimal(item["orginal_amount"])
             yield item
 
     def __len__(self):
@@ -59,20 +64,45 @@ class Cart(object):
             self.cart[product_id]["qty"] = qty
         self.save()
 
+    # def add_coupon(self, coupon=None)
+    def orginal_price(self):
+        return sum(Decimal(item['orginal_amount'])* item["qty"] for item in self.cart.values())
+
     def get_subtotal_price(self):
         return sum(Decimal(item["price"]) * item["qty"] for item in self.cart.values())
 
+    def get_shipping_cost(self):
+        return sum(Decimal(item['delivery_price']) for item in self.cart.values())
+
+    def get_coupon_amount(self):
+
+        subtotal = self.get_subtotal_price() 
+        try:
+            code = self.session.get('coupon')
+            print(type(code))
+            coupon = Coupon.objects.get(code = code)
+            print(coupon)
+            discount = subtotal * Decimal(coupon.percentage)
+            print(discount)
+            if discount > Decimal(coupon.max_amount):
+                return Decimal(coupon.max_amount)
+            else:
+                return Decimal(discount)
+        except:
+            return 0
+
     def get_total_price(self):
 
-        subtotal = sum(Decimal(item["price"]) * item["qty"] for item in self.cart.values())
+        subtotal = self.get_subtotal_price() 
+       
+        if 'coupon' in self.session:
+            subtotal -= self.get_coupon_amount()
 
-        if subtotal == 0:
-            shipping = Decimal(0.00)
-        else:
-            shipping = Decimal(500.00)
-
-        total = subtotal + Decimal(shipping)
+        total = subtotal + self.get_shipping_cost()
         return total
+
+    def get_total_saved(self):
+        return self.orginal_price() - self.get_total_price()
 
     def delete(self, product):
         """

@@ -188,14 +188,16 @@
                 'X-CSRFToken': csrftoken,
               },
               body: JSON.stringify({
-                orderID: response.razorpay_order_id
+                orderID: response.razorpay_order_id,
+                paymentID:response.razorpay_payment_id,
+                signature:response.razorpay_signature,
               })
             }).then(data => {
               location.href = '{% url 'payment:payment_successful' %}';
             }).catch(error => {
                 console.error('Error:', error);
             });
-            alert(response.razorpay_payment_id);
+            //alert(response.razorpay_payment_id);
             //alert(response.razorpay_order_id);
             //alert(response.razorpay_signature)
         },
@@ -207,11 +209,11 @@
     rzp1.on('payment.failed', function (response){
             alert(response.error.code);
             alert(response.error.description);
-            alert(response.error.source);
-            alert(response.error.step);
-            alert(response.error.reason);
-            alert(response.error.metadata.order_id);
-            alert(response.error.metadata.payment_id);
+           // alert(response.error.source);
+            //alert(response.error.step);
+            //alert(response.error.reason);
+            //alert(response.error.metadata.order_id);
+            //alert(response.error.metadata.payment_id);
     });
     document.getElementById('rzp-button1').onclick = function(e){
         rzp1.open();

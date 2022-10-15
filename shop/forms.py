@@ -1,13 +1,14 @@
 
 from django import forms
 import django_filters
-from .models import  Category, Product,  ProductAttribute
+from .models import Category, Product,  ProductAttribute
 
 from crispy_forms.utils import render_crispy_form
-from ckeditor.widgets import CKEditorWidget
+from django_summernote.fields import SummernoteTextFormField, SummernoteTextField
 from django.core.exceptions import ValidationError
 from mptt.forms import TreeNodeChoiceField
 from django.forms import modelformset_factory
+from django.forms.widgets import ClearableFileInput
 
 
 class ProductFilter(django_filters.FilterSet):
@@ -35,6 +36,7 @@ class AddProductForm(forms.ModelForm):
 
     brand = TreeNodeChoiceField(queryset=Category.objects.all(),
                                 level_indicator='---', required=True)
+    description = SummernoteTextField()
 
     class Meta:
         model = Product
@@ -84,9 +86,17 @@ ProductVarationFormset = modelformset_factory(
 )
 
 
+class MyClearableFileInput(ClearableFileInput):
+    initial_text = 'currently'
+    input_text = 'change'
+    clear_checkbox_label = 'clear'
+
+
 class AddProductImagesForm(forms.ModelForm):
+
+    image = forms.ImageField(label='Select Product Image',
+                             required=True, widget=MyClearableFileInput)
 
     class Meta:
         model = Product
         fields = ['image', 'is_active']
-

@@ -27,10 +27,7 @@
                     <h6>Brand</h6>
                     {{ products.form.brand |as_crispy_field }}
                 </div>
-                <div class="categoryitem-wrapper-itembox">
-                    <h6>Product Type</h6>
-                    {{ products.form.product_type |as_crispy_field }}
-                </div>
+                
                 <div class="categoryitem-wrapper-itembox">
                     <h6>Price Greater than</h6>
                     {{ products.form.price__gt|as_crispy_field }}
@@ -64,13 +61,37 @@
             <div class="col-md-3 col-sm-6">
                 <div class="product-item">
                     <div class="product-item-image">
-                        <a href="{{ product.get_absolute_url }}"><img src="{{product.thumbnail.url}}" alt="Product Name"
+                        <a href="{% url 'shop:product_preview' product.slug %}"><img src="{{product.thumbnail.url}}" alt="Product Name"
                                 class="img-fluid"></a>
-                       
+                        <div class="cart-icon">
+                            {% if product.is_active %}<a href=""><span class="badge bg-primary">Published</span></a>{% endif %}
+                            {% comment %} <a class="add-cart" value={{ product.id }}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16.75" height="16.75"
+                                    viewBox="0 0 16.75 16.75">
+                                    <g id="Your_Bag" data-name="Your Bag" transform="translate(0.75)">
+                                        <g id="Icon" transform="translate(0 1)">
+                                            <ellipse id="Ellipse_2" data-name="Ellipse 2" cx="0.682" cy="0.714"
+                                                rx="0.682" ry="0.714" transform="translate(4.773 13.571)"
+                                                fill="none" stroke="#1a2224" stroke-linecap="round"
+                                                stroke-linejoin="round" stroke-width="1.5" />
+                                            <ellipse id="Ellipse_3" data-name="Ellipse 3" cx="0.682" cy="0.714"
+                                                rx="0.682" ry="0.714" transform="translate(12.273 13.571)"
+                                                fill="none" stroke="#1a2224" stroke-linecap="round"
+                                                stroke-linejoin="round" stroke-width="1.5" />
+                                            <path id="Path_3" data-name="Path 3"
+                                                d="M1,1H3.727l1.827,9.564a1.38,1.38,0,0,0,1.364,1.15h6.627a1.38,1.38,0,0,0,1.364-1.15L16,4.571H4.409"
+                                                transform="translate(-1 -1)" fill="none" stroke="#1a2224"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="1.5" />
+                                        </g>
+                                    </g>
+                                </svg>
+                            </a> {% endcomment %}
+                        </div>
                     </div>
                     <div class="product-item-info">
                         <a href="{{ product.get_absolute_url }}">{{ product.title|truncatechars:20 }}</a>
-                        <span>Rs {{ product.price }}</span> <del>Rs 999</del>
+                        <span>Rs {{ product.price }}</span> <del>Rs {{ product.mrp_price}}</del>
                     </div>
                 </div>
             </div>

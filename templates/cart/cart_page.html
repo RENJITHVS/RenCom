@@ -16,7 +16,7 @@
                         <li class="list-inline-item"><a href="{% url 'customers:wishlist' %}">My wishlist</a></li>
                         <li class="list-inline-item"><a href="#" class="active">My cart</a></li>
                         <li class="list-inline-item"><a href="{% url 'orders:view-orders' %}">Order</a></li>
-                        <li class="list-inline-item"><a href="{% url 'customers:logoutUser' %}" class="mr-0">Log-out</a></li>
+                        <li class="list-inline-item"><a href="{% url 'customers:logout' %}" class="mr-0">Log-out</a></li>
                     </ul>
                 </div>
                 <!-- Dashboard-Nav  End-->
@@ -56,8 +56,7 @@
                                 <p> {{ product.title }}</p>
                             </div>
                             <div class="button">
-                                <a class="btn bg-primary" href="#">Checkout now</a>
-                                <a class="cart-btn" href="">
+                                <a class="cart-btn" href="" data-bs-toggle="tooltip" data-bs-placement="top" title="move to Wishlist"> 
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="18"
                                         viewBox="0 0 20 18">
                                         <g id="Heart" transform="translate(1 1)">
@@ -72,7 +71,7 @@
                             </div>
                         </div>
                         <div class="price">
-                            <span>rs {{ product.price }}</span> <del>$499.99</del>
+                            <span>Rs {{ product.price }}</span> <del>{{ product.mrp_price }}</del>
                         </div>
                         <div class="rating">
                             <i class="fas fa-star"></i> 5.0
@@ -131,9 +130,10 @@
             <div class="col-lg-6">
                 <div class="apply-coupon">
                     <h6>Apply Coupon</h6>
-                    <form action="#">
+                    <form action="{% url 'orders:apply-coupon' %}" method ="POST">
+                        {% csrf_token %}
                         <div class="form__div">
-                            <input type="text" class="form__input" placeholder=" ">
+                            <input type="text" class="form__input" placeholder=" " name="coupon" id="coupon_id">
                             <label for="" class="form__label">Coupon Code</label>
                         </div>
                         <button class="btn bg-primary" type="submit">apply COUPON</button>
@@ -145,7 +145,15 @@
                     <h6>Check Summery</h6>
                     <div class="card-price-list d-flex justify-content-between align-items-center">
                         <div class="item">
-                            <p>{{ cart.qty}} item</p>
+                            <p>{{ cart.len }} Item Orginal Cost</p>
+                        </div>
+                        <div class="price">
+                            <p>Rs {{ cart.orginal_price }}</p>
+                        </div>
+                    </div>
+                    <div class="card-price-list d-flex justify-content-between align-items-center">
+                        <div class="item">
+                            <p>{{ cart.len }} Our Cost</p>
                         </div>
                         <div class="price">
                             <p>Rs {{ cart.get_subtotal_price }}</p>
@@ -156,15 +164,28 @@
                             <p>Shipping Cost</p>
                         </div>
                         <div class="price">
-                            <p>Rs 500.00</p>
+                            <p>Rs {{ cart.get_shipping_cost }}</p>
                         </div>
                     </div>
+                    {% if request.session.coupon %}
                     <div class="card-price-list d-flex justify-content-between align-items-center">
                         <div class="item">
                             <p>Discount</p>
                         </div>
+                        
+                        <span class="badge bg-primary">Promotion Applied with {{request.session.coupon}} </span>
+                        
                         <div class="price">
-                            <p>5%</p>
+                            <p>- Rs {{ cart.get_coupon_amount }} </p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="card-price-list d-flex justify-content-between align-items-center">
+                        <div class="total-text">
+                            <p>Total Saved</p>
+                        </div>
+                        <div class="total-price">
+                            <p>-Rs {{ cart.get_total_saved }}</p>
                         </div>
                     </div>
                     <div class="card-price-subtotal d-flex justify-content-between align-items-center">
@@ -172,9 +193,8 @@
                             <p>Total Price</p>
                         </div>
                         <div class="total-price">
-                            <p>Rs  {{ cart.get_total_price}}</p>
+                            <p>Rs {{ cart.get_total_price }}</p>
                         </div>
-
                     </div>
                     <form action="#">
                         <a href="{% url 'payment:add-address' %}" class="btn bg-primary" style="width: 100%;">Checkout Now</a>
