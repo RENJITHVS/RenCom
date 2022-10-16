@@ -1,6 +1,4 @@
 
-from email.policy import default
-from tabnanny import verbose
 from django.db import models
 from io import BytesIO
 from PIL import Image
@@ -18,6 +16,7 @@ from django.utils.text import slugify
 from random import randint
 
 from django.db.models import Avg, Count
+
 
 # Create your models here.
 
@@ -170,21 +169,23 @@ class Product(models.Model):
             self.slug = slugify(self.title) + '-' + extra
         super(Product, self).save(*args, **kwargs)
 
-    def avarege_review(self):
-        reviews = ProductReview.objects.filter(
-            product=self, is_active=True).aggregate(average=Avg('review_rating'))
-        avg = 0
-        if reviews["average"] is not None:
-            avg = float(reviews["average"])
-        return avg
+    def get_avg_rating(self):
+        reviews = ProductReview.objects.filter(product=self)
+        count = len(reviews)
+        if count < 1 :
+            return 0
+        sum = 0
+        for rvw in reviews:
+            sum +=int(rvw.review_rating)
+        return int(sum/count)
 
     def count_review(self):
-        reviews = ProductReview.objects.filter(
-            product=self, is_active=True).aggregate(count=Count(int('id')))
-        cnt = 0
-        if reviews["count"] is not None:
-            cnt = int(reviews["count"])
-        return cnt
+        reviews = ProductReview.objects.filter(product=self)
+        count = len(reviews)
+        if count < 1 :
+            return 0
+        else:
+            return count
 
     def make_thumbnail(self, image, size=(300, 200)):
         img = Image.open(image)
@@ -262,7 +263,8 @@ RATING = (
 
 class ProductReview(models.Model):
     user = models.ForeignKey(CustomerProfile, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(
+        Product, related_name='reviews', on_delete=models.CASCADE)
     review_text = models.TextField()
     review_rating = models.CharField(choices=RATING, max_length=150)
     created_at = models.DateTimeField(auto_now_add=True,)

@@ -50,11 +50,14 @@ admin.site.register(Size)
 class ProductAttributeInline(admin.TabularInline):
     model = ProductAttribute
 
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
 
 @admin.register(Product)
 class ProductAdmin(SummernoteModelAdmin):
     inlines = [
         ProductAttributeInline,
+        ProductImageInline
     ]
     summernote_fields = ('description',)
 

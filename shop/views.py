@@ -3,13 +3,15 @@ from django.contrib import messages
 from django.urls import reverse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.db.models import Q
-from .models import Category, Product, ProductAttribute
+from .models import Category, Product, ProductAttribute, ProductReview
 from .forms import ProductFilter, AddProductForm, ProductVarationFormset, AddProductImagesForm
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 
 from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
 from django.core.paginator import PageNotAnInteger
+
+from django.db.models import Avg, Count
 # Create your views here.
 
 
@@ -53,8 +55,7 @@ def add_products(request):
             return HttpResponseRedirect(reverse('shop:add_product_variations', kwargs={'prodslug': product.slug}))
     if request.method == "GET":
         form = AddProductForm(request.GET or None)
-    return render(request, 'shops/add_products.html', {'form': form, })\
-
+    return render(request, 'shops/add_products.html', {'form': form, })
 
 
 def update_products(request, prodslug):
@@ -154,3 +155,21 @@ def category_list(request, prodslug):
         products_paginated = paginator.get_page(paginator.num_pages)
 
     return render(request, 'shops/product_category_list.html', {"page_obj": products_paginated})
+
+
+# Save Review
+def add_review(request, slug):
+    product = get_object_or_404(Product, slug=slug)
+    user = request.user.customerprofile
+    try:
+        ProductReview.objects.get(product=product, user=user)
+        messages.warning(request, " you are already added review")
+    except:
+        ProductReview.objects.create(
+            user=user,
+            product=product,
+            review_text=request.POST['review_text'],
+            review_rating=request.POST['review_rating'],
+        )
+        messages.success(request, "review added")
+    return redirect('shop:product_details', slug=slug)

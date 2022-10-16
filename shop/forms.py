@@ -1,7 +1,7 @@
 
 from django import forms
 import django_filters
-from .models import Category, Product,  ProductAttribute
+from .models import Category, Product,  ProductAttribute, ProductReview
 
 from crispy_forms.utils import render_crispy_form
 from django_summernote.fields import SummernoteTextFormField, SummernoteTextField
@@ -100,3 +100,9 @@ class AddProductImagesForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['image', 'is_active']
+
+
+# class AddReviewForm(forms.ModelForm):
+#     class Meta:
+#         model = ProductReview
+#         fields = ['review_text', 'review_rating', 'rate']

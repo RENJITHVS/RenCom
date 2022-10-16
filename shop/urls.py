@@ -21,6 +21,7 @@ urlpatterns = [
     path('product_delete/<slug:prodslug>',
          views.delete_product, name='delete_product'),
      path('publish_product/<slug:prodslug>',
-         views.publish_product, name='publish_product')
+         views.publish_product, name='publish_product'),
+     path('add-review/<slug:slug>',views.add_review, name='add-review'),
 
 ]
