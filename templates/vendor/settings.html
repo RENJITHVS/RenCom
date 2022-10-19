@@ -1,0 +1,76 @@
+{% extends "../base_vendor.html" %}
+{% block title %}Account Settings{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+<!--Acount Area Start -->
+<section class="account">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- Dashboard-Nav  Start-->
+                <div class="dashboard-nav">
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><a href="" class="active">Account
+                            settings</a></li>
+                    {% comment %} <li class="list-inline-item"><a href="{% url 'payment:add-address' %}">Billing information</a></li>
+                    <li class="list-inline-item"><a href="{% url 'customers:wishlist' %}">My wishlist</a></li>
+                    <li class="list-inline-item"><a href="#" >My cart</a></li>
+                    <li class="list-inline-item"><a href="{% url 'orders:view-orders' %}">Order</a></li>
+                    <li class="list-inline-item"><a href="{% url 'customers:logout' %}" class="mr-0">Log-out</a></li> {% endcomment %}
+                    </ul>
+                </div>
+                <!-- Dashboard-Nav  End-->
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="col account-setting">
+                    <h6>Vendor Account Details</h6>
+                    <div class="my-2 mx-2 d-flex justify-content-around">
+                        <div class="image-body">
+                            <img id="prof-img" src="{{ request.user.vendorprofile.profile_pic.url }}" alt="img">
+                        </div>
+                        <div class="align-items-start flex-column ">
+                            <div class="d-flex align-self-center my-1">
+                                <p class="mx-2">name: </p>
+                                <h5>{{ request.user.full_name }}</h5>
+                            </div>
+                            <div class="d-flex align-self-center my-1">
+                                <p class="mx-2">email: </p>
+                                <h5>{{ request.user.email }}</h5>
+                            </div>
+                            <div class="d-flex align-self-center my-1">
+                                <p class="mx-2">vendor id: </p>
+                                <h5>{{ request.user.vendorprofile.vendor_id }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col change-password my-2">
+                    <h6>Change password</h6>
+                    <a href="{% url 'customers:pwdreset' %}" class="btn bg-primary">Click to Change </a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="account-setting">
+                    <h6>Account setting</h6>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ u_form|crispy }}
+                        {{ p_form|crispy }}
+                        <small class="my-2"> *please make sure all the data are correct.</small>
+                        <button type="submit" class="btn bg-primary btn-block">Sent approve Request</button>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+<!--Acount Area End -->
+<style>
+    #prof-img {
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+      }
+</style>
+{% endblock %}

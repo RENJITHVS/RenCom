@@ -1,0 +1,196 @@
+.features{
+    padding: 100px 0;
+    &-wrapper{
+        position: relative;
+        .slick-dots{
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            li{
+                width: 10px;
+                height: 10px;
+                border-radius: 100%;
+                background-color: $lightBlack;
+                margin: 0 10px;
+                button{
+                    font-size: 0;
+                    border: 0;
+                }
+                &.slick-active{
+                    background-color: $black;
+                }
+            }
+        }
+       .slider-arrows{
+           display: flex;
+           justify-content: space-between;
+           align-items: center;
+           .prev-arrow,
+           .next-arrow{
+               width: 52px;
+               height: 52px;
+               background-color: transparent;
+               border-radius: 100%;
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               border: 1px solid $gray;
+               cursor: pointer;
+               transition: .3s;
+               &:hover{
+                   background-color: $blue;
+                   svg {
+                    path {
+                        stroke: $white;
+                    }
+                }
+               }
+           }
+           .prev-arrow{
+            position: absolute;
+            top: 50%;
+            left: -90px;
+            transform: translateY(-50%);
+           }
+           .next-arrow{
+            position: absolute;
+            top: 50%;
+            right: -90px;
+            transform: translateY(-50%);
+           }
+       } 
+        .slick-slide {
+            margin: 0 15px;
+        }
+        .slick-list {
+            margin: 0 -15px;
+        }
+    }
+    &-morebutton{
+        margin-top: 50px;
+        .btn{
+            font-size: 14px;
+            line-height: 1.3;
+            padding: 15px 30px;
+
+            &.bt-glass{
+                background-color: rgba(51, 90, 255, 0.04);
+                color: blue;
+                &:hover{
+                    background-color: blue;
+                    color: white;
+                }
+            }
+        }
+    }
+}
+/* large devices 992 - 1169*/
+@media (min-width: 992px) and (max-width: 1200px) {
+    .features{
+        &-wrapper{
+            .slick-dots{
+                margin-top: 30px;
+            }
+           .slider-arrows{
+            display: none;
+           } 
+        }
+        &-morebutton{
+            margin-top: 40px;
+        }
+    }
+}
+
+/* Medium devices 768 - 991 */
+@media (min-width: 768px) and (max-width: 991px) {
+    .features{
+        &-wrapper{
+            .slick-dots{
+                margin-top: 30px;
+            }
+           .slider-arrows{
+            display: none;
+           } 
+        }
+        &-morebutton{
+            margin-top: 30px;
+        }
+    }
+}
+/* Small devices 575 - 767 */
+@media (min-width: 575px) and (max-width: 767px) {
+    .features{
+        padding: 70px 0;
+        &-wrapper{
+            .slick-dots{
+                margin-top: 20px;
+            }
+           .slider-arrows{
+            display: none;
+           }
+           .slick-slide {
+            margin: 0 10px;
+        }
+        .slick-list {
+            margin: 0 -10px;
+        }
+        }
+        &-morebutton{
+            margin-top: 30px;
+        }
+    }
+}
+
+
+/* Small devices 420 - 574 */
+@media only screen and (min-width: 420px) and (max-width: 575px) {
+    .features{
+        padding: 70px 0;
+        &-wrapper{
+            .slick-dots{
+                margin-top: 20px;
+            }
+           .slider-arrows{
+            display: none;
+           }
+           .product-item-image{
+               img{
+                   margin: auto;
+               }
+           }
+        }
+        &-morebutton{
+            margin-top: 30px;
+        }
+        .slick-slide {
+            margin: 0 10px;
+        }
+        .slick-list {
+            margin: 0 -10px;
+        }
+    }
+}
+/* extra Small devices 420 */
+@media (max-width: 420px) {
+    .features{
+        padding: 60px 0;
+        &-wrapper{
+            .slick-dots{
+                margin-top: 20px;
+            }
+           .slider-arrows{
+            display: none;
+           }
+           .slick-slide {
+            margin: 0 10px;
+        }
+        .slick-list {
+            margin: 0 -10px;
+        }
+        }
+        &-morebutton{
+            margin-top: 30px;
+        }
+    }
+}

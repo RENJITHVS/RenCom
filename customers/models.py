@@ -1,3 +1,4 @@
+from email.policy import default
 import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
@@ -5,6 +6,7 @@ from django.core.mail import send_mail
 from phonenumber_field.modelfields import PhoneNumberField
 from .managers import CustomUserManager
 from vendors.models import VendorProfile
+from PIL import Image
 
 class User(AbstractUser):
 
@@ -71,9 +73,24 @@ class Customer(User):
 class CustomerProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     customer_id = models.IntegerField(null=True, blank=True)
+    profile_pic = models.ImageField(
+        upload_to='profile_pic/', default='images/profile_pic.jpg', )
+    account_number = models.CharField(max_length= 20, blank=True, null= True)
+    ifsc_code = models.CharField(max_length= 20,blank=True, null= True)
+    account_name = models.CharField(max_length= 20, blank=True, null= True)
 
     def __str__(self):
         return self.user.full_name
+
+    def save(self):
+        super().save()
+        img = Image.open(self.profile_pic.path)
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(self.profile_pic.path)
+
+
 
 class VendorManager(BaseUserManager):
     def get_queryset(self, *args, **kwargs):

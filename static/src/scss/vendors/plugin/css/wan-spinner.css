@@ -1,0 +1,30 @@
+/*********** spinner start *************/
+
+.wan-spinner {
+  border: 1px solid #dddddd;
+  display: inline-block;
+}
+
+.wan-spinner .minus,
+.wan-spinner .plus,
+.wan-spinner input {
+  float: left;
+  line-height: 1em;
+  text-align: center;
+}
+
+.wan-spinner input {
+  border: none;
+  margin: 0;
+  width: 40px;
+}
+
+.wan-spinner .minus,
+.wan-spinner .plus {
+  color: #333333;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+
+/*********** spinner end *************/

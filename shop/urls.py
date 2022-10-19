@@ -23,5 +23,7 @@ urlpatterns = [
      path('publish_product/<slug:prodslug>',
          views.publish_product, name='publish_product'),
      path('add-review/<slug:slug>',views.add_review, name='add-review'),
+     path('add_extra_images/<slug:prodslug>/',
+         views.add_products_images_extra, name='add_extra_images'),
 
 ]

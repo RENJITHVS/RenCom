@@ -8,16 +8,15 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <!-- Dashboard-Nav  Start-->
+                <!-- Dashboard-Nav Start-->
                 <div class="dashboard-nav">
                     <ul class="list-inline">
-                        <li class="list-inline-item"><a href="#">Account
-                                settings</a></li>
-                        <li class="list-inline-item"><a href="#" class="active">Billing information</a></li>
-                        <li class="list-inline-item"><a href="{% url 'customers:wishlist' %}" >My wishlist</a></li>
-                        <li class="list-inline-item"><a href="{% url 'cart:cart_items' %}">My cart</a></li>
-                        <li class="list-inline-item"><a href="{% url 'orders:view-orders' %}">Order</a></li>
-                        <li class="list-inline-item"><a href="{% url 'customers:logout' %}" class="mr-0">Log-out</a></li>
+                        <li class="list-inline-item"><a href="">Add Address</a> <i
+                                class="fas fa-angle-right"></i></li>
+                        <li class="list-inline-item"><a href="" class="active">Billing
+                            information</a>
+                        <i class="fas fa-angle-right"></i></li>
+                        <li class="list-inline-item"><a href="" class="mr-0">Payment</a></li>
                     </ul>
                 </div>
                 <!-- Dashboard-Nav  End-->
@@ -25,6 +24,9 @@
         </div>
         <div class="row">
             <div class="col col-md-7">
+                {% if not addresses%}
+                <p class='my-3'> Sorry You havn't add any addresses</p>
+                {% endif %}
                 {% for address in addresses %}
                 {% if not address.default %}
                   <h1 class="h5 pt-4">Other Addresses</h1>
@@ -63,14 +65,22 @@
                   </div>
                 </div>
                 {% endfor %}
-                <a href="{% url 'customers:billing_details' %}" class="btn btn-primary">Add Address</a>
+                <a href="{% url 'payment:add_billing_details' %}" class="btn btn-primary">Add Address</a>
             </div>
-            <div class="col-md-5">
+            <div class="col-lg-5">
                 <div class="card-price">
                     <h6>Check Summery</h6>
                     <div class="card-price-list d-flex justify-content-between align-items-center">
                         <div class="item">
-                            <p>{{ cart.qty}} item</p>
+                            <p>{{ cart.len }} Item Orginal Cost</p>
+                        </div>
+                        <div class="price">
+                            <p>Rs {{ cart.orginal_price }}</p>
+                        </div>
+                    </div>
+                    <div class="card-price-list d-flex justify-content-between align-items-center">
+                        <div class="item">
+                            <p>{{ cart.len }} Our Cost</p>
                         </div>
                         <div class="price">
                             <p>Rs {{ cart.get_subtotal_price }}</p>
@@ -81,25 +91,37 @@
                             <p>Shipping Cost</p>
                         </div>
                         <div class="price">
-                            <p>Rs 500.00</p>
+                            <p>Rs {{ cart.get_shipping_cost }}</p>
                         </div>
                     </div>
+                    {% if request.session.coupon %}
                     <div class="card-price-list d-flex justify-content-between align-items-center">
                         <div class="item">
                             <p>Discount</p>
                         </div>
+                        
+                        <span class="badge bg-primary">Promotion Applied with {{request.session.coupon}} </span>
+                        
                         <div class="price">
-                            <p>5%</p>
+                            <p>- Rs {{ cart.get_coupon_amount }} </p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="card-price-list d-flex justify-content-between align-items-center">
+                        <div class="total-text">
+                            <p>Total Saved</p>
+                        </div>
+                        <div class="total-price">
+                            <p>-Rs {{ cart.get_total_saved }}</p>
                         </div>
                     </div>
                     <div class="card-price-subtotal d-flex justify-content-between align-items-center">
                         <div class="total-text">
                             <p>Total Price</p>
                         </div>
-                        <div class="total-price">
-                            <p>Rs  {{ cart.get_total_price}}</p>
+                        <div class="total-price my-3">
+                            <p>Rs {{ cart.get_total_price }}</p>
                         </div>
-
                     </div>
                     <form action="#">
                         <a href="{% url 'payment:set-payment-method' %}" class="btn bg-primary" style="width: 100%;">Checkout Now</a>

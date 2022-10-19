@@ -6,7 +6,7 @@
 <section class="product">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6 col-md-5 col-12">
+            <div class="col-lg-6 col-12">
                 <div class="column">
                     <div id="img-container">
                         <div id="lens"></div>
@@ -27,7 +27,7 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="col-lg-6 col-md-7 col-12">
+            <div class="col-lg-6 col-12">
                 <div class="product-pricelist">
                     <h2>{{ product.title }}</h2>
                     <div class="product-pricelist-ratting">
@@ -46,39 +46,7 @@
                         </div>
                     </div>
                     <p class= "my-3">{{product.description|safe }}</p>
-                    {% if product.attributes.all.count != 0 %}
-                    <div class ="row">
-                        <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
-                            <div class="carousel-indicators">
-                                {% for val in product.attributes.all %}
-                              <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.counter == 1 %}class="active" {% endif %} aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
-                              {% endfor %}
-                            </div>
-                            
-                            <div class="carousel-inner">
-                                {% for val in product.attributes.all %}
-                              <div class="carousel-item {% if forloop.counter == 1 %}active {% endif %}" data-bs-interval="3000">
-                                <div class="new_html_code"></div>
-                                <div class="carousel-caption d-flex justify-content-between mb-4" style="border-color: {{ val.color.color_code }};">
-                                  <div class="" style="color: {{ val.color.color_code }};">Rs {{ val.price }}</div>
-                                  <div class="" style="color: {{ val.color.color_code }};">Size :{{ val.size }}</div>
-                                  <div class="" style="color: {{ val.color.color_code }};">Color: {{ val.color.title }} </div>
-                                </div>
-                              </div>
-                              {% endfor %}
-                            </div>
-
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                              <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                              <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
-                    </div>
-                    {% endif  %}
+                    
                     <div class="product-pricelist-selector">
                         <div class="product-pricelist-selector-quantity">
                             <h6>quantity</h6>
@@ -107,11 +75,35 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row my-2">
+                        <div class="col-12">
+                          <form>
+                            <div class="form-group row">
+                              <div class="col-12">
+                                <div class="card-deck">
+                                {% if product.images.all.count != 0 %}
+                                {% for val in product.attributes.all %}
+                                  <div id="{{val.id}}-card"  class="card mb-4 col-6 " style="border-color: {{ val.color.color_code }}">
+                                    <div class="card-body" role="button">
+                                      <h5 class="card-title"><input id="{{val.id}}" type="radio">
+                                        <label for="price">Rs {{ val.price }}</label></h5>
+                                      <p class="card-text"> product color: {{ val.color.title }}</p>
+                                    </div>
+                                  </div>
+                            
+                                {% endfor %}
+                                {% endif %}
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
                     <div class="product-pricelist-selector-button">
-                        <button class="btn cart-bg" id="add-to-cart" value={{ product.id }}>Add to cart
+                        <button class="btn cart-bg" id="add-to-cart" value={{ product.id }} style="display: none;">Add to cart
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                         </button>
-                        <a class="btn bg-primary cart-hart" href="#">
+                        <a class="btn bg-primary cart-hart" href="{% url 'customers:add_wishlist' product.id %}">
                             <svg id="Heart" xmlns="http://www.w3.org/2000/svg"
                                 xmlns:xlink="http://www.w3.org/1999/xlink" width="22" height="20"
                                 viewBox="0 0 22 20">
@@ -130,7 +122,7 @@
                                 </g>
                             </svg>
                         </a>
-                        <a class="btn cart-bg ml-4" id="checkout" href={% url 'cart:cart_items' %}>Buy Now
+                        <a class="btn cart-bg ml-4" id="checkout" href={% url 'cart:cart_items' %} style="display: none;">Buy Now
                         </a>
                         <div class="product-pricelist-selector-button-item">
                             <div class="shipping">
@@ -451,11 +443,24 @@
         
             height: 125px;
             width: 125px;
-            border:2px solid black;
+            
             background-repeat: no-repeat;
             cursor: none;
         
         }
+        .active {
+            border-color: #28a745 !important;
+            background-color: #f2f2f2;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.18), 0 3px 6px rgba(0, 0, 0, 0.23);
+          }
+          
+          .card {
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15), 0 2px 5px rgba(0, 0, 0, 0.2);
+            -webkit-transition: all 0.5s ease;
+            -moz-transition: all 0.5s ease;
+            -o-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+          }
       
 </style>
 <script src="{% static 'src/js/jquery.min.js' %}"></script>
@@ -463,6 +468,44 @@
 <script src="{% static 'src/js/slider.js' %}"></script>
 
 <script>
+    var variation_id;
+    $(document).ready(function () {
+        $('input:radio').change(function () {//Clicking input radio
+            var radioClicked = $(this).attr('id');
+            unclickRadio();
+            removeActive();
+            clickRadio(radioClicked);
+            makeActive(radioClicked);
+            $('#add-to-cart').css('display', 'inline');
+            $('#checkout').css('display', 'inline');
+        });
+        $(".card").click(function () {//Clicking the card
+            var inputElement = $(this).find('input[type=radio]').attr('id');
+            variation_id = inputElement;
+            console.log(variation_id)
+            unclickRadio();
+            removeActive();
+            makeActive(inputElement);
+            clickRadio(inputElement);
+        });
+    });
+    
+    
+    function unclickRadio() {
+        $("input:radio").prop("checked", false);
+    }
+    
+    function clickRadio(inputElement) {
+        $("#" + inputElement).prop("checked", true);
+    }
+    
+    function removeActive() {
+        $(".card").removeClass("active");
+    }
+    
+    function makeActive(element) {
+        $("#" + element + "-card").addClass("active");
+    }
     function addProduct() {
         qdty = document.getElementById("quandity").value
         qdty = Number(qdty)
@@ -482,14 +525,16 @@
     }
     document.getElementById("add-to-cart").addEventListener("click", function(e){
         e.preventDefault();
-        console.log("hi")
         product_id = Number(document.getElementById("add-to-cart").value);
+        product_variation = Number(variation_id) ;
+        
         quandity = Number(document.getElementById("quandity").value)
         
       const formData = new FormData();
       //console.log(name);
       formData.append('productid', product_id);
       formData.append('productqty', quandity);
+      formData.append('variationid', product_variation);
       formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
       console.log(formData);
       fetch('{% url "cart:cart_add" %}', {
@@ -504,5 +549,7 @@
         console.error('Error:', error);
       });
       });
+
+    
   </script>
 {% endblock %}

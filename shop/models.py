@@ -97,17 +97,17 @@ class Color(models.Model):
 # Size
 
 
-class Size(models.Model):
-    """ 
-    Product Size
-    """
-    title = models.CharField(max_length=100)
+# class Size(models.Model):
+#     """
+#     Product Size
+#     """
+#     title = models.CharField(max_length=100)
 
-    class Meta:
-        verbose_name_plural = 'Products  Sizes'
+#     class Meta:
+#         verbose_name_plural = 'Products  Sizes'
 
-    def __str__(self):
-        return self.title
+#     def __str__(self):
+#         return self.title
 
 
 class ProductManager(models.Manager):
@@ -134,8 +134,7 @@ class Product(models.Model):
     image = models.ImageField(
         upload_to='product_images/', default='images/default-image.jpg')
     slug = models.SlugField(max_length=255,)
-    price = models.DecimalField(
-        verbose_name="Your Price", max_digits=8, decimal_places=2)
+
     mrp_price = models.DecimalField(verbose_name="MRP Price",
                                     max_digits=8, decimal_places=2, blank=True, null=True)
     delivery_charges = models.DecimalField(
@@ -172,17 +171,17 @@ class Product(models.Model):
     def get_avg_rating(self):
         reviews = ProductReview.objects.filter(product=self)
         count = len(reviews)
-        if count < 1 :
+        if count < 1:
             return 0
         sum = 0
         for rvw in reviews:
-            sum +=int(rvw.review_rating)
+            sum += int(rvw.review_rating)
         return int(sum/count)
 
     def count_review(self):
         reviews = ProductReview.objects.filter(product=self)
         count = len(reviews)
-        if count < 1 :
+        if count < 1:
             return 0
         else:
             return count
@@ -208,7 +207,7 @@ class ProductAttribute(models.Model):
     product = models.ForeignKey(
         Product, related_name='attributes', on_delete=models.CASCADE, blank=True, null=True)
     color = models.ForeignKey(Color, on_delete=models.CASCADE)
-    size = models.ForeignKey(Size, on_delete=models.CASCADE)
+    # size = models.ForeignKey(Size, on_delete=models.CASCADE)
     price = models.DecimalField(verbose_name="Price",
                                 max_digits=8, decimal_places=2, blank=True, null=True)
     in_stock = models.BooleanField(

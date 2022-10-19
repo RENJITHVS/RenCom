@@ -58,7 +58,7 @@
                         <a href="{% url 'customers:home' %}"><img src="{% static 'dist/images/logo/logo.png' %}" alt="logo" style="max-width:10rem"/></a>
                     </div>
                     <ul class="main-menu d-flex align-items-center">
-                        <li><a class="active" href="{% url 'customers:home' %}">Home</a></li>
+                        <li><a class="" href="{% url 'customers:home' %}">Home</a></li>
                         <li>
                             <a href="{% url 'customers:home' %}" class="d-flex flex-row"><div class="right d-inline mx-2">Category</div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="9.98" height="5.69"
@@ -159,9 +159,9 @@
                                     </svg>
                                     {% with total_qty=cart|length %}
                                     {% if total_qty > 0 %}
-                                    <span class="cart">{{ total_qty }}</span>
+                                    <span class="cart" id="cart-id">{{ total_qty }}</span>
                                     {% else %}
-                                    <span class="cart">0</span>
+                                    <span class="cart" id="cart-id">0</span>
                                     {% endif %}
                                     </div>
                                     {% endwith %}
@@ -184,7 +184,7 @@
                                         </g>
                                     </svg></a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'customers:settings-user' %}">Settings</a></li>
                                         <li><a class="dropdown-item" href="#">Dashboard</a></li>
                                         <li><a class="dropdown-item"  data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a></li>
                                     </ul>

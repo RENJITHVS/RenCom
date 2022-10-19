@@ -17,7 +17,7 @@ class Cart(object):
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
 
-    def add(self, product, qty):
+    def add(self, product, qty, variation=None):
         """
         Adding and updating the users cart session data
         """
@@ -26,7 +26,7 @@ class Cart(object):
         if product_id in self.cart:
             self.cart[product_id]["qty"] = qty
         else:
-            self.cart[product_id] = {"price": str(product.price), "qty": qty, "delivery_price": str(product.delivery_charges), "orginal_amount":str(product.mrp_price)}
+            self.cart[product_id] = {"price": str(variation.price), "qty": qty, "delivery_price": str(product.delivery_charges), "orginal_amount":str(product.mrp_price), "color": str(variation.color), "color_code": str(variation.color.color_code)}
 
         self.save()
 

@@ -1,0 +1,55 @@
+// abstracts
+@import "abstracts/functions";
+@import "abstracts/variables";
+
+// vendors
+@import "vendors/fontawesome/css/fontawesome.min.css";
+@import "vendors/bootstrap/scss/bootstrap.scss";
+@import "vendors/plugin/css/nice-select.css";
+@import "vendors/plugin/css/jquery.exzoom.css";
+@import "vendors/plugin/css/slick.css";
+@import "vendors/plugin/css/wan-spinner.css";
+
+@import "base/typography";
+@import "base/reset";
+
+@import "layout/footer";
+@import "layout/header";
+@import "layout/banner";
+@import "layout/breadcrumb";
+@import "layout/features";
+@import "layout/about";
+@import "layout/card-price";
+@import "layout/brand";
+
+@import "components/buttons";
+@import "components/form";
+@import "components/customersreview";
+@import "components/product-item";
+@import "components/productcategory";
+@import "components/cartitem";
+@import "components/orderitem";
+
+@import "pages/home";
+@import "pages/contact";
+@import "pages/user-dashboard";
+@import "pages/product-details";
+@import 'pages/styleguide';
+@import 'pages/account';
+@import 'pages/forget-password';
+@import 'pages/verify';
+@import 'pages/deliver-info';
+@import 'pages/wishlist';
+@import 'pages/cart';
+@import 'pages/cart';
+@import 'pages/order';
+@import 'pages/billing-information';
+@import 'pages/shipping';
+@import 'pages/payment';
+@import 'pages/shop';
+
+
+
+@import 'themes/theme';
+
+

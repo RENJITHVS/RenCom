@@ -11,12 +11,12 @@
                 <!-- Dashboard-Nav  Start-->
                 <div class="dashboard-nav">
                     <ul class="list-inline">
-                        <li class="list-inline-item"><a href="#" class="active">Billing
+                        <li class="list-inline-item"><a href="">Billing
                                 information</a>
                             <i class="fas fa-angle-right"></i></li>
-                        <li class="list-inline-item"><a href="#">Shipping</a> <i
+                        <li class="list-inline-item"><a href="">Shipping</a> <i
                                 class="fas fa-angle-right"></i></li>
-                        <li class="list-inline-item"><a href="#" class="mr-0">Payment</a></li>
+                        <li class="list-inline-item"><a href="" class="mr-0" class="active">Payment</a></li>
                     </ul>
                 </div>
                 <!-- Dashboard-Nav  End-->
@@ -26,6 +26,11 @@
             <div class="col-md-7 order-2 order-lg-1">
                 <div class="payment-method-area">
                     <h5>Available payment methods</h5>
+                    <div class="payment-method-area-text text-center my-2">
+                        <h6>Cash on Delivery</h6>
+                        <a class="btn btn-success btn-block text-light mb-2" id="">Place Order & Pay at Delivery</a>
+                        <p class="my-2">or</p>
+                    </div>
                     <div class="payment-method d-flex justify-content-center align-items-center flex-wrap">
                         
                         <div class="method">
@@ -54,22 +59,26 @@
                         </div>
                         
                     </div>
-                    <div class="payment-method-area-text text-center my-2">
-                        <p>or</p>
-                        <h6>Cash on Delivery</h6>
-                    </div>
-                </div>
-                <a class="btn btn-secondary btn-block text-light razorpay" id="rzp-button1">RazoryPay</a>
+                    <a class="btn btn-secondary btn-block text-light razorpay" id="rzp-button1">RazoryPay</a>
                 <div class='paypal my-2' id ="paypal-button-container">
                 </div>
-               
+                </div>
+
             </div>
-            <div class="col-md-5">
+            <div class="col-lg-5">
                 <div class="card-price">
                     <h6>Check Summery</h6>
                     <div class="card-price-list d-flex justify-content-between align-items-center">
                         <div class="item">
-                            <p>{{ cart.qty}} item</p>
+                            <p>{{ cart.len }} Item Orginal Cost</p>
+                        </div>
+                        <div class="price">
+                            <p>Rs {{ cart.orginal_price }}</p>
+                        </div>
+                    </div>
+                    <div class="card-price-list d-flex justify-content-between align-items-center">
+                        <div class="item">
+                            <p>{{ cart.len }} Our Cost</p>
                         </div>
                         <div class="price">
                             <p>Rs {{ cart.get_subtotal_price }}</p>
@@ -80,27 +89,38 @@
                             <p>Shipping Cost</p>
                         </div>
                         <div class="price">
-                            <p>Rs 500.00</p>
+                            <p>Rs {{ cart.get_shipping_cost }}</p>
                         </div>
                     </div>
+                    {% if request.session.coupon %}
                     <div class="card-price-list d-flex justify-content-between align-items-center">
                         <div class="item">
                             <p>Discount</p>
                         </div>
+                        
+                        <span class="badge bg-primary">Promotion Applied with {{request.session.coupon}} </span>
+                        
                         <div class="price">
-                            <p>5%</p>
+                            <p>- Rs {{ cart.get_coupon_amount }} </p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="card-price-list d-flex justify-content-between align-items-center">
+                        <div class="total-text">
+                            <p>Total Saved</p>
+                        </div>
+                        <div class="total-price">
+                            <p>-Rs {{ cart.get_total_saved }}</p>
                         </div>
                     </div>
                     <div class="card-price-subtotal d-flex justify-content-between align-items-center">
                         <div class="total-text">
                             <p>Total Price</p>
                         </div>
-                        <div class="total-price">
-                            <p>Rs  {{ cart.get_total_price}}</p>
+                        <div class="total-price my-3">
+                            <p>Rs {{ cart.get_total_price }}</p>
                         </div>
-
                     </div>
-                
                 </div>
             </div>
         </div>
@@ -180,20 +200,20 @@
         "image": "https://example.com/your_logo",
         "order_id": "{{ raz_payment.id }}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
         "handler": function (response){
-            var url = "{% url 'payment:razorpay_payment_complete' %}"
-            return fetch(url, {
+            
+            return fetch("{% url 'payment:razorpay_payment_complete' %}", {
               method: 'POST',
               headers: {
                 'content-type': 'application/json',
                 'X-CSRFToken': csrftoken,
               },
               body: JSON.stringify({
-                orderID: response.razorpay_order_id,
-                paymentID:response.razorpay_payment_id,
-                signature:response.razorpay_signature,
+                razorpay_order_id: response.razorpay_order_id ,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
               })
             }).then(data => {
-              location.href = '{% url 'payment:payment_successful' %}';
+              location.href = "{% url 'payment:payment_successful' %}";
             }).catch(error => {
                 console.error('Error:', error);
             });

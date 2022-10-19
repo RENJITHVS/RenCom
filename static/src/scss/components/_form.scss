@@ -1,0 +1,67 @@
+/*===== FORM =====*/
+.l-form{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.form{
+  &__title{
+      font-weight: 400;
+      margin-bottom: 3rem;
+  }
+  &__div{
+      position: relative;
+      height: 48px;
+      margin-bottom: 1.5rem;
+  }
+  &__input{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 450px;
+      height: 48px;
+      font-size: 14px;
+      border: 1px solid rgba(152, 155, 167, 0.5) !important;
+      border-radius: 4px;
+      outline: none;
+      padding: 1rem;
+      background: transparent;
+      z-index: 1;
+  }
+  &__label{
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      padding: 0 .25rem;
+      background-color: $white;
+      color: $lightBlack;
+      font-size: 14px;
+      transition: .3s;
+  }
+}
+
+/*Input focus move up label*/
+.form__input:focus + .form__label {
+  top: -.5rem;
+  left: .8rem;
+  color: $lightBlack;
+  font-size: 14px;
+  font-weight: 400;
+  z-index: 10;
+}
+
+/*Input focus sticky top label*/
+.form__input:not(:placeholder-shown).form__input:not(:focus) + .form__label {
+  top: -.5rem;
+  left: .8rem;
+  z-index: 10;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/*Input focus*/
+.form__input:focus {
+  border: 1.5px solid rgba(152, 155, 167, 0.5);
+}

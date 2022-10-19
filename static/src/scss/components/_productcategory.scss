@@ -1,0 +1,72 @@
+.categorys{
+    padding: 100px 0;
+}
+.productcategory{
+    margin-bottom: 40px;
+    &-img{
+       img{
+        border-radius: 50%;
+       }
+       margin-bottom: 20px;
+    }
+    &-text{
+        h6{
+            color: $black;
+            font-size: 20px;
+            line-height: 1.3;
+            margin-bottom: 0;
+        }
+        span{
+            color: $lightBlack;
+            font-size: 14px;
+            line-height: 1.3;
+        }
+    }
+}
+
+/*----------------------------------------*/
+/*  RESPONSIVE CSS START 
+/*----------------------------------------*/
+
+/* large devices 992 - 1169*/
+@media (min-width: 992px) and (max-width: 1200px) {
+}
+
+/* Medium devices 768 - 991 */
+@media (min-width: 768px) and (max-width: 991px) {
+}
+/* Small devices 575 - 767 */
+@media (min-width: 575px) and (max-width: 767px) {
+    .categorys{
+        padding: 70px 0;
+    }
+}
+
+
+/* Small devices 420 - 574 */
+@media only screen and (min-width: 420px) and (max-width: 575px) {
+    .categorys{
+        padding: 70px 0;
+    }
+
+}
+/* extra Small devices 420 */
+@media (max-width: 420px) {
+    .categorys{
+        padding: 50px 0;
+    }
+    .productcategory{
+        margin-bottom: 30px;
+        &-img{
+           margin-bottom: 15px;
+        }
+        &-text{
+            h6{
+                font-size: 18px;
+            }
+            span{
+                font-size: 12px;
+            }
+        }
+    }
+}

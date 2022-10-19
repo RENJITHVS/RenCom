@@ -1,14 +1,15 @@
 
 from django import forms
 import django_filters
-from .models import Category, Product,  ProductAttribute, ProductReview
+from .models import Category, Product,  ProductAttribute, ProductImage, ProductReview
 
 from crispy_forms.utils import render_crispy_form
 from django_summernote.fields import SummernoteTextFormField, SummernoteTextField
 from django.core.exceptions import ValidationError
 from mptt.forms import TreeNodeChoiceField
-from django.forms import modelformset_factory
+from django.forms import IntegerField, modelformset_factory
 from django.forms.widgets import ClearableFileInput
+from django.core.validators import MinLengthValidator
 
 
 class ProductFilter(django_filters.FilterSet):
@@ -18,14 +19,14 @@ class ProductFilter(django_filters.FilterSet):
         parent=None), widget=forms.widgets.Select(attrs={'class': 'form-control', 'placeholder': 'Hi-'}))
     # product_type = django_filters.ModelChoiceFilter(
     #     label='', queryset=ProductType.objects.all())
-    price__gt = django_filters.NumberFilter(
-        label='', field_name='price', lookup_expr='gt')
-    price__lt = django_filters.NumberFilter(
-        label='', field_name='price', lookup_expr='lt')
+    # price__gt = django_filters.NumberFilter(
+    #     label='', field_name='price', lookup_expr='gt')
+    # price__lt = django_filters.NumberFilter(
+    #     label='', field_name='price', lookup_expr='lt')
 
     class Meta:
         model = Product
-        fields = ['title', 'brand',  'price']
+        fields = ['title', 'brand', ]
 
     # def __init__(self, data):
     #     super(ProductFilter, self).__init__()
@@ -36,12 +37,18 @@ class AddProductForm(forms.ModelForm):
 
     brand = TreeNodeChoiceField(queryset=Category.objects.all(),
                                 level_indicator='---', required=True)
-    description = SummernoteTextField()
+    title = forms.CharField(validators=[
+            MinLengthValidator(20, 'the field must contain at least 20 characters')
+            ]);
+    description = forms.Textarea()
+    mrp_price = forms.FloatField(min_value=10, help_text="please enter actual MRP price of the product")
+    delivery_charges = forms.FloatField(min_value=0, help_text="provid '0.0' if no delievery charge")
+    # description = SummernoteTextFormField()
 
     class Meta:
         model = Product
         exclude = ['created_by', 'slug', 'created', 'updated',
-                   'thumbnail', 'wishlist_user', 'image', 'approve', "is_active"]
+                   'thumbnail', 'wishlist_user', 'image', 'approve', "is_active",]
 
     def clean_brand(self):
         brand = self.cleaned_data['brand']
@@ -49,40 +56,24 @@ class AddProductForm(forms.ModelForm):
             raise ValidationError("please select from a listed Brand")
         return brand
 
+    def clean_description(self):
+        brand = self.cleaned_data['description']
+        if len(brand)<=50:
+            raise ValidationError("please Add more than 20 words")
+        return brand
+
 
 ProductVarationFormset = modelformset_factory(
     ProductAttribute,
-    fields=('color', 'size', 'price', 'in_stock'),
+    fields=('color', 'price', 'in_stock'),
     extra=1,
-    # widgets={
-    #     'color': forms.TextInput(
-    #         attrs={
-    #             'class': 'col',
-    #             'placeholder': 'Enter Colour ',
-    #             'labels': 'None'
-    #         }
-    #     ),
-    #     'size': forms.TextInput(
-    #         attrs={
-    #             'class': 'col',
-    #             'placeholder': 'Enter size',
-    #             'labels': 'None'
-    #         }
-    #     ),
-    #     'price': forms.NumberInput(
-    #         attrs={
-    #             'class': 'col',
-    #             'placeholder': 'Enter size',
-    #             'labels': 'None'
-    #         }
-    #     ),
-    #     'in_stock': forms.CheckboxInput(
-    #         attrs={
-    #             'class': 'col',
-    #             'labels': 'None'
-    #         }
-    #     )
-    # }
+   
+)
+ProductImageFormset = modelformset_factory(
+    ProductImage,
+    fields=('image',),
+    extra=1,
+   
 )
 
 

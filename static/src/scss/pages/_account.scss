@@ -1,0 +1,311 @@
+.account-sign {
+    padding: 100px 0px;
+    background-color: $gray;
+
+    &-in {
+        padding: 45px;
+        background-color: $white;
+        border-radius: 5px;
+        margin-right: 24px;
+
+        h5 {
+            color: $black;
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        form {
+            .form__div {
+                margin-bottom: 24px;
+
+                input {
+                    border: 1px solid $lightBlack;
+                    border-radius: 4px;
+                    padding: 20px;
+                    width: 100% !important;
+                }
+            }
+
+            .password-info {
+                margin-top: 12px;
+                margin-bottom: 30px;
+
+                &-left {
+                    display: flex;
+                    align-items: center;
+
+                    input {
+                        width: 15px;
+                        height: 15px;
+                        border-color: $lightBlack;
+                        border-radius: 2px;
+                        margin-right: 6px;
+                    }
+
+                    label {
+                        cursor: pointer;
+                        font-size: 14px;
+                        color: $lightBlack;
+                    }
+                }
+
+                &-right {
+                    a {
+                        color: $black;
+                        font-size: 14px;
+                    }
+                }
+            }
+
+            .btn {
+                width: 100%;
+                padding: 15px 0px;
+                background-color: $blue;
+                font-size: 14px;
+                border-radius: 4px;
+
+                &:focus {
+                    background-color: $blue;
+                    border: none;
+                    box-shadow: none;
+                }
+            }
+        }
+
+        .social-signing {
+            margin-top: 30px;
+
+            p {
+                font-size: 14px;
+                font-weight: 400;
+                margin-bottom: 15px;
+            }
+
+            &-link {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-wrap: wrap;
+
+                a {
+                    margin-left: 16px;
+                    border: 1px solid $gray;
+                    color: $lightBlack;
+                    padding: 12px 18px;
+                    border-radius: 3px;
+                    width: 120px;
+                    display: flex;
+                    align-items: center;
+
+                    svg {
+                        margin-right: 5px;
+                    }
+                }
+            }
+        }
+    }
+
+    &-up {
+        padding: 45px;
+        background-color: $white;
+        border-radius: 5px;
+        margin-left: 24px;
+
+        h5 {
+            color: $black;
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        form {
+            .form__div {
+                margin-bottom: 24px;
+
+                input {
+                    border: 1px solid $lightBlack;
+                    border-radius: 4px;
+                    padding: 20px;
+                    width: 100% !important;
+                }
+            }
+
+            .password-info-show {
+                margin-top: 12px;
+                margin-bottom: 32px;
+                display: flex;
+                align-items: center;
+
+                input {
+                    margin-right: 6px;
+                    width: 15px;
+                    height: 15px;
+                    border-color: $lightBlack;
+                    border-radius: 2px;
+                }
+
+                label {
+                    cursor: pointer;
+                    font-size: 14px;
+                    color: $lightBlack;
+                }
+            }
+
+            .btn {
+                width: 100%;
+                padding: 15px 0px;
+                background-color: $blue;
+                font-size: 14px;
+                border-radius: 4px;
+
+                &:focus {
+                    background-color: $blue;
+                    border: none;
+                    box-shadow: none;
+                }
+            }
+        }
+    }
+}
+
+// Responsive
+// large devices 992px - 1169px
+@media (min-width: 992px) and (max-width: 1200px) {
+    .account-sign-in .social-signing-link a {
+        width: 100%;
+        margin-bottom: 20px;
+        text-align: center;
+        margin-left: 0;
+        justify-content: center;
+    }
+
+    .account-sign-in {
+        margin-right: 0;
+    }
+
+    .account-sign-up {
+        margin-left: 0;
+    }
+}
+
+// Medium devices 768px - 991px
+@media (min-width: 768px) and (max-width: 991px) {
+    .account-sign {
+        padding: 70px;
+    }
+
+    .account-sign-in {
+        margin-right: 0;
+        margin-bottom: 50px;
+    }
+
+    .account-sign-up {
+        margin-left: 0;
+    }
+}
+
+// Small devices 575px - 767px
+@media (min-width: 575px) and (max-width: 767px) {
+    .account-sign {
+        padding: 10px;
+        padding-bottom: 50px;
+        padding-top: 50px;
+    }
+
+    .account-sign-in {
+        margin-right: 0;
+        margin-bottom: 40px;
+    }
+
+    .account-sign-up {
+        margin-left: 0;
+    }
+
+    .account-sign-in .social-signing-link a {
+        width: 100%;
+        margin-bottom: 20px;
+        text-align: center;
+        margin-left: 0;
+        justify-content: center;
+    }
+}
+
+// Small devices 420px - 574px
+@media only screen and (min-width: 420px) and (max-width: 574px) {
+    .account-sign {
+        padding: 10px;
+        padding-bottom: 50px;
+        padding-top: 50px;
+    }
+
+    .account-sign-in {
+        margin-right: 0;
+        margin-bottom: 40px;
+        padding: 30px 15px;
+    }
+
+    .account-sign-up {
+        margin-left: 0;
+        padding: 30px 15px;
+    }
+
+    .account-sign-in .social-signing-link a {
+        width: 100%;
+        margin-bottom: 20px;
+        text-align: center;
+        margin-left: 0;
+        justify-content: center;
+    }
+}
+
+// extra Small devices 420px
+@media (max-width: 420px) {
+    .account-sign {
+        padding: 10px;
+        padding-bottom: 55px;
+        padding-top: 30px;
+    }
+    .account-sign-up h5, 
+    .account-sign-in h5{
+        margin-bottom: 20px;
+    }
+    .account-sign-in {
+        margin-right: 0;
+        margin-bottom: 40px;
+        padding: 24px 15px;
+        .form__div{
+            margin-bottom: 16px !important;
+        }
+    }
+
+    .account-sign-in form .password-info {
+        flex-direction: column;
+        align-content: flex-start;
+        margin-bottom: 15px;
+    }
+
+    .account-sign-in form .password-info-left {
+        margin-bottom: 6px;
+    }
+
+    .account-sign-up {
+        margin-left: 0;
+        padding: 24px 15px;
+        .form__div{
+            margin-bottom: 16px !important;
+        }
+    }
+
+    .account-sign-in .social-signing-link a {
+        width: 100%;
+        margin-bottom: 10px;
+        text-align: center;
+        margin-left: 0;
+        justify-content: center;
+    }
+    .account-sign-in .social-signing{
+        margin-top: 20px;
+    }
+
+}

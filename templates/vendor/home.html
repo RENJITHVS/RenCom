@@ -19,7 +19,7 @@
 <!-- Catagory Search End -->
 
 <!-- Catagory item start -->
-<section class="categoryitem">
+{% comment %} <section class="categoryitem">
     <div class="container">
         <div class="row justify-content-center">
             <div class="categoryitem-wrapper">
@@ -39,12 +39,12 @@
             </div>
         </div>
     </div>
-</section>
+</section> {% endcomment %}
 <!-- Catagory item End -->
 </form> 
 
-<!-- Populer Product Strat -->
-<section class="populerproduct bg-white p-0 shop-product">
+<!-- Vendor Product Strat -->
+<section class="populerproduct bg-white p-0 shop-product mt-5">
     <div class="container">
         <div class="row my-4">
                 <div class="col-6 text-left">
@@ -91,7 +91,7 @@
                     </div>
                     <div class="product-item-info">
                         <a href="{{ product.get_absolute_url }}">{{ product.title|truncatechars:20 }}</a>
-                        <span>Rs {{ product.price }}</span> <del>Rs {{ product.mrp_price}}</del>
+                        <span>Rs {{ product.attributes.first.price }}</span> <del>Rs {{ product.mrp_price}}</del>
                     </div>
                 </div>
             </div>

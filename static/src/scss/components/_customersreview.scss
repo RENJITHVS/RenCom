@@ -1,0 +1,257 @@
+.customersreview{
+    padding-bottom: 100px;
+    &-wrapper{
+        position: relative;
+        .slick-dots{
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            li{
+                width: 10px;
+                height: 10px;
+                border-radius: 100%;
+                background-color: $lightBlack;
+                margin: 0 10px;
+                button{
+                    font-size: 0;
+                    border: 0;
+                }
+                &.slick-active{
+                    background-color: $black;
+                }
+            }
+        }
+        .slider-arrows{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1;
+            .prev-arrow,
+            .next-arrow{
+                width: 52px;
+                height: 52px;
+                background-color: transparent;
+                border-radius: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 1px solid $gray;
+                cursor: pointer;
+                transition: .3s;
+                &:hover{
+                    background-color: $blue;
+                    svg {
+                     path {
+                         stroke: $white;
+                     }
+                 }
+                }
+            }
+            .prev-arrow{
+             position: absolute;
+             top: 50%;
+             left: 0;
+             transform: translateY(-50%);
+            }
+            .next-arrow{
+             position: absolute;
+             top: 50%;
+             right: 0;
+             transform: translateY(-50%);
+            }
+        } 
+         .slick-slide {
+             margin: 0 15px;
+         }
+         .slick-list {
+             margin: 0 -15px;
+         }
+    }
+    &-active{
+        padding: 0 100px;
+    }
+    &-item{
+        padding: 25px 20px;
+        text-align: center;
+        border: 1px solid $gray;
+        border-radius: 4px;
+        .name{
+            margin-top: 20px;
+            h6{
+                color: $black;
+                font-size: 18px;
+                line-height: 1.3;
+            }
+            span{
+                font-size: 14px;
+                line-height: 1.2;
+                color: $lightBlack;
+            }
+        }
+    }
+}
+
+/*----------------------------------------*/
+/*  RESPONSIVE CSS START 
+/*----------------------------------------*/
+
+/* large devices 992 - 1169*/
+@media (min-width: 992px) and (max-width: 1200px) {
+    .customersreview{
+        padding-bottom: 70px;
+        &-active{
+            padding: 0 70px;
+        }
+        &-item{
+            padding: 25px 20px;
+            text-align: center;
+            border: 1px solid $gray;
+            border-radius: 4px;
+            .name{
+                margin-top: 20px;
+                h6{
+                    color: $black;
+                    font-size: 18px;
+                    line-height: 1.3;
+                }
+                span{
+                    font-size: 14px;
+                    line-height: 1.2;
+                    color: $lightBlack;
+                }
+            }
+        }
+    }
+}
+
+/* Medium devices 768 - 991 */
+@media (min-width: 768px) and (max-width: 991px) {
+    .customersreview{
+        padding-bottom: 50px;
+        &-active{
+            padding: 0 50px;
+        }
+        .slider-arrows{
+            .prev-arrow,
+            .next-arrow{
+                width: 42px;
+                height: 42px;
+            }
+        }
+        &-item{
+            padding: 25px 20px;
+            text-align: center;
+            border: 1px solid $gray;
+            border-radius: 4px;
+            .name{
+                margin-top: 20px;
+                h6{
+                    color: $black;
+                    font-size: 18px;
+                    line-height: 1.3;
+                }
+                span{
+                    font-size: 14px;
+                    line-height: 1.2;
+                    color: $lightBlack;
+                }
+            }
+        }
+    }
+}
+/* Small devices 575 - 767 */
+@media (min-width: 575px) and (max-width: 767px) {
+    .customersreview{
+        padding-bottom: 50px;
+        &-wrapper{
+            .slider-arrows{
+                display: none;
+            } 
+        }
+        &-active{
+            padding: 0;
+        }
+        &-item{
+            padding: 20px 15px;
+            p{
+                font-size: 14px;
+            }
+            .name{
+                margin-top: 10px;
+                h6{
+                    font-size: 16px;
+                    margin: 0;
+                }
+                span{
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+    
+}
+
+
+/* Small devices 420 - 574 */
+@media only screen and (min-width: 420px) and (max-width: 575px) {
+    .customersreview{
+        padding-bottom: 50px;
+        &-wrapper{
+            .slider-arrows{
+                display: none;
+            } 
+        }
+        &-active{
+            padding: 0;
+        }
+        &-item{
+            padding: 20px 15px;
+            p{
+                font-size: 14px;
+            }
+            .name{
+                margin-top: 10px;
+                h6{
+                    font-size: 16px;
+                    margin: 0;
+                }
+                span{
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+    
+}
+/* extra Small devices 420 */
+@media (max-width: 420px) {
+    .customersreview{
+        padding-bottom: 50px;
+        &-wrapper{
+            .slider-arrows{
+                display: none;
+            } 
+        }
+        &-active{
+            padding: 0;
+        }
+        &-item{
+            padding: 20px 15px;
+            p{
+                font-size: 14px;
+            }
+            .name{
+                margin-top: 10px;
+                h6{
+                    font-size: 16px;
+                    margin: 0;
+                }
+                span{
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+    
+}

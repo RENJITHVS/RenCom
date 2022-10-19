@@ -4,6 +4,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from customers.forms import RegistrationForm
 from customers.models import User, Address
+from .forms import UserUpdateForm, ProfileUpdateForm
 from shop.models import Product
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes
@@ -12,6 +13,7 @@ from customers.tokens import account_activation_token
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.decorators import user_passes_test, login_required
 from shop.forms import ProductFilter
+from django.http import HttpResponseRedirect
 
 from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
@@ -103,8 +105,33 @@ def vendor_login(request):
 
         if user is not None:
             login(request, user)
-            return redirect('vendors:vendor_home')
+            if request.user.vendorprofile.approved:
+                return redirect('vendors:vendor_home')
+            else:
+                messages.warning(request, "your profile is not yet verified")
+                return redirect('vendors:vendor_settings')
         else:
             messages.error(request, "Email and password doesn't match")
 
     return render(request, 'vendor/vendor-login.html')
+
+def vendor_document_update(request):
+
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST,
+                                   request.FILES,
+                                   instance=request.user.vendorprofile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f'Your account details has been sent to Admin, You will notify when approved !')
+            return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.vendorprofile)
+    context = {
+        'u_form': u_form,
+        'p_form': p_form
+    }
+    return render(request, 'vendor/settings.html', context)

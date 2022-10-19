@@ -9,7 +9,7 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.contrib import messages
-from .forms import AddressFormSet, RegistrationForm, UserLoginForm, AddressForm
+from .forms import RegistrationForm, UserUpdateForm, ProfileUpdateForm
 from .models import User, Address
 from django.shortcuts import get_object_or_404
 from django.utils.encoding import force_bytes, force_str
@@ -107,7 +107,7 @@ def account_activate(request, uidb64, token):
         messages.success(
             request, f"Hi {user.full_name}! verification Successfull")
         if request.user.role == "VENDOR":
-            return redirect('vendors:vendor_home')
+            return redirect('vendors:vendor_settings')
         if request.user.role == "CUSTOMER":
             return redirect('customers:home')
         else:
@@ -116,25 +116,6 @@ def account_activate(request, uidb64, token):
     else:
         messages.error(request, "User Verification Failed")
         return render(request, 'user/activation_invalid.html')
-
-
-@login_required
-def billing_details(request):
-    cart = Cart(request)
-    user = request.user.customerprofile
-    if request.method == "POST":
-        formset = AddressFormSet(request.POST,  instance=user)
-        if formset.is_valid():
-            formset.save()
-            messages.success(request, 'address added successfully')
-            return redirect('customers:billing_details')
-    else:
-        address_details = Address.objects.filter(customer=user)
-        if address_details is not None:
-            formset = AddressFormSet(instance=user)
-        else:
-            formset = AddressFormSet()
-    return render(request, 'orders/billing_info.html', {'formset': formset, 'cart': cart})
 
 
 @login_required
@@ -159,7 +140,7 @@ def add_to_wishlist(request, id):
     product = get_object_or_404(Product, id=id)
     if product.wishlist_user.filter(id=request.user.customerprofile.id).exists():
         product.wishlist_user.remove(request.user.customerprofile)
-        messages.success(request, product.title +
+        messages.warning(request, product.title +
                          " has been removed from your WishList")
     else:
         product.wishlist_user.add(request.user.customerprofile)
@@ -186,3 +167,23 @@ def add_to_wishlist(request, id):
 #             messages.error(request, 'error occured')
 #             return redirect('customers:add_billing_address')
 #     return render(request, 'orders/billing_form.html', {'form': form})
+
+def view_settings(request):
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST,
+                                   request.FILES,
+                                   instance=request.user.customerprofile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f'Your account detailshas been updated!')
+            return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.customerprofile)
+    context = {
+        'u_form': u_form,
+        'p_form': p_form
+    }
+    return render(request, 'user/settings.html', context)

@@ -10,7 +10,7 @@
                 <!-- Dashboard-Nav  Start-->
                 <div class="dashboard-nav">
                     <ul class="list-inline">
-                        <li class="list-inline-item"><a href="#">Account
+                        <li class="list-inline-item"><a href={% url 'customers:settings-user' %}"">Account
                                 settings</a></li>
                         <li class="list-inline-item"><a href="{% url 'payment:add-address' %}">Billing information</a></li>
                         <li class="list-inline-item"><a href="{% url 'customers:wishlist' %}">My wishlist</a></li>
@@ -53,46 +53,44 @@
                             </div>
                             <div class="name">
                                 <div class="name-text">
-                                    <p> {{ product.product.title }}</p>
+                                    <p class="mb-1"> {{ product.product.title }}</p>
                                 </div>
-                                <div class="button">
-                                    <a class="btn bg-primary" href="#">Order again</a>
-                                    <a class="cart-btn" href="#">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="18"
-                                            viewBox="0 0 20 18">
-                                            <g id="Heart" transform="translate(1 1)">
-                                                <path id="Heart-2" data-name="Heart"
-                                                    d="M18.161,4.413a4.674,4.674,0,0,0-6.7,0l-.913.93-.913-.93a4.675,4.675,0,0,0-6.7,0,4.893,4.893,0,0,0,0,6.828l.913.93L10.548,19l6.7-6.828.913-.93a4.892,4.892,0,0,0,0-6.828Z"
-                                                    transform="translate(-1.549 -2.998)" fill="#fff" stroke="#1a2224"
-                                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                                            </g>
-                                        </svg>
-                                    </a>
-                                    <a class="btn btn-secondary" href="#">remove</a>
+                                <div class="button mt-2">
+                                    {% if product.order_status != "Cancelled" %}
+                                    <a class="btn btn-warning">Cancel order</a>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="price">
                                 <span>Rs {{product.price}}</span> 
                             </div>
                             <div class="rating">
-                                <i class="fas fa-star"></i> 5.0
+                                <li>
+                                    {% with item=product.product %}
+                                    {% for star in item.get_avg_rating|ljust:item.get_avg_rating %}
+                                        <i class="fas fa-star"></i>
+                                    {% endfor %}
+                                    {% endwith %}
+                                </li>
+                                <small><li>{{product.product.get_avg_rating}}({{product.product.count_review}} Rating)</li></small>
                             </div>
                             <div class="info status">
                                 <div class="status-timer">
                                     <h6>
-                                        Arriving on!
+                                        Order Status
                                     </h6>
                                     <ul>
-                                        <li>1
-                                            <p>Day</p>
-                                        </li>
-                                        <li>19
-                                            <p>Hours</p>
-                                        </li>
-                                        <li>34
-                                            <p>Min</p>
-                                        </li>
+                                        {% if product.order_status == "In process" %}
+                                        <button class="btn btn-secondary w-100">{{product.order_status}}</button>
+                                        {% elif product.order_status == "Shipped" %}
+                                        <button class="btn btn-info  w-100">{{product.order_status}}</button>
+                                        {% elif product.order_status == "Delivered" %}
+                                        <button class="btn btn-success  w-100">{{product.order_status}}</button>
+                                        {% elif product.order_status == "Cancelled" %}
+                                        <button class="btn btn-danger  w-100">{{product.order_status}}</button>
+                                        {% endif %}
                                     </ul>
+                                    <ul>{{ product.order.created| timesince }} ago<ul>
                                 </div>
                             </div>
                         </div>

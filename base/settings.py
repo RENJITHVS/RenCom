@@ -145,13 +145,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
+
 # Custom user model
 AUTH_USER_MODEL = "customers.User"
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
-
 
 MESSAGE_TAGS = {
     messages.DEBUG: 'question',
@@ -227,9 +227,40 @@ JAZZMIN_SETTINGS = {
         'orders.orderitem': 'fas fa-receipt',
         'orders.order': 'fas fa-receipt',
 
-        'vendors.vendorprofile': 'fa fa-id-badge'
+        'vendors.vendorprofile': 'fa fa-id-badge',
+
+        'shop.category' : 'fa fa-edit',
+        'shop.product' : 'fa fa-industry',
+        'shop.color' : 'fa fa-flag'
+
     },
 
 }
+SUMMERNOTE_CONFIG = {
+    # You can put custom Summernote settings
+    'summernote':{
+       # As an example, using Summernote Air-mode
+        'airMode': False,
 
+        # Change editor size
+        'width': '100%',
+        'height': '480',
+
+         # Toolbar customization
+        # https://summernote.org/deep-dive/#custom-toolbar-popover
+        'toolbar': [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['fontname', ['fontname']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['view', ['fullscreen', 'codeview', 'help']],
+        ],
+
+        # Use proper language setting automatically (default)
+        'lang': None,
+    },
+    
+}
 SUMMERNOTE_THEME = 'bs5'

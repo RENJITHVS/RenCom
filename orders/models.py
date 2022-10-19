@@ -1,6 +1,4 @@
 
-from email.policy import default
-from enum import unique
 from django.db import models
 from customers.models import CustomerProfile
 from vendors.models import VendorProfile
@@ -8,10 +6,10 @@ from shop.models import Product
 
 # Order
 status_choice = (
-    ('process', 'In Process'),
-    ('shipped', 'Shipped'),
-    ('delivered', 'Delivered'),
-    ('cancelled', 'Cancelled'),
+    ('In process', 'In Process'),
+    ('Shipped', 'Shipped'),
+    ('Delivered', 'Delivered'),
+    ('Cancelled', 'Cancelled'),
 )
 
 
@@ -42,6 +40,13 @@ class Order(models.Model):
     def __str__(self):
         return str(self.created)
 
+class OrderItemManager(models.Manager):
+    """
+    filter only active products
+    """
+
+    def get_queryset(self):
+        return super(OrderItemManager, self).get_queryset().order_by('-order__created')
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order,
@@ -53,9 +58,13 @@ class OrderItem(models.Model):
     price = models.DecimalField(max_digits=8, decimal_places=2)
     quantity = models.PositiveIntegerField(default=1)
     order_status = models.CharField(
-        choices=status_choice, default='process', max_length=150)
+        choices=status_choice, default='In process', max_length=150)
     refund_requested = models.BooleanField(default=False)
     refund_granted = models.BooleanField(default=False)
+
+    objects = OrderItemManager()
+
+    
 
     def __str__(self):
         return str(self.id)

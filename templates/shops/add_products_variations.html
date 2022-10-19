@@ -37,10 +37,9 @@
                 <div class ="varation-form border p-5 mb-3">
                     <div class="row">
                         {{ form.id }}
-                        <div class="col-md-3">{{ form.color|as_crispy_field}}</div>
-                        <div class="col-md-3">{{ form.size|as_crispy_field}}</div>
-                        <div class="col-md-3">{{ form.price|as_crispy_field}}</div>
-                        <div class="col-md-3">{{ form.in_stock|as_crispy_field}}</div>  
+                        <div class="col-md-4">{{ form.color|as_crispy_field}}</div>
+                        <div class="col-md-4">{{ form.price|as_crispy_field}}</div>
+                        <div class="col-md-4">{{ form.in_stock|as_crispy_field}}</div>  
                     </div>
                 </div>
                 {% endfor %}

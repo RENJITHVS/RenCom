@@ -3,8 +3,8 @@ from django.contrib import messages
 from django.urls import reverse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.db.models import Q
-from .models import Category, Product, ProductAttribute, ProductReview
-from .forms import ProductFilter, AddProductForm, ProductVarationFormset, AddProductImagesForm
+from .models import Category, Product, ProductAttribute, ProductImage, ProductReview
+from .forms import ProductFilter, AddProductForm, ProductVarationFormset, AddProductImagesForm, ProductImageFormset
 from django.http import HttpResponseRedirect, JsonResponse
 
 from django.core.paginator import Paginator
@@ -18,7 +18,6 @@ from django.db.models import Avg, Count
 def all_products(request):
     filtered_products = ProductFilter(
         request.GET, queryset=Product.products.all())
-
     productQs = filtered_products.qs
     paginated_by = 20
     paginator = Paginator(productQs, paginated_by)
@@ -36,7 +35,6 @@ def all_products(request):
         'no_search': True
     }
     return render(request, 'shops/all_products.html', context)
-
 
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug, is_active=True)
@@ -107,6 +105,23 @@ def add_products_images(request, prodslug):
             return HttpResponseRedirect(reverse('shop:product_preview', kwargs={'prodslug': product.slug}))
     form = AddProductImagesForm(instance=product)
     return render(request, 'shops/add_product_images.html', {'form': form})
+
+def add_products_images_extra(request, prodslug):
+    product = get_object_or_404(Product, slug=prodslug)
+    formset = ProductImageFormset(
+        queryset=ProductImage.objects.filter(product=product.id))
+    if request.method == "POST":
+        formset =  ProductImageFormset(
+            request.POST, request.FILES,)
+        if formset.is_valid():
+            instances = formset.save(commit=False)
+            for instance in instances:
+                instance.product = product
+                instance.save()
+            messages.success(request, "Product extra Images added successfully")
+            return HttpResponseRedirect(reverse('shop:product_preview', kwargs={'prodslug': product.slug}))
+    
+    return render(request, 'shops/add_extra_images.html', {'formset': formset})
 
 
 def product_previews(request, prodslug):

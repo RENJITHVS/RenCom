@@ -53,29 +53,11 @@
             <div class="d-none d-lg-block">
                 <nav class="menu-area d-flex align-items-center">
                     <div class="logo">
-                        <a href="{% url 'customers:home' %}"><img src="{% static 'dist/images/logo/logo-vendor.png' %}" alt="logo" style="max-width:10rem"/></a>
+                        <a href="{% url 'vendors:vendor_home' %}"><img src="{% static 'dist/images/logo/logo-vendor.png' %}" alt="logo" style="max-width:10rem"/></a>
                     </div>
                     <ul class="main-menu d-flex align-items-center">
-                        <li><a class="active" href="{% url 'customers:home' %}">Home</a></li>
-                        <li>
-                            <a href="{% url 'customers:home' %}" class="d-flex flex-row"><div class="right d-inline mx-2">Category</div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="9.98" height="5.69"
-                                    viewBox="0 0 9.98 5.69" class="left d-inline mt-1">
-                                    <g id="Arrow" transform="translate(0.99 0.99)">
-                                        <path id="Arrow-2" data-name="Arrow" d="M1474.286,26.4l4,4,4-4"
-                                            transform="translate(-1474.286 -26.4)" fill="none" stroke="#1a2224"
-                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4" />
-                                    </g>
-                                </svg>
-                            </a>
-                            <ul class="sub-menu">
-                                <li><a href="javascript:void(0)">Category 1</a></li>
-                                <li><a href="javascript:void(0)">Category 2</a></li>
-                                <li><a href="javascript:void(0)">Category 3</a></li>
-                                <li><a href="javascript:void(0)">Category 4</a></li>
-                                <li><a href="javascript:void(0)">Category 5</a></li>
-                            </ul>
-                        </li>
+                        <li><a class="active" href="{% url 'vendors:vendor_home' %}">Home</a></li>
+                        
                     </ul>
                     
                     <div class="ml-auto">

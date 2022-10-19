@@ -10,4 +10,5 @@ urlpatterns = [
      path('signup/', views.vendor_signup, name='vendor_signup'),
      path('login/', views.vendor_login, name='vendor_login'),
     path("logout/", auth_views.LogoutView.as_view(next_page="/vendor/login/"), name="vendor-logout"),
+    path("vendor_settings/", views.vendor_document_update, name="vendor_settings"),
 ]

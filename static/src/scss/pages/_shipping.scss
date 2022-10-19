@@ -1,0 +1,333 @@
+.shipping-area {
+    padding-top: 50px;
+    padding-bottom: 100px;
+
+    .dashboard-nav {
+        margin-bottom: 100px;
+
+        .list-inline {
+            display: inline-block;
+
+            &-item {
+                a {
+                    margin-right: 12px;
+                }
+
+                i {
+                    color: $lightBlack;
+                    font-size: 16px;
+                    margin-right: 2px;
+                }
+            }
+        }
+
+    }
+    .shipping-info-form {
+        &-text {
+            h6 {
+                font-size: 24px;
+                font-weight: 600;
+                color: $black;
+                margin-bottom: 20px;
+            }
+        }
+
+        .shipping-info {
+            margin-bottom: 16px;
+            display: flex;
+            align-content: flex-start;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+
+            .shipping-info-text .right.mar-5 {
+                margin-left: 6px;
+            }
+
+            &-text {
+                display: flex;
+                align-content: flex-start;
+
+                .left {
+                    margin-right: 45px;
+
+                    span {
+                        font-size: 14px;
+                        font-weight: 400;
+                        color: $lightBlack;
+                    }
+                }
+
+                .right {
+                    p {
+                        font-size: 16px;
+                        font-weight: 400;
+                        color: $black;
+                        margin-bottom: 5px;
+                    }
+                }
+            }
+
+            &-button {
+                button {
+                    border: none !important;
+                    background-color: transparent;
+                    color: $lightBlack;
+                    font-size: 14px;
+                    font-weight: 500;
+                }
+            }
+        }
+
+        .mod {
+            padding-top: 16px;
+            border-top: 1px solid $gray;
+        }
+
+        .form {
+            margin-top: 50px;
+
+            h6 {
+                font-size: 24px;
+                font-weight: 600;
+                color: $black;
+                margin-bottom: 20px;
+            }
+
+            form {
+                .select-button.modifier {
+                    padding: 22px 0px;
+                    border-top: 1px solid $gray;
+                    border-bottom: 1px solid $gray;
+                }
+
+                .select-button {
+                    display: flex;
+                    align-items: flex-start;
+                    align-content: flex-start;
+                    justify-content: space-between;
+                    margin-bottom: 22px;
+
+                    .button-area {
+                        display: flex;
+                        align-items: flex-start;
+                        align-content: flex-start;
+
+                        .radio-button {
+                            margin-right: 20px;
+
+                            input {
+                                width: 24px;
+                                height: 24px;
+                                cursor: pointer;
+                            }
+                        }
+
+                        .text-area {
+                            p {
+                                font-size: 16px;
+                                font-weight: 400;
+                                color: $black;
+                                max-width: 545px;
+                            }
+                        }
+                    }
+
+                    &-text {
+                        span {
+                            font-size: 14px;
+                            font-weight: 400;
+                            color: $lightBlack;
+                            text-align: right;
+                        }
+                    }
+                }
+
+                .bottom {
+                    margin-top: 50px;
+
+                    a {
+                        color: $black;
+                        font-size: 16px;
+                        font-weight: 500;
+
+                        i {
+                            margin-right: 5px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .card-price {
+        margin-left: 20px;
+    }
+}
+
+// Responsive
+
+// large devices 992px - 1169px
+@media (min-width: 992px) and (max-width: 1200px) {
+    .shipping-area .shipping-info-form .shipping-info-text .left {
+        margin-right: 30px;
+    }
+
+    .shipping-area .shipping-info-form .form form .select-button .button-area {
+        margin-right: 20px;
+    }
+
+    .shipping-info-text .right {
+        max-width: 305px;
+    }
+}
+
+// Medium devices 768px - 991px
+@media (min-width: 768px) and (max-width: 991px) {
+    .shipping-area .dashboard-nav {
+        margin-bottom: 50px;
+    }
+
+    .shipping-area .card-price {
+        margin-left: 0;
+        margin-bottom: 50px;
+    }
+}
+
+// Small devices 575px - 767px
+@media (min-width: 575px) and (max-width: 767px) {
+    .shipping-area .dashboard-nav {
+        margin-bottom: 50px;
+    }
+
+    .shipping-area .card-price {
+        margin-left: 0;
+        margin-bottom: 50px;
+    }
+
+    .shipping-info-text .right {
+        max-width: 305px;
+    }
+
+    .shipping-area .shipping-info-form .shipping-info-text .left {
+        width: 60px;
+        margin-right: 20px;
+    }
+
+    .shipping-area .shipping-info-form .shipping-info .shipping-info-text .right.mar-5 {
+        margin-left: 0;
+    }
+
+    .shipping-area .shipping-info-form .form form .select-button .button-area {
+        max-width: 85%;
+    }
+
+    .shipping-area {
+        padding-bottom: 50px;
+    }
+}
+
+// Small devices 420px - 574px
+@media only screen and (min-width: 420px) and (max-width: 574px) {
+    .shipping-area .dashboard-nav {
+        margin-bottom: 50px;
+    }
+
+    .shipping-area .card-price {
+        margin-left: 0;
+        margin-bottom: 50px;
+    }
+
+    .shipping-info-text .right {
+        max-width: 305px;
+        margin-left: -36px;
+    }
+
+    .shipping-area .shipping-info-form .shipping-info-text {
+        max-width: 85%;
+    }
+
+    .shipping-area .shipping-info-form .shipping-info-text .left {
+        width: 90px;
+        margin-right: 20px;
+    }
+
+    .shipping-area .shipping-info-form .shipping-info .shipping-info-text .right.mar-5 {
+        margin-left: 0;
+    }
+
+    .shipping-area .shipping-info-form .form form .select-button .button-area {
+        max-width: 85%;
+    }
+
+    .shipping-area {
+        padding-bottom: 50px;
+    }
+}
+
+// extra Small devices 420px
+@media (max-width: 420px) {
+    .shipping-area .dashboard-nav {
+        margin-bottom: 30px;
+    }
+
+    .shipping-area .card-price {
+        margin-left: 0;
+        margin-bottom: 50px;
+    }
+
+    .shipping-info-text .right {
+        margin-top: 5px;
+        margin-bottom: 10px;
+    }
+
+    .shipping-area .shipping-info-form .shipping-info {
+        flex-direction: column;
+    }
+
+    .shipping-area .shipping-info-form .shipping-info-text {
+        flex-direction: column;
+    }
+
+    .shipping-area .shipping-info-form .shipping-info-text .left {
+        width: 90px;
+        margin-right: 20px;
+    }
+
+    .shipping-area .shipping-info-form .shipping-info .shipping-info-text .right.mar-5 {
+        margin-left: 0;
+    }
+
+    .shipping-area .shipping-info-form .form form .select-button .button-area {
+        max-width: 80%;
+    }
+
+    .shipping-area .shipping-info-form .form form .select-button .button-area .text-area p {
+        font-size: 14px;
+    }
+
+    .shipping-area .shipping-info-form .form form .select-button .button-area .radio-button {
+        margin-right: 10px;
+    }
+
+    .shipping-area {
+        padding-bottom: 50px;
+    }
+
+    .shipping-area .shipping-info-form .form form .bottom {
+        margin-top: 10px;
+
+        a {
+            margin-bottom: 15px;
+        }
+    }
+
+    .shipping-area .shipping-info-form .shipping-info-text .right p {
+        font-size: 14px;
+    }
+
+    .shipping-area .shipping-info-form .form form .select-button .button-area .radio-button input {
+        width: 20px;
+        height: 20px;
+    }
+}

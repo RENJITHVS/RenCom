@@ -1,0 +1,138 @@
+ {% extends '../base.html' %}
+ {% load crispy_forms_tags %}
+ {% block content %}
+ <!-- Billing Info Area Start -->
+ <section class="billing-info-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- Dashboard-Nav  Start-->
+                <div class="dashboard-nav">
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><a class="active">Add Address</a> <i
+                            class="fas fa-angle-right"></i></li>
+                        <li class="list-inline-item"><a href="#" >Billing
+                                information</a>
+                            <i class="fas fa-angle-right"></i></li>
+                        <li class="list-inline-item"><a href="#" class="mr-0">Payment</a></li>
+                    </ul>
+                </div>
+                <!-- Dashboard-Nav  End-->
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-lg-7" >
+            <form method="POST" id="form-container" enctype="multipart/form-data">
+                    {% csrf_token %}
+                <div class="deliver-info-form">
+                    <h6>Billing information</h6>
+                    {{formset.management_form}}
+                    {% for form in formset %}
+                    <div class="address-form border p-4 m-2">
+                        {{ form.id }}
+                        <div class="row my-1">
+                            {{ form.full_name|as_crispy_field }}
+                        </div>
+                        <div class="row my-1">
+                            {{ form.address_line|as_crispy_field }}
+                        </div>
+                        <div class="row my-1">
+                            <div class="col-6 mb-0">
+                                {{ form.city|as_crispy_field }}
+                            </div>
+                            <div class="col-6 mb-0">
+                                {{ form.pincode|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="row my-1">
+                            {{ form.phone|as_crispy_field }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                        <button class="btn btn-primary" type="submit"> Save Address</button>
+                   
+                    
+                    {% comment %} <button type="button" class="btn btn-primary btn-sm w-100" hx-get="{% url 'customers:add_billing_address' %}" hx-target="#bookforms" hx-swap="beforeend">
+                        Add form
+                    </button>
+                    <div id="bookforms"></div> {% endcomment %}
+                    {% comment %} <form method="POST">
+                        {% csrf_token %}
+                        {{formset.management_form | crispy }}   
+                        {% for form in formset.forms %}
+                        {{ form.id }}
+                        {% for field in form.visible_fields %}
+                        <div class="my-1 px-2">
+                            {{ field|as_crispy_field }}
+                        </div>
+                        {% endfor %}
+                        {% endfor %}
+                        <button type='submit' class="btn btn-primary">Add Addresses</button>
+                    </form> {% endcomment %}
+                </div>
+            </form>
+            </div>
+            <div class="col-lg-5">
+                <div class="card-price">
+                    <h6>Check Summery</h6>
+                    <div class="card-price-list d-flex justify-content-between align-items-center">
+                        <div class="item">
+                            <p>{{ cart.len }} Item Orginal Cost</p>
+                        </div>
+                        <div class="price">
+                            <p>Rs {{ cart.orginal_price }}</p>
+                        </div>
+                    </div>
+                    <div class="card-price-list d-flex justify-content-between align-items-center">
+                        <div class="item">
+                            <p>{{ cart.len }} Our Cost</p>
+                        </div>
+                        <div class="price">
+                            <p>Rs {{ cart.get_subtotal_price }}</p>
+                        </div>
+                    </div>
+                    <div class="card-price-list d-flex justify-content-between align-items-center">
+                        <div class="item">
+                            <p>Shipping Cost</p>
+                        </div>
+                        <div class="price">
+                            <p>Rs {{ cart.get_shipping_cost }}</p>
+                        </div>
+                    </div>
+                    {% if request.session.coupon %}
+                    <div class="card-price-list d-flex justify-content-between align-items-center">
+                        <div class="item">
+                            <p>Discount</p>
+                        </div>
+                        
+                        <span class="badge bg-primary">Promotion Applied with {{request.session.coupon}} </span>
+                        
+                        <div class="price">
+                            <p>- Rs {{ cart.get_coupon_amount }} </p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="card-price-list d-flex justify-content-between align-items-center">
+                        <div class="total-text">
+                            <p>Total Saved</p>
+                        </div>
+                        <div class="total-price">
+                            <p>-Rs {{ cart.get_total_saved }}</p>
+                        </div>
+                    </div>
+                    <div class="card-price-subtotal d-flex justify-content-between align-items-center">
+                        <div class="total-text">
+                            <p>Total Price</p>
+                        </div>
+                        <div class="total-price my-3">
+                            <p>Rs {{ cart.get_total_price }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> 
+
+
+{% endblock content %}

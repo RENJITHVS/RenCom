@@ -29,11 +29,12 @@
 
     <script src="{% static 'src/js/jquery.min.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <script src="{% static 'src/scss/vendors/plugin/js/slick.min.js' %}"></script>
+    <script src="{% static 'src/scss/vendors/plugin/js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'dist/main.js' %}"></script>
     {% block extra_js %}
     {% endblock extra_js %}
     {% comment %} <script src="{% static 'src/js/bootstrap-input-spinner.js' %}"></script>  {% endcomment %}
-    <script src="{% static 'src/scss/vendors/plugin/js/jquery.nice-select.min.js' %}"></script>
-    <script src="{% static 'dist/main.js' %}"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         function openNav() {
@@ -46,7 +47,7 @@
             $('#overlayy').removeClass("active");
         }
     </script>
-    <script src="https://unpkg.com/htmx.org@1.1.0"></script>
+    {% comment %} <script src="https://unpkg.com/htmx.org@1.1.0"></script> {% endcomment %}
     <script>
         document.body.addEventListener('htmx:configRequest', (event) => {
           event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';

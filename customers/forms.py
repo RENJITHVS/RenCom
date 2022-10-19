@@ -1,4 +1,4 @@
-import string
+
 from django import forms
 from django.forms import inlineformset_factory, BaseInlineFormSet
 from phonenumber_field.formfields import PhoneNumberField
@@ -8,6 +8,7 @@ from .models import Address, CustomerProfile, User
 from django.contrib.auth.forms import (AuthenticationForm, PasswordResetForm,
                                        SetPasswordForm)
 from django.contrib.auth.password_validation import validate_password
+
 
 
 class RegistrationForm(forms.ModelForm):
@@ -80,23 +81,34 @@ class UserLoginForm(AuthenticationForm):
         self.helper.form_show_labels = False
 
 
-class AddressForm(forms.ModelForm):
+class PwdResetForm(PasswordResetForm):
+
+    email = forms.EmailField(max_length=254, widget=forms.TextInput(
+        attrs={'class': 'form-control mb-3', 'placeholder': 'Email', 'id': 'form-email'}))
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        u = User.objects.filter(email=email)
+        if not u:
+            raise forms.ValidationError(
+                'Unfortunatley we can not find that email address')
+        return email
+
+
+class PwdResetConfirmForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label='New password', widget=forms.PasswordInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'New Password', 'id': 'form-newpass'}))
+    new_password2 = forms.CharField(
+        label='Repeat password', widget=forms.PasswordInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'Repeat Password', 'id': 'form-new-pass2'}))
+
+class UserUpdateForm(forms.ModelForm):
     class Meta:
-        model = Address
-        fields = ('full_name', 'phone', 'address_line',
-                  'city', 'pincode', 'default',)
+        model = User
+        fields = ['full_name',]
 
-
-class AddressInlineBaseformset(BaseInlineFormSet):
-    def __init__(self, *args, **kwargs):
-        super(AddressInlineBaseformset, self).__init__(*args, **kwargs)
-        default_address = False
-        for form in self.forms:
-            if form.fields['default'].initial == True:
-                default_address = True
-        if not default_address:
-            self.forms[0].fields['default'].initial = True
-
-
-AddressFormSet = inlineformset_factory(CustomerProfile, Address, fields=(
-    'full_name', 'phone', 'address_line', 'city', 'pincode', 'default',), extra=1, formset=AddressInlineBaseformset)
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = CustomerProfile
+        fields = ['profile_pic', 'account_number', "ifsc_code", "account_name" ]

@@ -48,7 +48,7 @@
                     </div>
                     <div class="product-item-info">
                         <a href="{{ prod.get_absolute_url }}">{{ prod.title|truncatechars:20 }}</a>
-                        <span>Rs {{ prod.price }}</span> <del>Rs {{ prod.mrp_price }}</del>
+                        <span>Rs {{ prod.attributes.first.price }}</span> <del>Rs {{ prod.mrp_price }}</del>
                     </div>
                     
                 </div>
@@ -130,7 +130,7 @@
                                 class="img-fluid "></a>
                         <div class="cart-icon">
                             <a href="{% url 'customers:add_wishlist' product.id %}"><i class="far fa-heart shadow"></i></a>
-                            <a class="add-cart shadow" value={{ product.id }}>
+                            <a class="add-cart shadow" value="{{ product.id }}" id="{{ product.attributes.first.price }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16.75" height="16.75"
                                     viewBox="0 0 16.75 16.75">
                                     <g id="Your_Bag" data-name="Your Bag" transform="translate(0.75)">
@@ -156,7 +156,7 @@
                     </div>
                     <div class="product-item-info">
                         <a href="{{ product.get_absolute_url }}">{{ product.title|truncatechars:30 }}</a>
-                        <span>Rs {{ product.price }}</span> <del>Rs {{ prod.mrp_price }}</del>
+                        <span>Rs {{ product.attributes.first.price }}</span> <del>Rs {{ product.mrp_price }}</del>
                     </div>
                 </div>
             </div>
@@ -334,12 +334,14 @@
         e.addEventListener("click", function() {
             
             product_id= Number(this.getAttribute('value'))
+            variation_id = Number(this.getAttribute('id'))
             console.log(product_id);
                 
             const formData = new FormData();
             //console.log(name);
             formData.append('productid', product_id);
             formData.append('productqty', 1);
+            formData.append('variation_id', variation_id);
     
             formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
             console.log(formData);
@@ -349,7 +351,7 @@
             })
             .then(response => response.json())
             .then(data => {
-                location.reload();
+                console.log(data)
                 console.log('Success:', data);
             })
             .catch(error => {

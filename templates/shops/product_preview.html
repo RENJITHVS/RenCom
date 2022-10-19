@@ -2,133 +2,336 @@
 {% load static %}
 {% block title %} {{ product.title }} {% endblock %}
 {% block content %}
-<section class="product mb-5">
+
+<section class="product">
     <div class="container">
-        
         <div class="row">
-            <div class="col-lg-6 col-md-5 col-12">
-                <div class="product-slider">
-                    <div class="exzoom" id="exzoom">
-                        <div class="exzoom_img_box">
-                            <ul class='exzoom_img_ul'>
-                                <li><img src="{{product.image.url}}" class="mb-5"/></li>
-                                {% comment %} <li><img src="{{product.image.url}}" /></li>
-                                <li><img src="{{product.image.url}}" /></li>
-                                <li><img src="{{product.image.url}}" /></li> {% endcomment %}
-                            </ul>
-                        </div>
-                        <div class="exzoom_nav"></div>
-                    </div>
+            <div class="col-sm-12">
+                <div class="section-title">
+                    <h2>Product Preview</h2>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-7 col-12">
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-12">
+                <div class="column">
+                    <div id="img-container">
+                        <div id="lens"></div>
+                        <img id="featured" src="{{ product.image.url }}">
+                    </div>
+                    {% if product.images.all.count != 0 %}
+                    <div id="slide-wrapper">
+                        <img id="slideLeft" class="arrow" src="{{ product.image.url }}">
+
+                        <div id="slider">
+                            {% for pro in product.images.all %}
+                            <img class="thumbnail " src="{{ pro.image.url }}">
+                            {% endfor %}
+                        </div>
+                        <img id="slideRight" class="arrow" src="{{ product.image.url }}">
+                    </div>
+                    {% endif %}
+                    <a class="btn btn-primary mx-auto my-4" href="{% url 'shop:add_extra_images' product.slug %}"> Add More Images</a>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 col-12">
                 <div class="product-pricelist">
                     <h2>{{ product.title }}</h2>
                     <div class="product-pricelist-ratting">
                         <div class="price">
-                            <span>Rs {{ product.price}} </span> <del>Rs {{ product.mrp_price}}</del>
+                            <span>Rs {{ product.attributes.first.price}} </span> <del>{{ product.mrp_price}}</del>
                         </div>
-                        
-                    </div>
-                    <p class= "my-3">{{product.description|safe }}</p>
+                        <div class="star">
+                            <ul>
+                                {% for star in product.get_avg_rating|ljust:product.get_avg_rating %}
+                                <li><i class="fas fa-star"></i></li>
+                                {% endfor %}
 
-                    
-                    {% if product.attributes.all.count != 0 %}
-                    <div class ="row">
-                        <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
-                            
-                            <div class="carousel-indicators ">
-                                
-                                {% for val in product.attributes.all %}
-                              <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.counter == 1 %}class="active" {% endif %} aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
-                              {% endfor %}
-                            </div>
-                            
-                            <div class="carousel-inner">
-                                {% for val in product.attributes.all %}
-                              <div class="carousel-item {% if forloop.counter == 1 %}active {% endif %}" data-bs-interval="3000">
-                                <div class="new_html_code"></div>
-                                <div class="carousel-caption d-flex justify-content-between mb-4" style="border-color: {{ val.color.color_code }};">
-                                  <div class="fs-5" style="color: {{ val.color.color_code }};"> <strong>Rs {{ val.price }}</strong> </div>
-                                  <div class="fs-5" style="color: {{ val.color.color_code }};"> <strong>Size :{{ val.size }}</strong></div>
-                                  <div class="fs-5" style="color: {{ val.color.color_code }};"> <strong>Color: {{ val.color.title }}</strong> </div>
-                                </div>
-                              </div>
-                              {% endfor %}
-                            </div>
-                            
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                              <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                              <span class="visually-hidden">Next</span>
-                            </button>
-                            
+                                <li>{{product.get_avg_rating}}</li>
+                                <li class="point">({{product.count_review}} Rating)</li>
+                            </ul>
                         </div>
                     </div>
-                    {% endif  %}
-                    <h6 class="mx-auto text-center"> Product variations<h6>
-                    <div class="product-pricelist-selector-button mt-4 d-flex justify-content-around">
+                    <p class="my-3">{{product.description|safe }}</p>
+
+                    <h6 class="mx-auto text-center mb-2"> Product variations<h6>
+                    <div class="my-2">
+                        <div class="col-12">
+                            <form>
+                                <div class="form-group">
+                                        <div class="card-deck">
+                                            {% if product.images.all.count != 0 %}
+                                            {% for val in product.attributes.all %}
+                                            <div id="{{val.id}}-card" class="card mb-4 col-6"
+                                                style="border-color: {{ val.color.color_code }}">
+                                                <div class="card-body" role="button">
+                                                    <h5 class="card-title">
+                                                        <label for="price">Rs {{ val.price }}</label></h5>
+                                                    <p class="card-text"> product color: {{ val.color.title }}</p>
+                                                </div>
+                                            </div>
+
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="mt-4 d-flex justify-content-around">
                         {% if not product.is_active %}
                         <form action="{% url 'shop:publish_product' product.slug %}" method="POST">
                             {% csrf_token %}
-                            <input class="btn btn-primary" type="submit" value="Publish"></input>
-                          </form>
-                          {% else %}
-                          <form action="{% url 'shop:publish_product' product.slug %}" method="POST">
+                            <button class="btn btn-primary" type="submit" value=""> Publish</button>
+                        </form>
+                        {% else %}
+                        <form action="{% url 'shop:publish_product' product.slug %}" method="POST">
                             {% csrf_token %}
-                            <input class="btn btn-warning" type="submit" value="Unpublish"></input>
-                          </form>
-                          {% endif %}
-                        <a class="btn btn-secondary" href="{% url 'shop:update_product' product.slug %}" >Edit
-                            
+                            <button class="btn btn-warning" type="submit" value=""> Unpublish</button>
+                        </form>
+                        {% endif %}
+                        <a class="btn btn-secondary" href="{% url 'shop:update_product' product.slug %}">Edit
+
                         </a>
                         <!-- Button trigger modal -->
-                        <a class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal">Delete
+                        <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete
                         </a>
-                        
+
+                    </div>
+                    <div class="product-pricelist-selector-button">
+                        <div class="product-pricelist-selector-button-item">
+                            <div class="shipping">
+                                <div class="icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="21.4" height="17.937"
+                                        viewBox="0 0 21.4 17.937">
+                                        <g id="Truck_Icon" data-name="Truck Icon" transform="translate(-0.8 -3.8)">
+                                            <path id="Path_14" data-name="Path 14" d="M1.5,4.5H15.112V16.3H1.5Z"
+                                                fill="none" stroke="#335aff" stroke-linecap="round"
+                                                stroke-linejoin="round" stroke-width="1.4" />
+                                            <path id="Path_15" data-name="Path 15" d="M24,12h3.63l2.722,2.722V19.26H24Z"
+                                                transform="translate(-8.852 -3)" fill="none" stroke="#335aff"
+                                                stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4" />
+                                            <path id="Path_16" data-name="Path 16"
+                                                d="M9.037,26.269A2.269,2.269,0,1,1,6.769,24a2.269,2.269,0,0,1,2.269,2.269Z"
+                                                transform="translate(-1.185 -7.5)" fill="none" stroke="#335aff"
+                                                stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4" />
+                                            <path id="Path_17" data-name="Path 17"
+                                                d="M28.537,26.269A2.269,2.269,0,1,1,26.269,24,2.269,2.269,0,0,1,28.537,26.269Z"
+                                                transform="translate(-8.852 -7.5)" fill="none" stroke="#335aff"
+                                                stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4" />
+                                        </g>
+                                    </svg>
+                                </div>
+                                {% if product.delivery_charges != 0.00 %}
+                                <p>Shipping: <strong>Rs{{product.delivery_charges}}</strong></p>
+                                {% else %}
+                                <p>Free Shipping </p>
+                                {% endif %}
+                            </div>
+
+                            <div class="cash" style="margin-top:-15px">
+                                <div class="icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" viewBox="0 0 10 16">
+                                        <path id="Icon"
+                                            d="M14.863,11.522c-2.23-.524-2.947-1.067-2.947-1.911,0-.969.992-1.644,2.652-1.644,1.749,0,2.4.756,2.456,1.867H19.2a3.655,3.655,0,0,0-3.153-3.387V4.5H13.095V6.42c-1.906.373-3.438,1.493-3.438,3.209,0,2.053,1.876,3.076,4.617,3.671,2.456.533,2.947,1.316,2.947,2.142,0,.613-.481,1.591-2.652,1.591-2.024,0-2.819-.818-2.927-1.867H9.48c.118,1.947,1.729,3.04,3.615,3.4V20.5h2.947V18.589c1.916-.329,3.438-1.333,3.438-3.156C19.48,12.909,17.093,12.047,14.863,11.522Z"
+                                            transform="translate(-9.48 -4.5)" fill="#335aff" />
+                                    </svg>
+                                </div>
+                                <p>Cash on Delivery</p>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="section-title mt-5">
+                    <h2>Product Reviews</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row my-5">
+            {% if product.reviews.all|length == 0 %}
+                <p class='my-2 mx-auto'> No one added review yet</p>
+            {% else %}
+            {% for review in product.reviews.all %}
+            <div class="card p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="user d-flex flex-row align-items-center">
+                        <img src="https://i.imgur.com/hczKIze.jpg" width="30" class="user-img rounded-circle mr-2">
+                        <span><small class="font-weight-bold text-primary">{{ review.user }}</small> </span>
+
+                    </div>
+                    <small>{{ review.created_at| timesince }} ago</small>
+                </div>
+                <div class="action d-flex justify-content-between mt-2 align-items-center">
+                    <div class="reply px-4">
+                        <small class="font-weight-bold">{{ review.review_text }}</small>
+                    </div>
+                    <div class="icons align-items-center">
+                        {% for star in review.review_rating|ljust:review.review_rating %}
+                        <i class="fa fa-star text-warning"></i>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
     </div>
 </section>
-<!-- Product Details Area End -->
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel"> Are you sure?</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"> Are you sure?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                delete <strong>{{ product.title }} ?</strong>
+            </div>
+            <div class="modal-footer">
+                <a type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Close</a>
+                <a href="{% url 'shop:delete_product' product.slug %}" class="btn btn-danger">Delete</a>
+            </div>
         </div>
-        <div class="modal-body">
-            delete <strong>{{ product.title }} ?</strong>
-        </div>
-        <div class="modal-footer">
-          <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</a>
-          <a href="{% url 'shop:delete_product' product.slug %}" class="btn btn-danger">Delete</a>
-        </div>
-      </div>
     </div>
 </div>
+
 <style>
-    
     div.new_html_code {
-      width:150px;
-      height:200px;
-      min-width:150px;
-      min-height:150px;
-      max-width:200px;
-      max-height:150px;
-      overflow:hidden;
-      display:block;
-      
+        width: 150px;
+        height: 200px;
+        min-width: 150px;
+        min-height: 150px;
+        max-width: 200px;
+        max-height: 150px;
+        overflow: hidden;
+        display: block;
+
     }
-  
+
+    .btn {
+        padding: 10px;
+        margin: 0px;
+    }
+
+    .column {
+
+        padding: 10px;
+
+    }
+
+    #featured {
+        max-width: 500px;
+        max-height: 600px;
+
+        cursor: pointer;
+
+
+    }
+
+    .thumbnail {
+        object-fit: cover;
+        max-width: 180px;
+        max-height: 100px;
+        cursor: pointer;
+        opacity: 0.5;
+        margin: 5px;
+        border: 2px solid black;
+
+    }
+
+    .thumbnail:hover {
+        opacity: 1;
+    }
+
+
+
+    #slide-wrapper {
+        margin-top: 30px;
+        max-width: 500px;
+        display: flex;
+        min-height: 100px;
+        align-items: center;
+    }
+
+    #slider {
+        width: 440px;
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+
+    }
+
+    #slider::-webkit-scrollbar {
+        width: 8px;
+
+    }
+
+    #slider::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+
+    }
+
+    #slider::-webkit-scrollbar-thumb {
+        background-color: #dede2e;
+        outline: 1px solid slategrey;
+        border-radius: 100px;
+
+    }
+
+    #slider::-webkit-scrollbar-thumb:hover {
+        background-color: #18b5ce;
+    }
+
+    .arrow {
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        transition: .3s;
+    }
+
+    .arrow:hover {
+        opacity: .5;
+        width: 35px;
+        height: 35px;
+    }
+
+    #img-container {
+        z-index: 1;
+        max-width: 500px;
+        position: relative;
+    }
+
+    #lens {
+        z-index: 2;
+        position: absolute;
+
+        height: 125px;
+        width: 125px;
+
+        background-repeat: no-repeat;
+        cursor: none;
+
+    }
+
+
+    .card {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15), 0 2px 5px rgba(0, 0, 0, 0.2);
+        -webkit-transition: all 0.5s ease;
+        -moz-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
 </style>
+<script src="{% static 'src/js/jquery.min.js' %}"></script>
+<script src="{% static 'src/js/slider-script.js' %}"></script>
+<script src="{% static 'src/js/slider.js' %}"></script>
 
 
 

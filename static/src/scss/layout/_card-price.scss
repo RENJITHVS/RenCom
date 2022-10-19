@@ -1,0 +1,73 @@
+.card-price{
+    padding: 26px;
+    border: 2px solid $gray;
+    border-radius: 4px;
+    h6{
+        color: $black;
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+    &-list{
+        margin-bottom: 12px;
+        .item{
+            p{
+                font-size: 16px;
+                color: $lightBlack;
+                margin-bottom: 0;
+            }
+        }
+        .price{
+            p{
+                font-size: 16px;
+                color: $black;
+                margin-bottom: 0;
+            }
+        }
+    }
+    &-subtotal{
+        padding-top: 12px;
+        border-top: 1px solid $gray;
+        .total-text{
+            p{
+                font-size: 18px;
+                color: $black;
+                margin-bottom: 0;
+            }
+        }
+        .total-price{
+            p{
+                font-size: 18px;
+                color: $black;
+                font-weight: 500;
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+// Responsive
+// large devices 992px - 1169px
+@media (min-width: 992px) and (max-width: 1200px) {
+
+}
+
+// Medium devices 768px - 991px
+@media (min-width: 768px) and (max-width: 991px) {
+}
+
+// Small devices 575px - 767px
+@media (min-width: 575px) and (max-width: 767px) {
+}
+
+// Small devices 420px - 574px
+@media only screen and (min-width: 420px) and (max-width: 574px) {
+    
+}
+
+// extra Small devices 420px
+@media (max-width: 420px) {
+    .card-price h6{
+        text-align: center;
+    }
+}

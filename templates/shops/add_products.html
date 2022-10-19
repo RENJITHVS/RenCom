@@ -41,14 +41,12 @@
                     {{ form.description |as_crispy_field }}
                 </div>
                 <div class="col-md-6 my-1">
-                    {{ form.price |as_crispy_field }}
-                </div>
-                <div class="col-md-6 my-1">
                     {{ form.mrp_price |as_crispy_field }}
-                </div>  
-                <div class="col-md-6 my-1">
-                    {{ form.is_featured|as_crispy_field }}
                 </div>
+                <div class="col-md-6 my-1">
+                    {{ form.delivery_charges |as_crispy_field }}
+                </div>  
+                
                 
                 {% comment %} <div class="row form-row spacer">
                     <div class="col-2">
@@ -68,5 +66,10 @@
         </div>
     </div>
 </section>
+<style>
+    .note-toolbar {
+        width:100%;
+    }
+</style>
 {% endblock %}
 

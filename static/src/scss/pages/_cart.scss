@@ -1,0 +1,89 @@
+.cart-area{
+    padding-top: 50px;
+    padding-bottom: 100px;
+    .dashboard-nav{
+        margin-bottom: 100px;
+    }
+    .apply-coupon{
+        margin-top: 100px;
+        max-width: 559px;
+        padding: 26px;
+        border: 2px solid $gray;
+        border-radius: 4px;
+        h6{
+            font-size: 24px;
+            font-weight: 600;
+            color: $black;
+            margin-bottom: 24px;
+        }
+        .form__div{
+            margin-bottom: 24px;
+            input{
+                width: 507px;
+            }
+        }
+    }
+    .card-price{
+        margin-top: 100px;
+        max-width: 561px;
+        margin-left: 10px;
+        form{
+            margin-top: 22px;
+            button{
+                width: 100%;
+            }
+        }
+    }
+}
+// Responsive
+// Medium devices 768px - 991px
+@media (min-width: 768px) and (max-width: 991px) {
+    .cart-area .apply-coupon,
+    .cart-area .card-price{
+        max-width: 100%;
+        margin-right: 0;
+        margin-top: 50px;
+    }
+}
+// Small devices 575px - 767px
+@media (min-width: 575px) and (max-width: 767px) {
+    .cart-area .apply-coupon,
+    .cart-area .card-price{
+        max-width: 100%;
+        margin-right: 0;
+        margin-top: 50px;
+    }
+}
+// Small devices 420px - 574px
+@media only screen and (min-width: 420px) and (max-width: 574px) {
+    .cart-area .apply-coupon,
+    .cart-area .card-price{
+        max-width: 100%;
+        margin-right: 0;
+        margin-top: 50px;
+        margin-left: 0;
+    }
+    .cart-area{
+        padding-bottom: 50px;
+    }
+    .cart-area .dashboard-nav{
+        margin-bottom: 50px;
+    }
+    
+}
+// extra Small devices 420px
+@media (max-width: 420px) {
+    .cart-area .dashboard-nav{
+        margin-bottom: 30px;
+    }
+    .cart-area{
+        padding-bottom: 50px;
+    }
+    .cart-area .apply-coupon,
+    .cart-area .card-price{
+        max-width: 100%;
+        margin-right: 0;
+        margin-top: 50px;
+        margin-left: 0;
+    }
+}

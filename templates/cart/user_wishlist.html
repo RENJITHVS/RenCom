@@ -10,7 +10,7 @@
                 <!-- Dashboard-Nav  Start-->
                 <div class="dashboard-nav">
                     <ul class="list-inline">
-                        <li class="list-inline-item"><a href="user-dashboard.html">Account
+                        <li class="list-inline-item"><a href="{% url 'customers:settings-user' %}">Account
                                 settings</a></li>
                         <li class="list-inline-item"><a href="{% url 'payment:add-address' %}">Billing information</a></li>
                         <li class="list-inline-item"><a href="#" class="active">My wishlist</a></li>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="body">
                     {% if page_obj.count == 0 %}
-                    <div class="col-12">Your wishlist is empty <a href="">Shop</a></div>
+                    <div class="col-12">Your wishlist is empty <a href="{% url 'shop:shop_home' %}">Shop</a></div>
                     {% else %}
                     {% for product in page_obj %}
                     <div class="item">
@@ -56,42 +56,31 @@
                                 <p> {{ product.title }}</p>
                             </div>
                             <div class="button">
-                                <a class="btn bg-primary" href="{% url 'cart:cart_items'%}">Checkout now</a>
-                                <a class="cart-btn" href="">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="18"
-                                        viewBox="0 0 20 18">
-                                        <g id="Heart" transform="translate(1 1)">
-                                            <path id="Heart-2" data-name="Heart"
-                                                d="M18.161,4.413a4.674,4.674,0,0,0-6.7,0l-.913.93-.913-.93a4.675,4.675,0,0,0-6.7,0,4.893,4.893,0,0,0,0,6.828l.913.93L10.548,19l6.7-6.828.913-.93a4.892,4.892,0,0,0,0-6.828Z"
-                                                transform="translate(-1.549 -2.998)" fill="#fff" stroke="#1a2224"
-                                                stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                                        </g>
-                                    </svg>
-                                </a>
-                                <a class="btn btn-secondary remove-from-whishlist"  value="{{product.id}}">Remove</a>
+                                <a class="btn btn-secondary"  href="{% url 'customers:add_wishlist' product.id %}">Remove</a>
+                                <button class="btn btn-primary add-to-cart"  value="{{ product.id }}" id="{{product.attributes.first.id }}">Add to cart</button>
                             </div>
                         </div>
                         <div class="price">
-                            <span>rs {{ product.price }}</span> <del>$499.99</del>
+                            <span>Rs {{ product.attributes.first.price }} </span> <br> Rs <del>{{ product.mrp_price }}</del>
                         </div>
                         <div class="rating">
-                            <i class="fas fa-star"></i> 5.0
+                            <li>
+                            {% for star in product.get_avg_rating|ljust:product.get_avg_rating %}
+                                <i class="fas fa-star"></i>
+                            {% endfor %}
+                            </li>
+                            <small><li>{{product.get_avg_rating}}({{product.count_review}} Rating)</li></small>
                         </div>
                         <div class="info">
                             <div class="size">
-                                <div class="product-pricelist-selector-size">
-                                    <h6>Sizes</h6>
-                                    <div class="sizes" id="sizes">
-                                        <li class="sizes-all active">M</li>
-                                    </div>
-                                </div>
                                 <div class="product-pricelist-selector-color">
                                     <h6>Colors</h6>
                                     <div class="colors" id="colors">
-                                        <li class="colorall color-1 active"></li>
+                                        <span class="border border-5 py-3 px-3" style="background-color: {{ product.attributes.first.color.color_code }}"></span>
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                     {% endfor %}
@@ -143,17 +132,20 @@
 
 <!-- Pagination End -->
 <script>
-    [...document.getElementsByClassName(".remove-from-whishlist")].forEach(function(e){
+    [...document.getElementsByClassName("add-to-cart")].forEach(function(e){
     e.addEventListener("click", function() {
+        console.log("hi")
         
         product_id= Number(this.getAttribute('value'))
-        console.log(product_id);
+        variation_id = Number(this.getAttribute('id'))
+
+        console.log(variation_id);
             
         const formData = new FormData();
         //console.log(name);
         formData.append('productid', product_id);
         formData.append('productqty', 1);
-
+        formData.append('variationid', variation_id);
         formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
         console.log(formData);
         fetch('{% url "cart:cart_add" %}', {
@@ -162,7 +154,10 @@
         })
         .then(response => response.json())
         .then(data => {
-            location.reload();
+            console.log(data)
+            let quandity = Number(document.getElementById("cart-id").innerHTML);
+            quandity = quandity+data.qty;
+            document.getElementById("cart-id").innerHTML = quandity
             console.log('Success:', data);
         })
         .catch(error => {
