@@ -1,0 +1,29 @@
+<div style="background-color: rgb(228, 228, 228);">
+    <div style="margin: 20px; background-color: #fff;">
+
+        Hi {{ user }}, <br>
+        Your order with order id: {{order_id}} has been placed successfully.<br>
+
+        Your order consists of - <br>
+        {% for i in order.items.all %}
+        <strong>Product:{{i.product}} 
+            <br>
+            Quantity:{{i.quantity}} 
+            <br>
+            Price:{{i.price}}
+        </strong>
+        <br>
+        {% endfor %}
+        Total:{{order.total_paid}}<br>
+
+        Order will reach to you in 5-7 days.<br>
+
+        We have attached the invoice for your order with this mail.<br>
+
+        Thanks for trusting us and using our services!<br>
+
+        Sincerely,<br>
+        Rencom Team<br>
+
+    </div>
+</div>

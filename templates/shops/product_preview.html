@@ -4,7 +4,7 @@
 {% block content %}
 
 <section class="product">
-    <div class="container">
+    <div class="container-fluid px-5">
         <div class="row">
             <div class="col-sm-12">
                 <div class="section-title">
@@ -15,23 +15,24 @@
         <div class="row">
             <div class="col-lg-6 col-12">
                 <div class="column">
-                    <div id="img-container">
+                    <div id="img-container" class="mb-4">
                         <div id="lens"></div>
                         <img id="featured" src="{{ product.image.url }}">
                     </div>
                     {% if product.images.all.count != 0 %}
-                    <div id="slide-wrapper">
+                    <div id="slide-wrapper" >
                         <img id="slideLeft" class="arrow" src="{{ product.image.url }}">
-
+                        
                         <div id="slider">
                             {% for pro in product.images.all %}
                             <img class="thumbnail " src="{{ pro.image.url }}">
                             {% endfor %}
                         </div>
+                        
                         <img id="slideRight" class="arrow" src="{{ product.image.url }}">
                     </div>
                     {% endif %}
-                    <a class="btn btn-primary mx-auto my-4" href="{% url 'shop:add_extra_images' product.slug %}"> Add More Images</a>
+                    <a class="btn btn-primary mx-auto my-5" href="{% url 'shop:add_extra_images' product.slug %}"> Add More Images</a>
                 </div>
             </div>
             
@@ -56,29 +57,31 @@
                     <p class="my-3">{{product.description|safe }}</p>
 
                     <h6 class="mx-auto text-center mb-2"> Product variations<h6>
-                    <div class="my-2">
+                    <div class="row my-2">
                         <div class="col-12">
-                            <form>
-                                <div class="form-group">
-                                        <div class="card-deck">
-                                            {% if product.images.all.count != 0 %}
-                                            {% for val in product.attributes.all %}
-                                            <div id="{{val.id}}-card" class="card mb-4 col-6"
-                                                style="border-color: {{ val.color.color_code }}">
-                                                <div class="card-body" role="button">
-                                                    <h5 class="card-title">
-                                                        <label for="price">Rs {{ val.price }}</label></h5>
-                                                    <p class="card-text"> product color: {{ val.color.title }}</p>
-                                                </div>
-                                            </div>
-
-                                            {% endfor %}
-                                            {% endif %}
-                                        </div>
+                          <form>
+                            <div class="form-group row">
+                              <div class="col-12">
+                                <p class='py-2'>*we take 10% margin on every products</p>
+                                <div class="card-deck">
+                                {% for val in product.attributes.all %}
+                                  <div id="{{val.id}}-card"  class="card mb-4 col-6 " style="border-color: {{ val.color.color_code }}">
+                                    <div class="card-body" role="button">
+                                      <h5 class="card-title"><input id="{{val.id}}" type="radio">
+                                        <label for="price">Rs {{ val.price }}</label></h5>
+                                       <p> <small class="card-text"> <del> Rs {{ val.vendor_price }} </del></small></br>
+                                      <small class="card-text"> product color: {{ val.color.title }}</small><p>
+                                    </div>
+                                  </div>
+                            
+                                {% endfor %}
+                                
                                 </div>
-                            </form>
+                              </div>
+                            </div>
+                          </form>
                         </div>
-                    </div>
+                      </div>
                     <div class="mt-4 d-flex justify-content-around">
                         {% if not product.is_active %}
                         <form action="{% url 'shop:publish_product' product.slug %}" method="POST">

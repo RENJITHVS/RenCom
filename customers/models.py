@@ -1,4 +1,3 @@
-from email.policy import default
 import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
@@ -7,9 +6,10 @@ from phonenumber_field.modelfields import PhoneNumberField
 from .managers import CustomUserManager
 from vendors.models import VendorProfile
 from PIL import Image
+from vendors.models import VendorProfile
+
 
 class User(AbstractUser):
-
     class Role(models.TextChoices):
         ADMIN = "ADMIN", "Admin"
         CUSTOMER = "CUSTOMER", "Customer"
@@ -21,22 +21,22 @@ class User(AbstractUser):
     role = models.CharField(max_length=50, choices=Role.choices)
 
     username = None
-    email = models.EmailField(verbose_name='email address', unique=True)
+    email = models.EmailField(verbose_name="email address", unique=True)
     phone_number = PhoneNumberField(blank=True)
     full_name = models.CharField(max_length=220)
     email_verified = models.BooleanField(default=False)
     phone_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['full_name']
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["full_name"]
 
     objects = CustomUserManager()
-     
+
     def email_user(self, subject, message):
         send_mail(
             subject,
             message,
-            'renjith@gmail.com',
+            "renjith@gmail.com",
             [self.email],
             fail_silently=False,
         )
@@ -54,7 +54,7 @@ class User(AbstractUser):
 class CustomerManager(BaseUserManager):
     def get_queryset(self, *args, **kwargs):
         results = super().get_queryset(*args, **kwargs)
-        return results.filter(role=User.Role.CUSTOMER,email_verified= True)
+        return results.filter(role=User.Role.CUSTOMER)
 
 
 class Customer(User):
@@ -65,6 +65,8 @@ class Customer(User):
 
     class Meta:
         proxy = True
+        verbose_name = "Normal User"
+        verbose_name_plural = "Normal Users"
 
     def welcome(self):
         return "Only for Customers"
@@ -74,16 +76,28 @@ class CustomerProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     customer_id = models.IntegerField(null=True, blank=True)
     profile_pic = models.ImageField(
-        upload_to='profile_pic/', default='images/profile_pic.jpg', )
-    account_number = models.CharField(max_length= 20, blank=True, null= True)
-    ifsc_code = models.CharField(max_length= 20,blank=True, null= True)
-    account_name = models.CharField(max_length= 20, blank=True, null= True)
+        upload_to="profile_pic/",
+        default="profile_pic.jpg",
+    )
+    account_number = models.CharField(max_length=20, blank=True, null=True)
+    ifsc_code = models.CharField(max_length=20, blank=True, null=True)
+    account_name = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
         return self.user.full_name
 
-    def save(self):
-        super().save()
+    def customer_name(self):
+        return self.user.full_name
+
+    customer_name.short_description = "Name"
+
+    def joined_on(self):
+        return self.user.date_joined
+
+    joined_on.short_description = "Joined on"
+
+    def save(self, *args, **kwargs):
+        super(CustomerProfile, self).save(*args, **kwargs)
         img = Image.open(self.profile_pic.path)
         if img.height > 300 or img.width > 300:
             output_size = (300, 300)
@@ -91,11 +105,11 @@ class CustomerProfile(models.Model):
             img.save(self.profile_pic.path)
 
 
-
 class VendorManager(BaseUserManager):
     def get_queryset(self, *args, **kwargs):
         results = super().get_queryset(*args, **kwargs)
-        return results.filter(role=User.Role.VENDOR,email_verified= True)
+        return results.filter(role=User.Role.VENDOR, email_verified=True)
+
 
 class VendorUser(User):
 
@@ -109,14 +123,25 @@ class VendorUser(User):
     def welcome(self):
         return "Only for Vendors"
 
+
+class VendorProfiles(VendorProfile):
+    class Meta:
+        proxy = True
+        verbose_name = "Vendor Profile"
+        verbose_name_plural = "Vendor Profiles"
+
+
 class Address(models.Model):
     """
     Address
     """
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    customer = models.ForeignKey(CustomerProfile, verbose_name="Customer", on_delete=models.CASCADE)
+    customer = models.ForeignKey(
+        CustomerProfile, verbose_name="Customer", on_delete=models.CASCADE
+    )
     full_name = models.CharField(verbose_name="Full Name", max_length=150)
-    phone = models.CharField(verbose_name= "Phone Number" , max_length=50)
+    phone = models.CharField(verbose_name="Phone Number", max_length=50)
     address_line = models.CharField(verbose_name="Address Line 1", max_length=255)
     city = models.CharField(verbose_name="Town/City/State", max_length=150)
     pincode = models.CharField(verbose_name="Pincode", max_length=50)
@@ -130,6 +155,3 @@ class Address(models.Model):
 
     def __str__(self):
         return "Address"
-
-
-

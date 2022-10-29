@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'cart.apps.CartConfig',
     'orders.apps.OrdersConfig',
     'payment.apps.PaymentConfig',
+    'charts.apps.ChartsConfig',
     # third-party apps
+    'notifications',
     'reset_migrations',
     'mptt',
     'crispy_forms',

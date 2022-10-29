@@ -19,7 +19,7 @@
 <!-- Catagory Search End -->
 
 <!-- Catagory item start -->
-{% comment %} <section class="categoryitem">
+<section class="categoryitem">
     <div class="container">
         <div class="row justify-content-center">
             <div class="categoryitem-wrapper">
@@ -30,17 +30,17 @@
                 
                 <div class="categoryitem-wrapper-itembox">
                     <h6>Price Greater than</h6>
-                    {{ products.form.price__gt|as_crispy_field }}
+                    {{ products.form.mrp_price__gt|as_crispy_field }}
                 </div>
                 <div class="categoryitem-wrapper-itembox">
                     <h6>Price Less than</h6>
-                    {{ products.form.price__lt|as_crispy_field }}
+                    {{ products.form.mrp_price__lt|as_crispy_field }}
                 </div>
             </div>
         </div>
     </div>
 </section>
-<!-- Catagory item End --> {% endcomment %}
+<!-- Catagory item End --> 
 </form>
 
 

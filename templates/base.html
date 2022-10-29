@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{% block title %} | Ren Commerce {% endblock %}</title>
+    <title>{% block title %} Ren Commerce {% endblock %}</title>
     {% load static %}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- Cropper-->
@@ -27,13 +27,16 @@
     <!-- Footer -->
     {% include 'partials/footer.html' %}
     <!-- Footer -->
-    <script src="{% static 'src/js/jquery.min.js' %}"></script>
+    {% comment %} <script src="{% static 'src/js/jquery.min.js' %}"></script> {% endcomment %}
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script> 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <script src="{% static 'src/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'src/scss/vendors/plugin/js/slick.min.js' %}"></script>
     <script src="{% static 'src/scss/vendors/plugin/js/jquery.nice-select.min.js' %}"></script>
     <script src="{% static 'dist/main.js' %}"></script>
     
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         function openNav() {
             document.getElementById("mySidenav").style.width = "350px";
@@ -44,13 +47,7 @@
             document.getElementById("mySidenav").style.width = "0";
             $('#overlayy').removeClass("active");
         }
-    </script>
-    {% comment %} <script src="https://unpkg.com/htmx.org@1.1.0"></script> {% endcomment %}
-    {% comment %} <script>
-        document.body.addEventListener('htmx:configRequest', (event) => {
-          event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
-        })
-    </script> {% endcomment %}
+    </script> 
     <script>
         {% if messages %}
         {% for message in messages %}

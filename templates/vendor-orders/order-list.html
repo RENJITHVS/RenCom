@@ -1,0 +1,137 @@
+{% extends "../base_vendor.html" %}
+{% block content%}
+<!-- table -container start here -->
+
+<div class="container mt-4">
+    <table class="table table-bordered" id='order-table' style="text-align:center;">
+        <thead>
+            <th> Number</th>
+            <th> Product</th>
+            <th> OrderID </th>
+            <th> Address</th>
+            <th> Order Mode</th>
+            <th> Order Status</th>
+            <th> Order Placed</th>
+            <th> Order details</th>
+            <th> Actions</th>
+        </thead>
+        {% for order in orders %}
+        <tr>
+            <td> {{ forloop.counter }}</td>
+            <td> {{order.product|truncatechars:20}} </td>
+            <td> {{order.order.order_key}}</td>
+            <td> {{order.order.address1 }}</td>
+            <td> {{order.order.payment_option }}</td>
+            <td> {% if order.order_status == "In process" %}
+                <span class="badge badge-secondary w-100">{{order.order_status}}</span>
+                {% elif order.order_status == "Shipped" %}
+                <span class="badge badge-info  w-100">{{order.order_status}}</span>
+                {% elif order.order_status == "Delivered" %}
+                <span class="badge badge-success  w-100">{{order.order_status}}</span>
+                {% elif order.order_status == "Cancelled" %}
+                <span class="badge badge-danger  w-100">{{order.order_status}}</span>
+                {% endif %}
+            </td>
+            <td> {{ order.order.created }}</td>
+            <td> <a href=""> View </a></td>
+            <td> <select class="form-select change-value" aria-label="Default select example" id="{{ order.id }}">
+                    <option> Select your status</option>
+                    <option value="In progress"> In progress</option>
+                    <option value="Shipped">Shipped</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+                <br>
+                <small>**Vendor can't change cancelled status </small>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<!-- table ends -->
+
+<style>
+
+</style>
+{% endblock %}
+
+
+
+{% block extra_js %}
+<script>
+    $("#order-table").DataTable({
+        //paging congfiguration
+        paging: true, // pagination
+        pageLength: 10, //page itmes
+        lengthChange: true,
+        autoWidth: true,
+        searching: true,
+        bInfo: true,
+        bSort: true,
+
+        //buttons
+        dom: "lBfrtip",
+        buttons: [{
+                extend: 'copy',
+                text: "<i class='fas fa-clone'></i>",
+                className: 'btn btn-secondary',
+                titleAttr: 'Copy',
+                exportOptions: {
+                    coloumns: [0, 1, 2, 3, 4, 5]
+                },
+            },
+            {
+                //ExCEl
+                extend: 'excel',
+                text: "<i class='fas fa-file-excel'></i>",
+                className: 'btn btn-secondary',
+                titleAttr: 'Excel',
+                exportOptions: {
+                    coloumns: [0, 1, 2, 3, 4, 5]
+                },
+            },
+            {
+                //PRINT
+                extend: 'print',
+                text: "<i class='fas fa-print'></i>",
+                className: 'btn btn-secondary',
+                titleAttr: 'Print',
+                exportOptions: {
+                    coloumns: [0, 1, 2, 3, 4, 5]
+                },
+            }
+        ]
+
+    })
+</script>
+<script>
+    [...document.getElementsByClassName("change-value")].forEach(function (e) {
+        e.addEventListener("change", function () {
+
+            order_id = Number(this.getAttribute('id'))
+            order_status = this.options[this.selectedIndex].getAttribute("value")
+            console.log(order_status)
+
+            const formData = new FormData();
+            //console.log(name);
+            formData.append('order_id', order_id);
+            formData.append('order_status', order_status);
+
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+            console.log(formData);
+            fetch('{% url "orders:vendor_order_status_update" %}', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    location.reload();
+                    console.log('Success:', data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        })
+    });
+</script>
+{% endblock %}

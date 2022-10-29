@@ -6,22 +6,24 @@ from .forms import PwdResetForm, PwdResetConfirmForm
 
 from . import views
 
-app_name = 'customers'
+app_name = "customers"
 
 urlpatterns = [
-    path('', views.index, name='home'),
+    path("", views.index, name="home"),
     # path(
     #     "login/",
     #     auth_views.LoginView.as_view(template_name="user/userlogin.html", form_class=UserLoginForm),
     #     name="loginUser",
     # ),
-    path('login/', views.CustomerloginPage, name='loginUser'),
-    path("logout/", auth_views.LogoutView.as_view(next_page="/"), name="logout"),
-    path('signup/',views.customerSignup, name="signupUser"),
-    path("activate/<slug:uidb64>/<slug:token>)/", views.account_activate, name="activate"),
-    path('wishlist/', views.user_wishlist, name='wishlist'),
-    path('addwishlist/<int:id>/', views.add_to_wishlist, name='add_wishlist'),
-     # Reset password
+    path("login/", views.CustomerloginPage, name="loginUser"),
+    path("logout/", views.logout_user, name="logout"),
+    path("signup/", views.customerSignup, name="signupUser"),
+    path(
+        "activate/<slug:uidb64>/<slug:token>)/", views.account_activate, name="activate"
+    ),
+    path("wishlist/", views.user_wishlist, name="wishlist"),
+    path("addwishlist/<int:id>/", views.add_to_wishlist, name="add_wishlist"),
+    # Reset password
     path(
         "password_reset/",
         auth_views.PasswordResetView.as_view(
@@ -51,6 +53,6 @@ urlpatterns = [
         TemplateView.as_view(template_name="user/password_reset/reset_status.html"),
         name="password_reset_complete",
     ),
-    path('settings/', views.view_settings, name = "settings-user"),
+    path("settings/", views.view_settings, name="settings-user"),
     # path('htmx/add-billing/', views.add_billing_address, name='add_billing_address'),
 ]

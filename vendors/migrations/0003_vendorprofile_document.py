@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('vendors', '0002_vendorprofile_account_name'),
+        ("vendors", "0002_vendorprofile_account_name"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='vendorprofile',
-            name='document',
-            field=models.FileField(blank=True, null=True, upload_to='doc/'),
+            model_name="vendorprofile",
+            name="document",
+            field=models.FileField(blank=True, null=True, upload_to="doc/"),
         ),
     ]

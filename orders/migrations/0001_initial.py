@@ -9,67 +9,155 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('customers', '0001_initial'),
-        ('shop', '0001_initial'),
+        ("customers", "0001_initial"),
+        ("shop", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Coupon',
+            name="Coupon",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('code', models.CharField(max_length=15, unique=True)),
-                ('percentage', models.FloatField()),
-                ('max_amount', models.FloatField(verbose_name='Max amount')),
-                ('is_active', models.BooleanField(default=True)),
-                ('used_users', models.ManyToManyField(blank=True, related_name='used_coupon', to='customers.customerprofile')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("code", models.CharField(max_length=15, unique=True)),
+                ("percentage", models.FloatField()),
+                ("max_amount", models.FloatField(verbose_name="Max amount")),
+                ("is_active", models.BooleanField(default=True)),
+                (
+                    "used_users",
+                    models.ManyToManyField(
+                        blank=True,
+                        related_name="used_coupon",
+                        to="customers.customerprofile",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Order',
+            name="Order",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('full_name', models.CharField(max_length=50)),
-                ('email', models.CharField(blank=True, max_length=254)),
-                ('address1', models.CharField(max_length=250)),
-                ('address2', models.CharField(max_length=250)),
-                ('city', models.CharField(max_length=100)),
-                ('phone', models.CharField(max_length=100)),
-                ('pincode', models.CharField(max_length=20)),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('updated', models.DateTimeField(auto_now=True)),
-                ('total_paid', models.DecimalField(decimal_places=2, max_digits=8)),
-                ('order_key', models.CharField(max_length=200)),
-                ('payment_option', models.CharField(blank=True, max_length=200)),
-                ('billing_status', models.BooleanField(default=False)),
-                ('coupon', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='orders.coupon')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='order_user', to='customers.customerprofile')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("full_name", models.CharField(max_length=50)),
+                ("email", models.CharField(blank=True, max_length=254)),
+                ("address1", models.CharField(max_length=250)),
+                ("address2", models.CharField(max_length=250)),
+                ("city", models.CharField(max_length=100)),
+                ("phone", models.CharField(max_length=100)),
+                ("pincode", models.CharField(max_length=20)),
+                ("created", models.DateTimeField(auto_now_add=True)),
+                ("updated", models.DateTimeField(auto_now=True)),
+                ("total_paid", models.DecimalField(decimal_places=2, max_digits=8)),
+                ("order_key", models.CharField(max_length=200)),
+                ("payment_option", models.CharField(blank=True, max_length=200)),
+                ("billing_status", models.BooleanField(default=False)),
+                (
+                    "coupon",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="orders.coupon",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="order_user",
+                        to="customers.customerprofile",
+                    ),
+                ),
             ],
             options={
-                'ordering': ('-created',),
+                "ordering": ("-created",),
             },
         ),
         migrations.CreateModel(
-            name='Refund',
+            name="Refund",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('reason', models.TextField()),
-                ('accepted', models.BooleanField(default=False)),
-                ('email', models.EmailField(max_length=254)),
-                ('order', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='orders.order')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("reason", models.TextField()),
+                ("accepted", models.BooleanField(default=False)),
+                ("email", models.EmailField(max_length=254)),
+                (
+                    "order",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="orders.order",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='OrderItem',
+            name="OrderItem",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('price', models.DecimalField(decimal_places=2, max_digits=8)),
-                ('quantity', models.PositiveIntegerField(default=1)),
-                ('order_status', models.CharField(choices=[('In process', 'In Process'), ('Shipped', 'Shipped'), ('Delivered', 'Delivered'), ('Cancelled', 'Cancelled')], default='In process', max_length=150)),
-                ('refund_requested', models.BooleanField(default=False)),
-                ('refund_granted', models.BooleanField(default=False)),
-                ('order', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='items', to='orders.order')),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='order_items', to='shop.product')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("price", models.DecimalField(decimal_places=2, max_digits=8)),
+                ("quantity", models.PositiveIntegerField(default=1)),
+                (
+                    "order_status",
+                    models.CharField(
+                        choices=[
+                            ("In process", "In Process"),
+                            ("Shipped", "Shipped"),
+                            ("Delivered", "Delivered"),
+                            ("Cancelled", "Cancelled"),
+                        ],
+                        default="In process",
+                        max_length=150,
+                    ),
+                ),
+                ("refund_requested", models.BooleanField(default=False)),
+                ("refund_granted", models.BooleanField(default=False)),
+                (
+                    "order",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="items",
+                        to="orders.order",
+                    ),
+                ),
+                (
+                    "product",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="order_items",
+                        to="shop.product",
+                    ),
+                ),
             ],
         ),
     ]

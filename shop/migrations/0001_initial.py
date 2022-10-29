@@ -10,101 +10,270 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('customers', '0001_initial'),
-        ('vendors', '0001_initial'),
+        ("customers", "0001_initial"),
+        ("vendors", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Category',
+            name="Category",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=50)),
-                ('image', models.ImageField(blank=True, upload_to='brands/')),
-                ('slug', models.SlugField(unique=True)),
-                ('status', models.BooleanField(default=True)),
-                ('create_at', models.DateTimeField(auto_now_add=True)),
-                ('update_at', models.DateTimeField(auto_now=True)),
-                ('lft', models.PositiveIntegerField(editable=False)),
-                ('rght', models.PositiveIntegerField(editable=False)),
-                ('tree_id', models.PositiveIntegerField(db_index=True, editable=False)),
-                ('level', models.PositiveIntegerField(editable=False)),
-                ('parent', mptt.fields.TreeForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='children', to='shop.category')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=50)),
+                ("image", models.ImageField(blank=True, upload_to="brands/")),
+                ("slug", models.SlugField(unique=True)),
+                ("status", models.BooleanField(default=True)),
+                ("create_at", models.DateTimeField(auto_now_add=True)),
+                ("update_at", models.DateTimeField(auto_now=True)),
+                ("lft", models.PositiveIntegerField(editable=False)),
+                ("rght", models.PositiveIntegerField(editable=False)),
+                ("tree_id", models.PositiveIntegerField(db_index=True, editable=False)),
+                ("level", models.PositiveIntegerField(editable=False)),
+                (
+                    "parent",
+                    mptt.fields.TreeForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="children",
+                        to="shop.category",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='Color',
+            name="Color",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=100)),
-                ('color_code', models.CharField(max_length=100)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=100)),
+                ("color_code", models.CharField(max_length=100)),
             ],
             options={
-                'verbose_name_plural': 'Products Colors',
+                "verbose_name_plural": "Products Colors",
             },
         ),
         migrations.CreateModel(
-            name='Product',
+            name="Product",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255)),
-                ('description', models.TextField()),
-                ('image', models.ImageField(default='images/default-image.jpg', upload_to='product_images/')),
-                ('slug', models.SlugField(max_length=255)),
-                ('mrp_price', models.DecimalField(blank=True, decimal_places=2, max_digits=8, null=True, verbose_name='MRP Price')),
-                ('delivery_charges', models.DecimalField(decimal_places=2, default=0.0, max_digits=6, verbose_name='Delivery Charges')),
-                ('is_active', models.BooleanField(default=False)),
-                ('is_featured', models.BooleanField(default=False)),
-                ('approve', models.BooleanField(default=False)),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('updated', models.DateTimeField(auto_now=True)),
-                ('thumbnail', models.ImageField(blank=True, null=True, upload_to='product_images/')),
-                ('brand', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, related_name='brand', to='shop.category')),
-                ('created_by', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='vendor', to='vendors.vendorprofile')),
-                ('wishlist_user', models.ManyToManyField(blank=True, related_name='user_wishlist', to='customers.customerprofile')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255)),
+                ("description", models.TextField()),
+                (
+                    "image",
+                    models.ImageField(
+                        default="images/default-image.jpg", upload_to="product_images/"
+                    ),
+                ),
+                ("slug", models.SlugField(max_length=255)),
+                (
+                    "mrp_price",
+                    models.DecimalField(
+                        blank=True,
+                        decimal_places=2,
+                        max_digits=8,
+                        null=True,
+                        verbose_name="MRP Price",
+                    ),
+                ),
+                (
+                    "delivery_charges",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=0.0,
+                        max_digits=6,
+                        verbose_name="Delivery Charges",
+                    ),
+                ),
+                ("is_active", models.BooleanField(default=False)),
+                ("is_featured", models.BooleanField(default=False)),
+                ("approve", models.BooleanField(default=False)),
+                ("created", models.DateTimeField(auto_now_add=True)),
+                ("updated", models.DateTimeField(auto_now=True)),
+                (
+                    "thumbnail",
+                    models.ImageField(
+                        blank=True, null=True, upload_to="product_images/"
+                    ),
+                ),
+                (
+                    "brand",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.RESTRICT,
+                        related_name="brand",
+                        to="shop.category",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="vendor",
+                        to="vendors.vendorprofile",
+                    ),
+                ),
+                (
+                    "wishlist_user",
+                    models.ManyToManyField(
+                        blank=True,
+                        related_name="user_wishlist",
+                        to="customers.customerprofile",
+                    ),
+                ),
             ],
             options={
-                'verbose_name_plural': 'Products',
-                'ordering': ('-created',),
+                "verbose_name_plural": "Products",
+                "ordering": ("-created",),
             },
         ),
         migrations.CreateModel(
-            name='ProductReview',
+            name="ProductReview",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('review_text', models.TextField()),
-                ('review_rating', models.CharField(choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')], max_length=150)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to='shop.product')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='customers.customerprofile')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("review_text", models.TextField()),
+                (
+                    "review_rating",
+                    models.CharField(
+                        choices=[(1, "1"), (2, "2"), (3, "3"), (4, "4"), (5, "5")],
+                        max_length=150,
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "product",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="reviews",
+                        to="shop.product",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="customers.customerprofile",
+                    ),
+                ),
             ],
             options={
-                'verbose_name_plural': 'Reviews',
+                "verbose_name_plural": "Reviews",
             },
         ),
         migrations.CreateModel(
-            name='ProductImage',
+            name="ProductImage",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image', models.ImageField(blank=True, null=True, upload_to='product_images/')),
-                ('thumbnail', models.ImageField(blank=True, null=True, upload_to='product_images/')),
-                ('product', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='images', to='shop.product')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "image",
+                    models.ImageField(
+                        blank=True, null=True, upload_to="product_images/"
+                    ),
+                ),
+                (
+                    "thumbnail",
+                    models.ImageField(
+                        blank=True, null=True, upload_to="product_images/"
+                    ),
+                ),
+                (
+                    "product",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="images",
+                        to="shop.product",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='ProductAttribute',
+            name="ProductAttribute",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('price', models.DecimalField(blank=True, decimal_places=2, max_digits=8, null=True, verbose_name='Price')),
-                ('in_stock', models.BooleanField(default=True, verbose_name='Product in stock')),
-                ('color', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='shop.color')),
-                ('product', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='attributes', to='shop.product')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "price",
+                    models.DecimalField(
+                        blank=True,
+                        decimal_places=2,
+                        max_digits=8,
+                        null=True,
+                        verbose_name="Price",
+                    ),
+                ),
+                (
+                    "in_stock",
+                    models.BooleanField(default=True, verbose_name="Product in stock"),
+                ),
+                (
+                    "color",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="shop.color"
+                    ),
+                ),
+                (
+                    "product",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="attributes",
+                        to="shop.product",
+                    ),
+                ),
             ],
             options={
-                'verbose_name_plural': 'Product Attributes',
+                "verbose_name_plural": "Product Attributes",
             },
         ),
     ]

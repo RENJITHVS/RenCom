@@ -32,6 +32,12 @@
                             <div class="d-flex align-self-center my-1">
                                 <p class="mx-2">name: </p>
                                 <h5>{{ request.user.full_name }}</h5>
+                            {% if not request.user.vendorprofile.approved %}
+                            <span class="badge bg-warning mx-2"> Not verified</span>
+                            {% else %}
+                            <i class='fas fa-check-circle mx-2' style='color: blue'></i>
+                            {% endif %}
+                                
                             </div>
                             <div class="d-flex align-self-center my-1">
                                 <p class="mx-2">email: </p>

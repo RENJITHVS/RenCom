@@ -3,6 +3,90 @@
 {% block title %} Home {% endblock %}
 {% block content %}
 
+
+<!-- Banner -->
+<section class="banner">
+<div id="myCarousel" class="carousel slide" data-bs-ride="carousel" style="">
+     <div class="carousel-indicators">
+        {% for banner in banners %}
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="{{ forloop.counter0 }}"  {% if forloop.counter0 == 0 %} class="active" {% endif %} aria-current="true" aria-label="Slide 1"></button>
+      {% endfor %}
+     
+    </div>
+    <div class="carousel-inner">
+        {% for banner in banners %}
+      <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
+        <img class="bd-placeholder-img" width="100%" height="100%" src="{{ banner.images.url}}" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></img>
+
+        <div class="container">
+          <div class="carousel-caption text-start">
+            <h1 style="color: white;">{{ banner.tag_line }}</h1>
+            <p>Best destination for all your shopping needs</p>
+            {% if request.user.is_anonymous %}
+            <p><a class="btn btn-lg btn-primary" href="{% url 'customers:loginUser' %}">Login</a></p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% comment %} <div class="carousel-item">
+        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+
+        <div class="container">
+          <div class="carousel-caption">
+            <h1>Another example headline.</h1>
+            <p>Some representative placeholder content for the second slide of the carousel.</p>
+            <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+
+        <div class="container">
+          <div class="carousel-caption text-end">
+            <h1>One more for good measure.</h1>
+            <p>Some representative placeholder content for the third slide of this carousel.</p>
+            <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+          </div>
+        </div>
+      </div>
+    </div> {% endcomment %}
+    {% comment %} <div class="carousel-indicators">
+        {% for banner in banners %}
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.counter == 0 %} class="active" {% endif %} aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
+        {% endfor %}
+    </div>
+    <div class="carousel-inner">
+        {% for banner in banners %}
+        <div class="carousel-item {% if forloop.counter == 3 %}active{% endif %}">
+                <img class="bd-placeholder-img" width="100%" height="100%" src="{{ banner.images.url}}" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></img>
+
+            <div class="container">
+                <div class="carousel-caption text-start">
+                    <h1>{{ banner.tag_line }}</h1>
+                    <p></p>
+                    {% if request.user.is_anonymous %}
+                    <p><a class="btn btn-lg btn-primary" href="{% url 'customers:loginUser' %}">Login</a></p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div> {% endcomment %}
+    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>
+
+
+
 <!-- Features Section Start -->
 <section class="features">
     <div class="container">
@@ -22,28 +106,6 @@
                                 class="img-fluid mx-auto"></a>
                         <div class="cart-icon">
                             <a href="{% url 'customers:add_wishlist' prod.id %}"><i class="far fa-heart shadow"></i></a>
-                            <a class="add-cart shadow" value={{ prod.id }}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16.75" height="16.75"
-                                    viewBox="0 0 16.75 16.75">
-                                    <g id="Your_Bag" data-name="Your Bag" transform="translate(0.75)">
-                                        <g id="Icon" transform="translate(0 1)">
-                                            <ellipse id="Ellipse_2" data-name="Ellipse 2" cx="0.682" cy="0.714"
-                                                rx="0.682" ry="0.714" transform="translate(4.773 13.571)"
-                                                fill="none" stroke="#1a2224" stroke-linecap="round"
-                                                stroke-linejoin="round" stroke-width="1.5" />
-                                            <ellipse id="Ellipse_3" data-name="Ellipse 3" cx="0.682" cy="0.714"
-                                                rx="0.682" ry="0.714" transform="translate(12.273 13.571)"
-                                                fill="none" stroke="#1a2224" stroke-linecap="round"
-                                                stroke-linejoin="round" stroke-width="1.5" />
-                                            <path id="Path_3" data-name="Path 3"
-                                                d="M1,1H3.727l1.827,9.564a1.38,1.38,0,0,0,1.364,1.15h6.627a1.38,1.38,0,0,0,1.364-1.15L16,4.571H4.409"
-                                                transform="translate(-1 -1)" fill="none" stroke="#1a2224"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                stroke-width="1.5" />
-                                        </g>
-                                    </g>
-                                </svg>
-                            </a>
                         </div>
                     </div>
                     <div class="product-item-info">
@@ -85,6 +147,7 @@
 </section>
 <!-- Features Section End -->
 
+
 <!--Banner Area Start -->
 <section class="banner-area">
     <div class="container">
@@ -100,7 +163,7 @@
                 <div class="brand-area">
                     {% for brand in brands %}
                     <div class="brand-area-image">
-                        <img src="{{ brand.image.url }}" alt="{{ brand.title }}" class="img-fluid" style="width:100px ; height :100px" >
+                        <img src="{{ brand.image.url }}" alt="{{ brand.title }}" class="img-fluid" style="width:150px ; height :150px" >
                     </div>
                     {% endfor %}
                 </div>
@@ -113,7 +176,7 @@
 
 <!-- Populer Product Strat -->
 <section class="populerproduct">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
                 <div class="section-title">
@@ -130,28 +193,6 @@
                                 class="img-fluid "></a>
                         <div class="cart-icon">
                             <a href="{% url 'customers:add_wishlist' product.id %}"><i class="far fa-heart shadow"></i></a>
-                            <a class="add-cart shadow" value="{{ product.id }}" id="{{ product.attributes.first.price }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16.75" height="16.75"
-                                    viewBox="0 0 16.75 16.75">
-                                    <g id="Your_Bag" data-name="Your Bag" transform="translate(0.75)">
-                                        <g id="Icon" transform="translate(0 1)">
-                                            <ellipse id="Ellipse_2" data-name="Ellipse 2" cx="0.682" cy="0.714"
-                                                rx="0.682" ry="0.714" transform="translate(4.773 13.571)"
-                                                fill="none" stroke="#1a2224" stroke-linecap="round"
-                                                stroke-linejoin="round" stroke-width="1.5" />
-                                            <ellipse id="Ellipse_3" data-name="Ellipse 3" cx="0.682" cy="0.714"
-                                                rx="0.682" ry="0.714" transform="translate(12.273 13.571)"
-                                                fill="none" stroke="#1a2224" stroke-linecap="round"
-                                                stroke-linejoin="round" stroke-width="1.5" />
-                                            <path id="Path_3" data-name="Path 3"
-                                                d="M1,1H3.727l1.827,9.564a1.38,1.38,0,0,0,1.364,1.15h6.627a1.38,1.38,0,0,0,1.364-1.15L16,4.571H4.409"
-                                                transform="translate(-1 -1)" fill="none" stroke="#1a2224"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                stroke-width="1.5" />
-                                        </g>
-                                    </g>
-                                </svg>
-                            </a>
                         </div>
                     </div>
                     <div class="product-item-info">
@@ -207,8 +248,8 @@
 <!-- Pagination End -->
 
 <!-- Categorys Section Start -->
-<section class="categorys">
-    <div class="container">
+<section class="categorys" id="categories">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
                 <div class="section-title">
@@ -360,4 +401,6 @@
         })
       });
 </script>
+
+
 {% endblock content %}

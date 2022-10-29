@@ -16,20 +16,47 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='VendorProfile',
+            name="VendorProfile",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('vendor_id', models.CharField(default=vendors.models.create_id, editable=False, max_length=30)),
-                ('profile_pic', models.ImageField(default='images/profile_pic.jpg', upload_to='profile_pic/')),
-                ('address1', models.CharField(blank=True, max_length=250, null=True)),
-                ('address2', models.CharField(blank=True, max_length=250, null=True)),
-                ('city', models.CharField(blank=True, max_length=100, null=True)),
-                ('phone', models.CharField(blank=True, max_length=100, null=True)),
-                ('pincode', models.CharField(blank=True, max_length=20, null=True)),
-                ('account_number', models.CharField(blank=True, max_length=20, null=True)),
-                ('ifsc_code', models.CharField(blank=True, max_length=20, null=True)),
-                ('approved', models.BooleanField(default=False)),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "vendor_id",
+                    models.CharField(
+                        default=vendors.models.create_id, editable=False, max_length=30
+                    ),
+                ),
+                (
+                    "profile_pic",
+                    models.ImageField(
+                        default="images/profile_pic.jpg", upload_to="profile_pic/"
+                    ),
+                ),
+                ("address1", models.CharField(blank=True, max_length=250, null=True)),
+                ("address2", models.CharField(blank=True, max_length=250, null=True)),
+                ("city", models.CharField(blank=True, max_length=100, null=True)),
+                ("phone", models.CharField(blank=True, max_length=100, null=True)),
+                ("pincode", models.CharField(blank=True, max_length=20, null=True)),
+                (
+                    "account_number",
+                    models.CharField(blank=True, max_length=20, null=True),
+                ),
+                ("ifsc_code", models.CharField(blank=True, max_length=20, null=True)),
+                ("approved", models.BooleanField(default=False)),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

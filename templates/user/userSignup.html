@@ -2,72 +2,85 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
-  <!-- Account-SignUp -->
+<!-- Account-SignUp -->
 <section class="account-sign">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-12 mx-auto">
-                        <div class="account-sign-up">
-                            <h5 class="text-center">Sign up</h5>
-                            <form method="post" class="mb-2">
-                                {% csrf_token %}
-                                {% comment %} <div class="form__div">
-                                    {% crispy_field form.email 'class' 'form__input' %}
-                                    <label for="{{ form.email.id_for_label }}" class="form__label">{{ form.email.label }}</label>
-                                    {{ form.email |as_crispy_errors }}
-                                </div>
-                                <div class="form__div">
-                                    {% crispy_field form.phone 'class' 'form__input' %}
-                                    <label for="{{ form.phone.id_for_label }}" class="form__label">{{ form.phone.label }}</label>
-                                    {{ form.phone |as_crispy_errors }}
-                                </div>
-                                <div class="form__div">
-                                    {% crispy_field form.password 'class' 'form__input' %}
-                                    <label for="{{ form.password.id_for_label }}" class="form__label">{{ form.password.label }}</label>
-                                    {{ form.password |as_crispy_errors }}
-                                </div>
-                                <div class="form__div">
-                                    {% crispy_field form.password2 'class' 'form__input' %}
-                                    <label for="{{ form.password2.id_for_label }}" class="form__label">{{ form.password2.label }}</label>
-                                    {{ form.password2 |as_crispy_errors }}
-                                </div>  {% endcomment %}
-                                <div class="my-1">
-                                    {{ form.full_name| as_crispy_field }}
-                                </div>
-                                <div class="my-1">
-                                    {{ form.email| as_crispy_field }}
-                                </div> 
-                                <div class="my-1">
-                                    {{ form.password| as_crispy_field }}
-                                </div>
-                                <div class="my-1">
-                                    {{ form.password2| as_crispy_field }}
-                                </div>  
-                                {% comment %} <div class="form__div">
-                                    
-                                    <label class="custom-control-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                                    {% crispy_field form.email 'class' 'form__input' %}
-                                    <label for="{{ form.email.id_for_label }}" class="form__label">{{ field.label }}</label>
-                                </div>
-                                <div class="form__div">
-                                    <input type="password" class="form__input" placeholder=" ">
-                                    <label for="" class="form__label">Password</label>
-                                </div>
-                                <div class="form__div mb-0">
-                                    <input type="password" class="form__input" placeholder=" ">
-                                    <label for="" class="form__label">Repeat Password</label>
-                                </div>
-                                 <div class="password-info-show">
-                                    <input type="checkbox" id="showpassagain" class="mb-0">
-                                    <label for="showpassagain" class="mb-0">Show Password</label>
-                                </div>
-                                 {% endcomment %}
-                                <button type="submit" class="btn bg-primary">Sign Up</button> 
-                            </form>
-                            <a class="text-center" href="{% url 'customers:loginUser' %}">Already have an account?</a>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 mx-auto">
+                <div class="account-sign-up">
+                    <h5 class="text-center">Sign up</h5>
+                    <form method="post" class="mb-2">
+                        {% csrf_token %}
+                        {% comment %} <div class="form__div">
+                            {% crispy_field form.email 'class' 'form__input' %}
+                            <label for="{{ form.email.id_for_label }}"
+                                class="form__label">{{ form.email.label }}</label>
+                            {{ form.email |as_crispy_errors }}
                         </div>
-                    </div>
+                        <div class="form__div">
+                            {% crispy_field form.phone 'class' 'form__input' %}
+                            <label for="{{ form.phone.id_for_label }}"
+                                class="form__label">{{ form.phone.label }}</label>
+                            {{ form.phone |as_crispy_errors }}
+                        </div>
+                        <div class="form__div">
+                            {% crispy_field form.password 'class' 'form__input' %}
+                            <label for="{{ form.password.id_for_label }}"
+                                class="form__label">{{ form.password.label }}</label>
+                            {{ form.password |as_crispy_errors }}
+                        </div>
+                        <div class="form__div">
+                            {% crispy_field form.password2 'class' 'form__input' %}
+                            <label for="{{ form.password2.id_for_label }}"
+                                class="form__label">{{ form.password2.label }}</label>
+                            {{ form.password2 |as_crispy_errors }}
+                        </div> {% endcomment %}
+                        <div class="my-1">
+                            {{ form.full_name| as_crispy_field }}
+                        </div>
+                        <div class="my-1">
+                            {{ form.email| as_crispy_field }}
+                        </div>
+                        <div class="my-1">
+                            {{ form.password| as_crispy_field }}
+                        </div>
+                        <div class="my-1">
+                            {{ form.password2| as_crispy_field }}
+                        </div>
+                        {% if form.error %}
+                        {% for field in form %}
+                        {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                        {% endfor %}
+                        {% endfor %}
+                        {% endif %}
+                        {% comment %} <div class="form__div">
+
+                            <label class="custom-control-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {% crispy_field form.email 'class' 'form__input' %}
+                            <label for="{{ form.email.id_for_label }}" class="form__label">{{ field.label }}</label>
+                        </div>
+                        <div class="form__div">
+                            <input type="password" class="form__input" placeholder=" ">
+                            <label for="" class="form__label">Password</label>
+                        </div>
+                        <div class="form__div mb-0">
+                            <input type="password" class="form__input" placeholder=" ">
+                            <label for="" class="form__label">Repeat Password</label>
+                        </div>
+                        <div class="password-info-show">
+                            <input type="checkbox" id="showpassagain" class="mb-0">
+                            <label for="showpassagain" class="mb-0">Show Password</label>
+                        </div>
+                        {% endcomment %}
+                        <button type="submit" class="btn bg-primary">Sign Up</button>
+                    </form>
+                    <a class="text-center" href="{% url 'customers:loginUser' %}">Already have an account?</a>
                 </div>
             </div>
- </section>
+        </div>
+    </div>
+</section>
 {% endblock %}

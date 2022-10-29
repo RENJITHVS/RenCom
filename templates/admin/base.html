@@ -3,6 +3,7 @@
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 {% get_jazzmin_settings request as jazzmin_settings %}
 {% get_jazzmin_ui_tweaks as jazzmin_ui %}
+{% load notifications_tags %}
 
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
@@ -146,9 +147,25 @@
                         </div>
                     </li>
                 {% endif %}
-                <a class="btn btn-primary"  href="#">
-                    Notifications
-                </a>
+                <li class="dropdown">
+                    <div class="dropdown">
+                        <a class="notification dropdown-toggle" type="button" id="dropdownMenu2"
+                            data-toggle="dropdown" aria-haspopup="true">
+                            <i class="fa fa-bell" style="font-size:24px"></i>
+                            <span class="badge">{% live_notify_badge %}</span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            {% for notification in  user.notifications.unread %}
+                            <div class="mx-2">
+                                <b>{{ notification.verb }}</b> </br>
+                                <small>{{notification.timestamp|timesince}} ago</small>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% live_notify_list list_class="dropdown-menu" %}
+                </li>
                 <li class="nav-item dropdown">
                     
                     <a class="nav-link btn" data-toggle="dropdown" href="#" title="{{ request.user }}">
@@ -326,7 +343,7 @@
     {% if not is_popup %}
         <footer class="main-footer {{ jazzmin_ui.footer_classes }}">
             <div class="float-right d-none d-sm-inline">
-                <b>{% trans 'Jazzmin version' %}</b> {% get_jazzmin_version %}
+                {% comment %} <b>{% trans 'Jazzmin version' %}</b> {% get_jazzmin_version %} {% endcomment %}
             </div>
             {% autoescape off %}
                 <strong>{% trans 'Copyright' %} &copy; {% now 'Y' %} {{ jazzmin_settings.copyright }}.</strong> {% trans 'All rights reserved.' %}
