@@ -5,134 +5,167 @@
 
 
 <!-- Banner -->
-<section class="banner">
-<div id="myCarousel" class="carousel slide" data-bs-ride="carousel" style="">
-     <div class="carousel-indicators">
-        {% for banner in banners %}
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="{{ forloop.counter0 }}"  {% if forloop.counter0 == 0 %} class="active" {% endif %} aria-current="true" aria-label="Slide 1"></button>
-      {% endfor %}
-     
+<section class="banner mobile_img">
+    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" style="">
+        <div class="carousel-indicators">
+            {% for banner in mob_banners %}
+            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="{{ forloop.counter0 }}"
+                {% if forloop.counter0 == 0 %} class="active" {% endif %} aria-current="true"
+                aria-label="Slide 1"></button>
+            {% endfor %}
+
+        </div>
+        <div class="carousel-inner">
+            {% for banner in mob_banners %}
+            <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
+                <img class="bd-placeholder-img" width="100%" height="100%" src="{{ banner.images.url}}"
+                    aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                <rect width="100%" height="100%" fill="#777" /></img>
+
+                <div class="container">
+                    <div class="carousel-caption text-start">
+                        <h1 style="color: white;">{{ banner.tag_line }}</h1>
+                        <p>Best destination for all your shopping needs</p>
+                        {% if request.user.is_anonymous %}
+                        <p><a class="btn btn-lg btn-primary" href="{% url 'customers:loginUser' %}">Login</a></p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
     </div>
-    <div class="carousel-inner">
-        {% for banner in banners %}
-      <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
-        <img class="bd-placeholder-img" width="100%" height="100%" src="{{ banner.images.url}}" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></img>
+</section>
 
-        <div class="container">
-          <div class="carousel-caption text-start">
-            <h1 style="color: white;">{{ banner.tag_line }}</h1>
-            <p>Best destination for all your shopping needs</p>
-            {% if request.user.is_anonymous %}
-            <p><a class="btn btn-lg btn-primary" href="{% url 'customers:loginUser' %}">Login</a></p>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-      {% endfor %}
-      {% comment %} <div class="carousel-item">
-        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+<section class="banner desk_img">
+    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" style="">
+        <div class="carousel-indicators">
+            {% for banner in desk_banners %}
+            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="{{ forloop.counter0 }}"
+                {% if forloop.counter0 == 0 %} class="active" {% endif %} aria-current="true"
+                aria-label="Slide 1"></button>
+            {% endfor %}
 
-        <div class="container">
-          <div class="carousel-caption">
-            <h1>Another example headline.</h1>
-            <p>Some representative placeholder content for the second slide of the carousel.</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
-          </div>
         </div>
-      </div>
-      <div class="carousel-item">
-        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+        <div class="carousel-inner">
+            {% for banner in desk_banners %}
+            <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
+                <img class="bd-placeholder-img" width="100%" height="100%" src="{{ banner.images.url}}"
+                    aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                <rect width="100%" height="100%" fill="#777" /></img>
 
-        <div class="container">
-          <div class="carousel-caption text-end">
-            <h1>One more for good measure.</h1>
-            <p>Some representative placeholder content for the third slide of this carousel.</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
-          </div>
+                <div class="container">
+                    <div class="carousel-caption text-start">
+                        <h1 style="color: white;">{{ banner.tag_line }}</h1>
+                        <p>Best destination for all your shopping needs</p>
+                        {% if request.user.is_anonymous %}
+                        <p><a class="btn btn-lg btn-primary" href="{% url 'customers:loginUser' %}">Login</a></p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-      </div>
-    </div> {% endcomment %}
-    {% comment %} <div class="carousel-indicators">
-        {% for banner in banners %}
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.counter == 0 %} class="active" {% endif %} aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
-        {% endfor %}
     </div>
-    <div class="carousel-inner">
-        {% for banner in banners %}
-        <div class="carousel-item {% if forloop.counter == 3 %}active{% endif %}">
-                <img class="bd-placeholder-img" width="100%" height="100%" src="{{ banner.images.url}}" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></img>
+</section>
 
-            <div class="container">
-                <div class="carousel-caption text-start">
-                    <h1>{{ banner.tag_line }}</h1>
-                    <p></p>
-                    {% if request.user.is_anonymous %}
-                    <p><a class="btn btn-lg btn-primary" href="{% url 'customers:loginUser' %}">Login</a></p>
-                    {% endif %}
+<!--Banner Popular Products Area Start -->
+<section class="banner-area">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="section-title">
+                    <h2>Popular brands</h2>
                 </div>
             </div>
         </div>
-        {% endfor %}
-    </div> {% endcomment %}
-    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
-</div>
-
-
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="brand-area">
+                    {% for brand in brands %}
+                    <div class="brand-area-image">
+                        <img src="{{ brand.image.url }}" alt="{{ brand.title }}" class="img-fluid"
+                            style="width:150px ; height :150px">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Banner Area End -->
 
 <!-- Features Section Start -->
 <section class="features">
     <div class="container">
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col ">
                 <div class="section-title">
                     <h2>Featured Products</h2>
                 </div>
             </div>
         </div>
-        <div class="features-wrapper">
-            <div class="features-active">
-                {% for prod in fproducts %}
-                <div class="product-item">
-                    <div class="product-item-image text-left shadow" >
-                        <a href="{{ prod.get_absolute_url }}" class="text-center"><img src="{{prod.thumbnail.url}}" alt="Product Name"
-                                class="img-fluid mx-auto"></a>
-                        <div class="cart-icon">
-                            <a href="{% url 'customers:add_wishlist' prod.id %}"><i class="far fa-heart shadow"></i></a>
+        <div class='row'>
+            <div class="col-sm-12">
+                <div class="features-wrapper">
+                    <div class="features-active">
+                        {% for prod in fproducts %}
+                        <div class="product-item text-center">
+                            <div class="product-item-image">
+                                <a href="{{ prod.get_absolute_url }}"><img src="{{prod.thumbnail.url}}"
+                                        alt="Product Name" class="img-fluid mx-auto"></a>
+                                <div class="cart-icon">
+                                    {% if prod.attributes.first.offer_difference is not None %}<span
+                                        class="badge badge-primary h-50"> {{ prod.attributes.first.offer_difference }}%
+                                        off </span>{% endif %}
+                                    <a href="{% url 'customers:add_wishlist' prod.id %}"><i
+                                            class="far fa-heart"></i></a>
+                                </div>
+                            </div>
+                            <div class="product-item-info">
+                                <a href="{{ prod.get_absolute_url }}">{{ prod.title|truncatechars:20 }}</a>
+                                <span>Rs {{ prod.attributes.first.product_price }}</span> <del>Rs
+                                    {{ prod.mrp_price }}</del>
+                            </div>
+
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="slider-arrows">
+                        <div class="prev-arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="9.414" height="16.828"
+                                viewBox="0 0 9.414 16.828">
+                                <path id="Icon_feather-chevron-left" data-name="Icon feather-chevron-left"
+                                    d="M20.5,23l-7-7,7-7" transform="translate(-12.5 -7.586)" fill="none"
+                                    stroke="#1a2224" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                            </svg>
+                        </div>
+                        <div class="next-arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="9.414" height="16.828"
+                                viewBox="0 0 9.414 16.828">
+                                <path id="Icon_feather-chevron-right" data-name="Icon feather-chevron-right"
+                                    d="M13.5,23l5.25-5.25.438-.437L20.5,16l-7-7" transform="translate(-12.086 -7.586)"
+                                    fill="none" stroke="#1a2224" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" />
+                            </svg>
                         </div>
                     </div>
-                    <div class="product-item-info">
-                        <a href="{{ prod.get_absolute_url }}">{{ prod.title|truncatechars:20 }}</a>
-                        <span>Rs {{ prod.attributes.first.price }}</span> <del>Rs {{ prod.mrp_price }}</del>
-                    </div>
-                    
-                </div>
-                {% endfor %}
-            </div>
-            <div class="slider-arrows">
-                <div class="prev-arrow">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="9.414" height="16.828"
-                        viewBox="0 0 9.414 16.828">
-                        <path id="Icon_feather-chevron-left" data-name="Icon feather-chevron-left"
-                            d="M20.5,23l-7-7,7-7" transform="translate(-12.5 -7.586)" fill="none"
-                            stroke="#1a2224" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                    </svg>
-                </div>
-                <div class="next-arrow">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="9.414" height="16.828"
-                        viewBox="0 0 9.414 16.828">
-                        <path id="Icon_feather-chevron-right" data-name="Icon feather-chevron-right"
-                            d="M13.5,23l5.25-5.25.438-.437L20.5,16l-7-7" transform="translate(-12.086 -7.586)"
-                            fill="none" stroke="#1a2224" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="2" />
-                    </svg>
                 </div>
             </div>
         </div>
@@ -148,32 +181,6 @@
 <!-- Features Section End -->
 
 
-<!--Banner Area Start -->
-<section class="banner-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="section-title">
-                    <h2>Popular brands</h2>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="brand-area">
-                    {% for brand in brands %}
-                    <div class="brand-area-image">
-                        <img src="{{ brand.image.url }}" alt="{{ brand.title }}" class="img-fluid" style="width:150px ; height :150px" >
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!--Banner Area End -->
-
-
 <!-- Populer Product Strat -->
 <section class="populerproduct">
     <div class="container-fluid">
@@ -186,66 +193,72 @@
         </div>
         <div class="row">
             {% for product in page_obj %}
-            <div class="col-md-3 col-sm-6">
-                <div class="product-item">
-                    <div class="product-item-image text-center">
-                        <a href="{{ product.get_absolute_url }}" class="text-center"><img src="{{ product.thumbnail.url}}" alt="Product Name"
-                                class="img-fluid "></a>
+            <div class="col-sm-6 col-md-4 col-lg-3 ">
+                <div class="product-item text-center">
+                    <div class="product-item-image">
+                        <a href="{{ product.get_absolute_url }}"><img src="{{ product.thumbnail.url}}"
+                                alt="Product Name" class=""></a>
                         <div class="cart-icon">
-                            <a href="{% url 'customers:add_wishlist' product.id %}"><i class="far fa-heart shadow"></i></a>
+                            {% if product.attributes.first.offer_difference is not None %}<span
+                                class="badge badge-primary h-50">
+                                {{ product.attributes.first.offer_difference }}% off </span>{% endif %}
+                            <a href="{% url 'customers:add_wishlist' product.id %}"><i class="far fa-heart"></i></a>
                         </div>
                     </div>
                     <div class="product-item-info">
                         <a href="{{ product.get_absolute_url }}">{{ product.title|truncatechars:30 }}</a>
-                        <span>Rs {{ product.attributes.first.price }}</span> <del>Rs {{ product.mrp_price }}</del>
+                        <span>Rs {{ product.attributes.first.product_price }}</span> <del>Rs
+                            {{ product.mrp_price }}</del>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
-</section>
-<!-- Populer Product End -->
-<!-- Pagination Start -->
+    <!-- Pagination Start -->
+    {% if paginated %}
 <section class="pagination">
     <div class="container">
         <div class="d-flex justify-content-center">
 
             <ul class="pagination my-1">
-              {% if page_obj.has_previous %}
-              <li class="page-item" aria-current="page">
-                <a class="page-link" href="?page=1">First</a>
-              </li>
-              <li class="page-item" aria-current="page">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-              </li>
-              {% endif %}
-    
-              {% for num in page_obj.paginator.page_range %}
-              {% if page_obj.number == num %}
-              <li class="page-item active"><a href="?page={{ num }}" class="page-link">{{ num }}</a>
-              </li>
-              {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-              <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a>
-              </li>
-              {% endif %}
-              {% endfor %}
-    
-              {% if page_obj.has_next %}
-              <li class="page-item" aria-current="page">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
-              </li>
-              <li class="page-item" aria-current="page">
-                <a class="page-link" href="?page={{ page_obj.paginator.num_pages}}">Last</a>
-              </li>
-              {% endif %}
-    
+                {% if page_obj.has_previous %}
+                <li class="page-item" aria-current="page">
+                    <a class="page-link" href="?page=1">First</a>
+                </li>
+                <li class="page-item" aria-current="page">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active"><a href="?page={{ num }}" class="page-link">{{ num }}</a>
+                </li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item" aria-current="page">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                </li>
+                <li class="page-item" aria-current="page">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages}}">Last</a>
+                </li>
+                {% endif %}
+
             </ul>
-            
-          </div>
+
+        </div>
     </div>
 </section>
 <!-- Pagination End -->
+{% endif %}
+</section>
+<!-- Populer Product End -->
 
 <!-- Categorys Section Start -->
 <section class="categorys" id="categories">
@@ -262,7 +275,8 @@
             <div class="col-lg-3 col-md-4 col-sm-6 col-6">
                 <div class="productcategory text-center">
                     <div class="productcategory-img">
-                        <a href="{{ cat.get_absolute_url }}"><img src="{{ cat.image.url }}" alt="images" style="width:120px; height:100px;"></a>
+                        <a href="{{ cat.get_absolute_url }}"><img src="{{ cat.image.url }}" alt="images"
+                                style="width:120px; height:100px;"></a>
                     </div>
                     <div class="productcategory-text">
                         <a href="#">
@@ -273,13 +287,6 @@
                 </div>
             </div>
             {% endfor %}
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="features-morebutton text-center">
-                    <a class="btn bt-glass" href="#">View All Categorys</a>
-                </div>
-            </div>
         </div>
     </div>
 </section>
@@ -348,16 +355,14 @@
             </div>
             <div class="slider-arrows">
                 <div class="prev-arrow">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="9.414" height="16.828"
-                        viewBox="0 0 9.414 16.828">
-                        <path id="Icon_feather-chevron-left" data-name="Icon feather-chevron-left"
-                            d="M20.5,23l-7-7,7-7" transform="translate(-12.5 -7.586)" fill="none"
-                            stroke="#1a2224" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="9.414" height="16.828" viewBox="0 0 9.414 16.828">
+                        <path id="Icon_feather-chevron-left" data-name="Icon feather-chevron-left" d="M20.5,23l-7-7,7-7"
+                            transform="translate(-12.5 -7.586)" fill="none" stroke="#1a2224" stroke-linecap="round"
+                            stroke-linejoin="round" stroke-width="2" />
                     </svg>
                 </div>
                 <div class="next-arrow">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="9.414" height="16.828"
-                        viewBox="0 0 9.414 16.828">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="9.414" height="16.828" viewBox="0 0 9.414 16.828">
                         <path id="Icon_feather-chevron-right" data-name="Icon feather-chevron-right"
                             d="M13.5,23l5.25-5.25.438-.437L20.5,16l-7-7" transform="translate(-12.086 -7.586)"
                             fill="none" stroke="#1a2224" stroke-linecap="round" stroke-linejoin="round"
@@ -371,35 +376,35 @@
 
 <!-- Features Section End -->
 <script>
-    [...document.getElementsByClassName("add-cart")].forEach(function(e){
-        e.addEventListener("click", function() {
-            
-            product_id= Number(this.getAttribute('value'))
+    [...document.getElementsByClassName("add-cart")].forEach(function (e) {
+        e.addEventListener("click", function () {
+
+            product_id = Number(this.getAttribute('value'))
             variation_id = Number(this.getAttribute('id'))
             console.log(product_id);
-                
+
             const formData = new FormData();
             //console.log(name);
             formData.append('productid', product_id);
             formData.append('productqty', 1);
             formData.append('variation_id', variation_id);
-    
+
             formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
             console.log(formData);
             fetch('{% url "cart:cart_add" %}', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                console.log('Success:', data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    console.log('Success:', data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         })
-      });
+    });
 </script>
 
 

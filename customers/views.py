@@ -35,7 +35,8 @@ def index(request):
     paginated_by = 20
     paginator = Paginator(product, paginated_by)
     # add details form banner
-    banners = Banner.objects.filter(active=True).order_by("-id")[:3]
+    mob_banners = Banner.objects.filter(active=True, is_mobile = True).order_by("-id")[:3]
+    desk_banners = Banner.objects.filter(active=True, is_mobile = False).order_by("-id")[:3]
     page = request.GET.get("page")
     try:
         products_paginated = paginator.get_page(page)
@@ -45,7 +46,8 @@ def index(request):
         products_paginated = paginator.get_page(paginator.num_pages)
     context = {
         "page_obj": products_paginated,
-        "banners": banners,
+        "mob_banners": mob_banners,
+        "desk_banners": desk_banners,
     }
     return render(request, "landing_page/home.html", context)
 

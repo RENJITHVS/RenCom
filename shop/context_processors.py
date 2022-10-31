@@ -1,5 +1,6 @@
 from .models import Category, Product
-
+import json
+from itertools import chain
 
 def featured_products_and_brands(request):
     """

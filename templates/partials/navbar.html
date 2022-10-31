@@ -27,60 +27,15 @@
                                 </svg>
                             </a>
 
-                            {% comment %} <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li class="dropdown dropend">
-                                    <a class="dropdown-item dropdown-toggle" href="#" id="multilevelDropdownMenu1"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Multilevel
-                                        Action 1</a>
-                                    <ul class="dropdown-menu" aria-labelledby="multilevelDropdownMenu1">
-                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                        <li class="dropdown dropend">
-                                            <a class="dropdown-item dropdown-toggle" href="#"
-                                                id="multilevelDropdownMenu1" data-bs-toggle="dropdown"
-                                                aria-haspopup="true" aria-expanded="false">Multilevel Action 2</a>
-                                            <ul class="dropdown-menu" aria-labelledby="multilevelDropdownMenu2">
-                                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                    </ul>
-                                </li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul> {% endcomment %}
-                            {% comment %} <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    Dropdown
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                    <li><button class="dropdown-item" type="button">Action</button></li>
-                                    <li><button class="dropdown-item" type="button">Another action</button></li>
-                                    <li><button class="dropdown-item" type="button">Something else here</button></li>
-                                </ul>
-                            </div> {% endcomment %}
+
                         </li>
                     </ul>
                     <form method='get' action="{% url 'shop:shop_home' %}">
-                        <div class="search-bar">
+                        <div class="search-bar autocomplete" id="autocomplete">
                             {% if not no_search %}
-                            <input type="text" name='title' id='d_title' placeholder="Search for product...">
-                            <div class="icon" type='submit'>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20.414" height="20.414"
-                                    viewBox="0 0 20.414 20.414">
-                                    <g id="Search_Icon" data-name="Search Icon" transform="translate(1 1)">
-                                        <ellipse id="Ellipse_1" data-name="Ellipse 1" cx="8.158" cy="8" rx="8.158"
-                                            ry="8" fill="none" stroke="#1a2224" stroke-linecap="round"
-                                            stroke-linejoin="round" stroke-width="2" />
-                                        <line id="Line_4" data-name="Line 4" x1="3.569" y1="3.5"
-                                            transform="translate(14.431 14.5)" fill="none" stroke="#1a2224"
-                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                                    </g>
-                                </svg>
-                            </div>
+                            <input type="text" name='title' id='d_title' placeholder="Search for product..."
+                                class="autocomplete-input" />
+                            <ul class="autocomplete-result-list"></ul>
                             {% endif %}
                         </div>
                     </form>
@@ -88,7 +43,8 @@
                         <ul> {% if user.is_authenticated %}
                             <li>
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle notifications" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="dropdown-toggle notifications" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
                                         <i class="fa fa-bell" style="font-size:24px"></i>
                                         <span class="badge">{% live_notify_badge %}</span>
                                     </a>
@@ -201,21 +157,9 @@
                 <div class="close-mobile-menu">
                     <a href="javascript:void(0)" id="menu-close" class="closebtn" onclick="closeNav()">&times;</a>
                 </div>
-                <div class="search-bar">
-                    <input type="text" placeholder="Search for product...">
-                    <div class="icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20.414" height="20.414"
-                            viewBox="0 0 20.414 20.414">
-                            <g id="Search_Icon" data-name="Search Icon" transform="translate(1 1)">
-                                <ellipse id="Ellipse_1" data-name="Ellipse 1" cx="8.158" cy="8" rx="8.158" ry="8"
-                                    fill="none" stroke="#1a2224" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" />
-                                <line id="Line_4" data-name="Line 4" x1="3.569" y1="3.5"
-                                    transform="translate(14.431 14.5)" fill="none" stroke="#1a2224"
-                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                            </g>
-                        </svg>
-                    </div>
+                <div class="search-bar autocomplete" id="autocomplete">
+                    <input type="text" name='title' placeholder="Search for product...">
+                    <ul class="autocomplete-result-list"></ul>
                 </div>
             </div>
             <div class="mobile-nav d-flex align-items-center justify-content-between">
@@ -224,22 +168,11 @@
                             style="width: 100px;" /></a>
                 </div>
                 <form method='get' action="{% url 'shop:shop_home' %}">
-                    <div class="search-bar">
+                    <div class="search-bar autocomplete" id="autocomplete">
                         {% if not no_search %}
-                        <input type="text" name='title' id='d_title' placeholder="Search for product...">
-                        <div class="icon" type='submit'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20.414" height="20.414"
-                                viewBox="0 0 20.414 20.414">
-                                <g id="Search_Icon" data-name="Search Icon" transform="translate(1 1)">
-                                    <ellipse id="Ellipse_1" data-name="Ellipse 1" cx="8.158" cy="8" rx="8.158" ry="8"
-                                        fill="none" stroke="#1a2224" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" />
-                                    <line id="Line_4" data-name="Line 4" x1="3.569" y1="3.5"
-                                        transform="translate(14.431 14.5)" fill="none" stroke="#1a2224"
-                                        stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                                </g>
-                            </svg>
-                        </div>
+                        <input type="text" name='title' id='d_title' placeholder="Search for product..."
+                            class="autocomplete-input" />
+                        <ul class="autocomplete-result-list"></ul>
                         {% endif %}
                     </div>
                 </form>
@@ -277,7 +210,9 @@
                                     </g>
                                 </svg>
                                 {% with total_qty=cart|length %}
-                                {% if total_qty > 0 %}
+                                {% if total_qty >= 10 %}
+                                <span class="cart"> full </span>
+                                {% elif total_qty < 10  and total_qty > 0%}
                                 <span class="cart">{{ total_qty }}</span>
                                 {% else %}
                                 <span class="cart">0</span>
@@ -330,12 +265,34 @@
         </div>
     </div>
 </div>
+<script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+
+<script>
+    new Autocomplete("#autocomplete", {
+
+        search: input => {
+            console.log(input)
+            const url = `/search/?title=${input}`
+            return new Promise(resolve => {
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        resolve(data.data)
+                    })
+            })
+        }
+    })
+</script>
+
+
 
 <style>
     .notifications span {
         color: Blue;
     }
-    .dropdown-notifications{
-        width:25rem;
+
+    .dropdown-notifications {
+        width: 25rem;
     }
 </style>

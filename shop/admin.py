@@ -101,3 +101,20 @@ class ProductAdmin(SummernoteModelAdmin):
 #     list_filter = ('product', 'variation_category', 'variation_value')
 
 admin.site.register(Banner)
+
+# @admin.register(Offers)
+# class OffersAdmin(admin.ModelAdmin):
+
+#     list_display = (
+#         "priority",
+#         "name",
+#         "start_date",
+#         "end_date",
+#         "active",
+#     )
+#     list_display_links = (
+#         "priority",
+#         "name",
+#     )
+#     search_fields = ("name", "priority")
+admin.site.register(Offers)

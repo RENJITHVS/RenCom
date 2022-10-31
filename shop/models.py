@@ -1,11 +1,13 @@
 from decimal import Decimal
+from tabnanny import verbose
 from django.db import models
 from io import BytesIO
 from PIL import Image
 from django.core.files import File
 from django.forms import BooleanField
-
+from datetime import datetime
 from django.urls import reverse
+from django.utils import timezone
 
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
@@ -22,8 +24,6 @@ MARGIN = 0.10
 
 
 # Create your models here.
-
-
 class Category(MPTTModel):
     """
     MPTT category for brand model
@@ -47,8 +47,8 @@ class Category(MPTTModel):
         verbose_name_plural = "Categories"
         order_insertion_by = ["title"]
 
-    def get_absolute_url(self):
-        return reverse("shop:category_list", args=[self.slug])
+    # def get_absolute_url(self):
+    #     return reverse("shop:category_list", args=[self.slug])
 
     # def get_slug_list(self):
     #     try:
@@ -198,6 +198,7 @@ class Product(models.Model):
         return thumbnail
 
 
+
 # class ProductAttributeManager(models.Manager):
 #     """
 #     filter only active products attributes
@@ -243,13 +244,48 @@ class   ProductAttribute(models.Model):
             self.price = self.vendor_price + (self.vendor_price * Decimal(MARGIN))
         super().save(*args, **kwargs)
 
+    @property
+    def product_price(self):
+        exclusive_product_offers = Offers.objects.filter(products = self.product).first()
+        category_offers = Offers.objects.filter(category= self.product.brand).first()
+        exclusive_offer_amount = 0
+        product_offer_amount = 0
+
+        if exclusive_product_offers is not None:
+            deduction = self.price*(Decimal(exclusive_product_offers.offer_percentage))/100
+            if exclusive_product_offers.max_offer_reduction >= deduction:
+                exclusive_offer_amount =  self.price - deduction
+            else:
+                exclusive_offer_amount = self.price - exclusive_product_offers.max_offer_reduction
+
+        if category_offers is not None:
+            deduction = self.price*(Decimal(category_offers.offer_percentage))/100
+            if category_offers.max_offer_reduction >= deduction:
+                exclusive_offer_amount =  self.price - deduction
+            else:
+                exclusive_offer_amount = self.price - category_offers.max_offer_reduction
+
+        if exclusive_offer_amount ==0 and product_offer_amount == 0:
+            return self.price
+        elif exclusive_offer_amount >= product_offer_amount:
+            return exclusive_offer_amount
+        else:
+            return product_offer_amount     
+
+    @property
+    def offer_difference(self):
+        if self.product.mrp_price != self.product_price:
+            return 100 - int(self.product_price/self.product.mrp_price * 100)
+        else:
+            return None
+
+
 
 class ProductImage(models.Model):
     """
     The Product Image Table contain multiple image of the
     same products
     """
-
     product = models.ForeignKey(
         Product, related_name="images", on_delete=models.CASCADE, blank=True, null=True
     )
@@ -283,8 +319,8 @@ RATING = (
     (5, "5"),
 )
 
-
 class ProductReview(models.Model):
+    """ users can add review of the products here!"""
     user = models.ForeignKey(CustomerProfile, on_delete=models.CASCADE)
     product = models.ForeignKey(
         Product, related_name="reviews", on_delete=models.CASCADE
@@ -308,7 +344,52 @@ class Banner(models.Model):
 
     images = models.ImageField(upload_to="banner_images/")
     tag_line = models.CharField(max_length=200)
+    is_mobile = models.BooleanField(default = False)
     active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.tag_line
+
+class Offers(models.Model):
+
+    """ use this to add offers to category and products """
+
+    name = models.CharField(max_length = 200, verbose_name="Offer Name")
+    priority = models.PositiveIntegerField(unique = True)
+    category = models.ManyToManyField('Category', blank = True)
+    products = models.ManyToManyField('Product', blank = True)
+    offer_percentage= models.PositiveIntegerField()
+    max_offer_reduction = models.DecimalField(verbose_name="max reduction amount", max_digits=8, decimal_places=2, blank=True, null=True)
+    start_date = models.DateField(null= True, blank = True) 
+    end_date = models.DateField(null= True, blank = True)
+
+    class Meta:
+        ordering = ['-priority',]
+        verbose_name = 'Offer'
+        verbose_name_plural = 'Offers'
+
+    def __str__(self):
+        return self.name
+
+    @property
+    def offer_ends_in(self):
+        date_format = "%m/%d/%Y"
+        today = datetime.strptime(str(datetime.now().date()), date_format)
+        start_date = datetime.strptime(str(self.start_date), date_format)
+        end_date = datetime.strptime(str(self.end_date), date_format)
+        if today - start_date > 0 and today - end_date < 0:
+            return abs(today - end_date)
+        else:
+            return None
+
+    @property
+    def active(self):
+        date_format = "%Y-%m-%d"
+        today = datetime.strptime(str(datetime.now().date()), date_format)
+        start_date = datetime.strptime(str(self.start_date), date_format)
+        end_date = datetime.strptime(str(self.end_date), date_format)
+        if start_date < today and today < end_date:
+            return True
+        return False
+
+

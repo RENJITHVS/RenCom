@@ -17,17 +17,19 @@ class Cart(object):
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
 
-    def add(self, product, qty, variation=None):
+    def add(self, product, qty, variation):
         """
         Adding and updating the users cart session data
         """
         product_id = str(product.id)
+        variation_id = str(variation.id)
 
-        if product_id in self.cart:
+        if product_id in self.cart and self.cart[product_id]['variation_id'] == variation_id:
             self.cart[product_id]["qty"] = qty
         else:
             self.cart[product_id] = {
-                "price": str(variation.price),
+                "variation_id": variation_id,
+                "price": str(variation.product_price),
                 "qty": qty,
                 "delivery_price": str(product.delivery_charges),
                 "orginal_amount": str(product.mrp_price),
@@ -62,12 +64,15 @@ class Cart(object):
         """
         return sum(item["qty"] for item in self.cart.values())
 
-    def update(self, product, qty):
+
+    def update(self, product, qty, variation):
         """
         Update values in session data
         """
+        
         product_id = str(product)
-        if product_id in self.cart:
+        variation_id = str(variation)
+        if self.cart[product_id]['variation_id'] == variation_id:
             self.cart[product_id]["qty"] = qty
         self.save()
 

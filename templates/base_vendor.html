@@ -69,6 +69,11 @@
             event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
         })
     </script>
+    <style>
+        .nice-select {
+        visibility: hidden !important;
+      }
+    </style>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         {%if messages %} 

@@ -18,6 +18,7 @@ from django.core.paginator import EmptyPage
 from django.core.paginator import PageNotAnInteger
 
 from django.db.models import Avg, Count
+import json
 
 # Create your views here.
 
@@ -32,6 +33,17 @@ def test_customer(user):
     if user.is_anonymous:
         return False
     return user.role == "CUSTOMER"
+
+def search_products(request):
+        data_from_post = request.GET.get('title')
+        payload = []
+        if data_from_post:
+            product_datas = Product.products.filter(title__icontains=data_from_post).values_list("title", flat=True)
+
+            for product_data in product_datas:
+                payload.append(product_data)
+        
+        return JsonResponse({'status': 200, 'data': payload}, safe=False)
 
 
 def all_products(request):

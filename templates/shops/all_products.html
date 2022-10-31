@@ -56,12 +56,14 @@
                         <a href="{{ product.get_absolute_url }}"><img src="{{product.thumbnail.url}}" alt="Product Name"
                                 class="img-fluid"></a>
                         <div class="cart-icon">
+                            {% if product.attributes.first.offer_difference is not None %}<span class="badge badge-primary h-50">  {{ product.attributes.first.offer_difference }}% off </span>{% endif%}
                             <a href="{% url 'customers:add_wishlist' product.id %}"><i class="far fa-heart"></i></a>
+
                         </div>
                     </div>
                     <div class="product-item-info">
                         <a href="{{ product.get_absolute_url }}">{{ product.title|truncatechars:20 }}</a>
-                        <span>Rs {{ product.attributes.first.price }} </span> <del>{{ product.mrp_price }}</del>
+                        <span>Rs {{ product.attributes.first.product_price }} </span> <del>{{ product.mrp_price }}</del>
                     </div>
                 </div>
             </div>

@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include,  re_path
 from django.conf import settings
 from django.conf.urls.static import static
+from shop.views import search_products
 import notifications.urls
 
 urlpatterns = [
@@ -28,6 +29,7 @@ urlpatterns = [
     path('payment/', include('payment.urls')),
     path('charts/', include('charts.urls')),
     path('summernote/', include('django_summernote.urls')),
+    path("search/", search_products, name="search"),
     re_path('^inbox/notifications/', include(notifications.urls, namespace='notifications')),
     path('admin/', admin.site.urls),
 ]

@@ -53,7 +53,7 @@
                           <p class="card-text m-0">{{address.postcode}}</p>
                           <p class="card-text m-0">Phone number: {{address.phone}}</p>
                           <div class="pt-5">
-                            <a href="#" class="text-decoration-none">Edit</a>
+                            <a href="{% url 'payment:add_billing_details' %}" class="text-decoration-none">Edit</a>
                             {% if not address.default %}
                             | <a  class="text-decoration-none edit-address" value="{{address.id}}">Select</a>
                             {% endif %}

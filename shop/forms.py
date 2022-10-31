@@ -27,10 +27,10 @@ class ProductFilter(django_filters.FilterSet):
         ),
     )
     mrp_price__gt = django_filters.NumberFilter(
-        label="", field_name="price", lookup_expr="gt"
+        label="", field_name="mrp_price", lookup_expr="gt"
     )
     mrp_price__lt = django_filters.NumberFilter(
-        label="", field_name="price", lookup_expr="lt"
+        label="", field_name="mrp_price", lookup_expr="lt"
     )
 
     class Meta:

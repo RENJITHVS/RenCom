@@ -14,6 +14,11 @@ status_choice = (
 
 
 class Order(models.Model):
+
+    """
+     order data from carts are stored in this model 
+    """
+
     user = models.ForeignKey(
         CustomerProfile, on_delete=models.CASCADE, related_name="order_user"
     )
@@ -54,6 +59,9 @@ class OrderItemManager(models.Manager):
 
 
 class OrderItem(models.Model):
+    """
+    order data of each product is stored here once order is placed
+    """
     order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)
     product = models.ForeignKey(
         Product, related_name="order_items", on_delete=models.CASCADE
@@ -73,6 +81,9 @@ class OrderItem(models.Model):
 
 
 class CouponManager(models.Manager):
+    """ 
+    filter only acitve coupons
+    """
     def get_queryset(self):
         return super().get_queryset().filter(is_active=True)
 
@@ -92,6 +103,9 @@ class Coupon(models.Model):
 
 
 class Refund(models.Model):
+    """
+    Manage refunds  Here!
+    """
     order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True, blank=True)
     orderItem = models.ForeignKey(
         OrderItem, on_delete=models.CASCADE, null=True, blank=True
