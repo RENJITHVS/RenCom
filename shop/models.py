@@ -199,12 +199,12 @@ class Product(models.Model):
 
 
 
-# class ProductAttributeManager(models.Manager):
-#     """
-#     filter only active products attributes
-#     """
-#     def get_queryset(self):
-#         return super(ProductManager, self).get_queryset().filter(in_stock=True)
+class ProductAttributeManager(models.Manager):
+    """
+    filter only active products attributes
+    """
+    def get_queryset(self):
+        return super(ProductAttributeManager, self).get_queryset().filter(in_stock=True)
 
 
 class   ProductAttribute(models.Model):
@@ -229,8 +229,8 @@ class   ProductAttribute(models.Model):
     )
     in_stock = models.BooleanField(verbose_name="Product in stock", default=True)
 
-    # objects= ProductAttributeManager()
-    # product_attributes = models.Manager()
+    objects= ProductAttributeManager()
+    product_attributes = models.Manager()
 
     class Meta:
         verbose_name_plural = "Product Attributes"

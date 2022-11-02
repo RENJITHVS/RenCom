@@ -25,6 +25,7 @@ class ProfileUpdateForm(forms.ModelForm):
             "pincode",
             "account_number",
             "ifsc_code",
+            "razorpay_id",
             "account_name",
             "document",
         ]

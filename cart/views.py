@@ -19,7 +19,6 @@ from shop.forms import ProductFilter
 
 def cart_items(request):
     cart = Cart(request)
-    print(cart.__dict__)
     return render(request, "cart/cart_page.html", {"cart": cart})
 
 
@@ -46,7 +45,6 @@ def cart_delete_product(request):
         product_id = int(request.POST.get("productid"))
         cart.delete(product=product_id)
         cartqty = cart.__len__()
-        print(cartqty)
         response = JsonResponse({"qty": cartqty})
         return response
 

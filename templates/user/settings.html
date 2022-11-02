@@ -4,7 +4,7 @@
 {% load crispy_forms_tags %}
 <!--Acount Area Start -->
 <section class="account">
-    <div class="container">
+    <div class="container-fluid mx-2">
         <div class="row">
             <div class="col-lg-12">
                 <!-- Dashboard-Nav  Start-->
@@ -14,9 +14,9 @@
                             settings</a></li>
                     <li class="list-inline-item"><a href="{% url 'payment:add-address' %}">Billing information</a></li>
                     <li class="list-inline-item"><a href="{% url 'customers:wishlist' %}">My wishlist</a></li>
-                    <li class="list-inline-item"><a href="#" >My cart</a></li>
+                    <li class="list-inline-item"><a href="{% url 'cart:cart_items' %}" >My cart</a></li>
                     <li class="list-inline-item"><a href="{% url 'orders:view-orders' %}">Order</a></li>
-                    <li class="list-inline-item"><a href="{% url 'customers:logout' %}" class="mr-0">Log-out</a></li>
+
                     </ul>
                 </div>
                 <!-- Dashboard-Nav  End-->

@@ -6,10 +6,12 @@ from crispy_forms.utils import render_crispy_form
 from django_summernote.fields import SummernoteTextFormField, SummernoteTextField
 from django.core.exceptions import ValidationError
 from mptt.forms import TreeNodeChoiceField
-from django.forms import IntegerField, modelformset_factory
+from django.forms import BaseFormSet, BaseModelFormSet, IntegerField, modelformset_factory
 from django.forms.widgets import ClearableFileInput
 from django.core.validators import MinLengthValidator
+from django.contrib import messages
 
+from decimal import Decimal
 
 class ProductFilter(django_filters.FilterSet):
     title = django_filters.CharFilter(
@@ -27,10 +29,16 @@ class ProductFilter(django_filters.FilterSet):
         ),
     )
     mrp_price__gt = django_filters.NumberFilter(
-        label="", field_name="mrp_price", lookup_expr="gt"
+        label="", field_name="mrp_price", lookup_expr="gt",
+        widget=forms.widgets.TextInput(
+            attrs={"placeholder": "Enter the range", "class": "form-control",}
+        ),
     )
     mrp_price__lt = django_filters.NumberFilter(
-        label="", field_name="mrp_price", lookup_expr="lt"
+        label="", field_name="mrp_price", lookup_expr="lt",
+         widget=forms.widgets.TextInput(
+            attrs={"placeholder": "Enter Your Product..", "class": "form-control",}
+        ),
     )
 
     class Meta:
@@ -88,11 +96,33 @@ class AddProductForm(forms.ModelForm):
         return brand
 
 
-ProductVarationFormset = modelformset_factory(
-    ProductAttribute,
-    fields=("color", "vendor_price", "in_stock"),
+class ProductAttributeForm(forms.ModelForm):
+    class Meta:
+        model = ProductAttribute
+        fields = ("color", "vendor_price", "in_stock", "price")
+
+    def __init__(self, *args,**kwargs):
+        self.mrp = kwargs.pop('mrp')
+        super(ProductAttributeForm, self).__init__(*args, **kwargs)
+        self.fields['price'].disabled = True
+        
+
+    def clean_vendor_price(self):
+        # custom validation for the name field
+        vendor_price = float(self.cleaned_data['vendor_price'])
+        total = vendor_price * .10 + vendor_price
+        if total >= self.mrp:
+            raise ValidationError(f"currently price of the product is {total}, price must be less than MRP price {self.mrp}")
+        return vendor_price
+
+
+
+ProductVarationFormset = modelformset_factory(ProductAttribute,form = ProductAttributeForm,
     extra=1,
 )
+
+
+
 ProductImageFormset = modelformset_factory(
     ProductImage,
     fields=("image",),

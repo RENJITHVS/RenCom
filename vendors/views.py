@@ -12,7 +12,7 @@ from customers.tokens import account_activation_token
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.decorators import user_passes_test
 from shop.forms import ProductFilter
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 
 from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
@@ -144,3 +144,15 @@ def vendor_document_update(request):
         p_form = ProfileUpdateForm(instance=request.user.vendorprofile)
     context = {"u_form": u_form, "p_form": p_form}
     return render(request, "vendor/settings.html", context)
+
+# @user_passes_test(test_vendor, login_url="/vendor/login", redirect_field_name="next")
+def search_products_vendor(request):
+        data_from_post = request.GET.get('title')
+        payload = []
+        if data_from_post:
+            product_datas = Product.objects.filter(created_by=request.user.vendorprofile.id).filter(title__icontains=data_from_post).values_list("title", flat=True)
+
+            for product_data in product_datas:
+                payload.append(product_data)
+        
+        return JsonResponse({'status': 200, 'data': payload}, safe=False)

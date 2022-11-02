@@ -139,25 +139,21 @@ def add_products_varations(request, prodslug):
     product = get_object_or_404(
         Product, slug=prodslug, created_by=request.user.vendorprofile
     )
-    formset = ProductVarationFormset(
-        queryset=ProductAttribute.product_attributes.filter(product=product.id)
-    )
+    formset = ProductVarationFormset(queryset=ProductAttribute.product_attributes.filter(product=product.id),
+    form_kwargs={'mrp': product.mrp_price})
 
     if request.method == "POST":
-        formset = ProductVarationFormset(request.POST)
+        formset = ProductVarationFormset(request.POST, form_kwargs={'mrp': product.mrp_price},)
         if formset.is_valid():
             instances = formset.save(commit=False)
-
             for instance in instances:
-
                 instance.product = product
                 instance.save()
             messages.success(request, "Product Varaition added Successfully")
-        return HttpResponseRedirect(
-            reverse("shop:add_products_images", kwargs={"prodslug": product.slug})
-        )
+            return HttpResponseRedirect(
+            reverse("shop:add_products_images", kwargs={"prodslug": product.slug}))
 
-    return render(request, "shops/add_products_variations.html", {"formset": formset})
+    return render(request, "shops/add_products_variations.html", {"formset": formset, "mrp_price": product.mrp_price})
 
 
 @user_passes_test(test_vendor, login_url="/vendor/login", redirect_field_name="next")

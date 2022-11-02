@@ -53,6 +53,16 @@ urlpatterns = [
         TemplateView.as_view(template_name="user/password_reset/reset_status.html"),
         name="password_reset_complete",
     ),
+    path(
+        "password_reset_confirm/Mg/password_reset_complete/",
+        TemplateView.as_view(template_name="user/password_reset/reset_status.html"),
+        name="password_reset_complete",
+    ),
+    path(
+        "password_reset_confirm/Ng/password_reset_complete/",
+        TemplateView.as_view(template_name="user/password_reset/reset_status.html"),
+        name="password_reset_complete",
+    ),
     path("settings/", views.view_settings, name="settings-user"),
     # path('htmx/add-billing/', views.add_billing_address, name='add_billing_address'),
 ]

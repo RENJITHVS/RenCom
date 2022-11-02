@@ -1,7 +1,6 @@
 {% load notifications_tags %}
 {% load static %}
 
-{% comment %} {% load mptt_tags %} {% endcomment %}
 <!-- Header Area Start -->
 <header class="header">
     <div class="header-bottom">
@@ -30,17 +29,19 @@
 
                         </li>
                     </ul>
+
                     <form method='get' action="{% url 'shop:shop_home' %}">
+                        {% if not no_search %}
                         <div class="search-bar autocomplete" id="autocomplete">
-                            {% if not no_search %}
-                            <input type="text" name='title' id='d_title' placeholder="Search for product..."
+                            <input type="text" name='title' id='id_title' placeholder="Search for product..."
                                 class="autocomplete-input" />
                             <ul class="autocomplete-result-list"></ul>
-                            {% endif %}
                         </div>
+                        {% endif %}
                     </form>
+
                     <div class="d-flex mx-auto">
-                        <ul> {% if user.is_authenticated %}
+                        <ul>  {% if user.is_authenticated %}
                             <li>
                                 <div class="dropdown">
                                     <a class="dropdown-toggle notifications" data-bs-toggle="dropdown"
@@ -104,11 +105,11 @@
                                     {% else %}
                                     <span class="cart" id="cart-id">0</span>
                                     {% endif %}
+                                    {% endwith %}
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                    {% endwith %}
-
-                    </a>
-                    </li>
                     <li class="mx-3">
                         {% if request.user.is_authenticated and reqeust.user.role == CUSTOMER %}
                         <div class="dropdown-center">
@@ -128,7 +129,7 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{% url 'customers:settings-user' %}">Settings</a>
                                 </li>
-                                <li><a class="dropdown-item" href="#">Dashboard</a></li>
+                                <li><a class="dropdown-item" href="{% url 'orders:view-orders' %}">Orders</a></li>
                                 <li><a class="dropdown-item" data-bs-toggle="modal"
                                         data-bs-target="#logoutModal">Logout</a></li>
                             </ul>
@@ -161,22 +162,28 @@
                     <input type="text" name='title' placeholder="Search for product...">
                     <ul class="autocomplete-result-list"></ul>
                 </div>
+                <li><a href="{% url 'customers:settings-user' %}">Settings</a>
+                </li>
+                <li><a href="{% url 'orders:view-orders' %}">Orders</a></li>
+                <li><a data-bs-toggle="modal"
+                        data-bs-target="#logoutModal">Logout</a></li>
             </div>
             <div class="mobile-nav d-flex align-items-center justify-content-between">
                 <div class="logo">
                     <a href="{% url 'customers:home' %}"><img src="{% static 'dist/images/logo/logo.png' %}" alt="logo"
                             style="width: 100px;" /></a>
                 </div>
+                {% if not no_search %}
                 <form method='get' action="{% url 'shop:shop_home' %}">
+
                     <div class="search-bar autocomplete" id="autocomplete">
-                        {% if not no_search %}
-                        <input type="text" name='title' id='d_title' placeholder="Search for product..."
+                        <input type="text" name='title' id='id_title' placeholder="Search for product..."
                             class="autocomplete-input" />
                         <ul class="autocomplete-result-list"></ul>
-                        {% endif %}
                     </div>
-                </form>
 
+                </form>
+                {% endif %}
                 <div class="menu-icon">
                     <ul class="d-flex">
                         <li> <a href="wishlist.html">
@@ -212,41 +219,39 @@
                                 {% with total_qty=cart|length %}
                                 {% if total_qty >= 10 %}
                                 <span class="cart"> full </span>
-                                {% elif total_qty < 10  and total_qty > 0%}
+                                {% elif total_qty < 10  and total_qty > 0 %}
                                 <span class="cart">{{ total_qty }}</span>
                                 {% else %}
                                 <span class="cart">0</span>
                                 {% endif %}
+                                {% endwith %}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20">
+                                    <g id="Account" transform="translate(1 1)">
+                                        <path id="Path_86" data-name="Path 86"
+                                            d="M20,21V19a4,4,0,0,0-4-4H8a4,4,0,0,0-4,4v2" transform="translate(-4 -3)"
+                                            fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" />
+                                        <circle id="Ellipse_9" data-name="Ellipse 9" cx="4" cy="4" r="4"
+                                            transform="translate(4)" fill="#fff" stroke="#000" stroke-linecap="round"
+                                            stroke-linejoin="round" stroke-width="2" />
+                                    </g>
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-                {% endwith %}
-                </a>
-                </li>
-                <li>
-                    <a href="">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20">
-                            <g id="Account" transform="translate(1 1)">
-                                <path id="Path_86" data-name="Path 86" d="M20,21V19a4,4,0,0,0-4-4H8a4,4,0,0,0-4,4v2"
-                                    transform="translate(-4 -3)" fill="none" stroke="#000" stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="2" />
-                                <circle id="Ellipse_9" data-name="Ellipse 9" cx="4" cy="4" r="4"
-                                    transform="translate(4)" fill="#fff" stroke="#000" stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="2" />
-                            </g>
-                        </svg>
-                    </a>
-                </li>
                 <div class="hamburger-menu">
                     <a style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</a>
                 </div>
-                </ul>
             </div>
-
+        </aside>
     </div>
-    </aside>
     <!-- Body overlay -->
     <div class="overlay" id="overlayy"></div>
-    </div>
-    </div>
 </header>
 <!-- Header Area End -->
 
@@ -265,6 +270,7 @@
         </div>
     </div>
 </div>
+
 <script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
 
 <script>
@@ -272,7 +278,7 @@
 
         search: input => {
             console.log(input)
-            const url = `/search/?title=${input}`
+            const url = `/shop/search/?title=${input}`
             return new Promise(resolve => {
                 fetch(url)
                     .then(response => response.json())
@@ -285,14 +291,15 @@
     })
 </script>
 
-
-
 <style>
     .notifications span {
         color: Blue;
     }
 
     .dropdown-notifications {
+        height: 200px;
         width: 25rem;
+        overflow: hidden;
+        overflow-y: scroll;
     }
 </style>

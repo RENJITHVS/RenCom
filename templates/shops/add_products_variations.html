@@ -35,11 +35,15 @@
                 {% for form in formset %}
                 <p class="text-center mb-3"><strong>Add Product Varation</strong></p>
                 <div class ="varation-form border p-5 mb-3">
+                    <div class="alert alert-dark" role="alert">
+                       ** Since we take 10% profit please Add a product price atleast 10% less than MRP price of <span style="color:#0000FF;">Rs {{ mrp_price}} </span>
+                    </div>
                     <div class="row">
                         {{ form.id }}
-                        <div class="col-md-4">{{ form.color|as_crispy_field}}</div>
-                        <div class="col-md-4">{{ form.vendor_price|as_crispy_field}}</div>
-                        <div class="col-md-4">{{ form.in_stock|as_crispy_field}}</div>  
+                        <div class="col-md-3">{{ form.color|as_crispy_field}}</div>
+                        <div class="col-md-3">{{ form.vendor_price|as_crispy_field}}</div>
+                        <div class="col-md-3">{{ form.price|as_crispy_field}}</div>
+                        <div class="col-md-3">{{ form.in_stock|as_crispy_field}}</div>  
                     </div>
                 </div>
                 {% endfor %}

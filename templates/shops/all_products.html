@@ -6,41 +6,48 @@
 
 <!-- Catagory Search Start -->
 <form method="get">
-<section class="search">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="search-wrapper">
-                {{ products.form.title |as_crispy_field }}
-                <button type="submit" class="btn btn-primary btn-block mx-auto">Search</button>
+    <section class="search">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="">
+                    <div class="autocomplete" id="autocomplete1">
+                        <div class="input-group mb-3">
+                            <input type="text" name="title" style="height:3rem"
+                                class="form-control autocomplete-input my-1" id="id_title"
+                                placeholder="search your products.." value="{{products.form.title.value}}"/>
+                            <button type="submit" class="btn btn-primary my-1" style="height:3rem;">Search</button>
+                            <ul class="autocomplete-result-list1"></ul>
+                        </div>
+                    </div>
+                    
+                </div>
             </div>
         </div>
-    </div>
-</section>
-<!-- Catagory Search End -->
+        <div class="container">
+            <div class="row justify-content-between">
+                    <div class="col-md-4">
+                        <h6>Brand</h6>
+                        {{ products.form.brand |as_crispy_field }}
+                    </div>
 
-<!-- Catagory item start -->
-<section class="categoryitem">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="categoryitem-wrapper">
-                <div class="categoryitem-wrapper-itembox">
-                    <h6>Brand</h6>
-                    {{ products.form.brand |as_crispy_field }}
-                </div>
-                
-                <div class="categoryitem-wrapper-itembox">
-                    <h6>Price Greater than</h6>
-                    {{ products.form.mrp_price__gt|as_crispy_field }}
-                </div>
-                <div class="categoryitem-wrapper-itembox">
-                    <h6>Price Less than</h6>
-                    {{ products.form.mrp_price__lt|as_crispy_field }}
-                </div>
+                    <div class="col-md-4">
+                        <h6>Price Greater than</h6>
+                        {{ products.form.mrp_price__gt|as_crispy_field }}
+                    </div>
+                    <div class="col-md-4">
+                        <h6>Price Less than</h6>
+                        {{ products.form.mrp_price__lt|as_crispy_field }}
+                    </div>
             </div>
         </div>
-    </div>
-</section>
-<!-- Catagory item End --> 
+    </section>
+    <!-- Catagory Search End -->
+
+    <!-- Catagory item start -->
+    <section class="categoryitem">
+        
+    </section>
+    <!-- Catagory item End -->
 </form>
 
 
@@ -56,7 +63,9 @@
                         <a href="{{ product.get_absolute_url }}"><img src="{{product.thumbnail.url}}" alt="Product Name"
                                 class="img-fluid"></a>
                         <div class="cart-icon">
-                            {% if product.attributes.first.offer_difference is not None %}<span class="badge badge-primary h-50">  {{ product.attributes.first.offer_difference }}% off </span>{% endif%}
+                            {% if product.attributes.first.offer_difference is not None %}<span
+                                class="badge badge-primary h-50"> {{ product.attributes.first.offer_difference }}% off
+                            </span>{% endif%}
                             <a href="{% url 'customers:add_wishlist' product.id %}"><i class="far fa-heart"></i></a>
 
                         </div>
@@ -75,75 +84,115 @@
 
 
 <!-- Pagination Start -->
-<section class="pagination">
+<section class="pagination my-3">
     <div class="container">
         <div class="d-flex justify-content-center">
 
             <ul class="pagination my-1">
-              {% if page_obj.has_previous %}
-              <li class="page-item" aria-current="page">
-                <a class="page-link" href="?page=1">First</a>
-              </li>
-              <li class="page-item" aria-current="page">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-              </li>
-              {% endif %}
-    
-              {% for num in page_obj.paginator.page_range %}
-              {% if page_obj.number == num %}
-              <li class="page-item active"><a href="?page={{ num }}" class="page-link">{{ num }}</a>
-              </li>
-              {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-              <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a>
-              </li>
-              {% endif %}
-              {% endfor %}
-    
-              {% if page_obj.has_next %}
-              <li class="page-item" aria-current="page">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
-              </li>
-              <li class="page-item" aria-current="page">
-                <a class="page-link" href="?page={{ page_obj.paginator.num_pages}}">Last</a>
-              </li>
-              {% endif %}
-    
+                {% if page_obj.has_previous %}
+                <li class="page-item" aria-current="page">
+                    <a class="page-link" href="?page=1">First</a>
+                </li>
+                <li class="page-item" aria-current="page">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active"><a href="?page={{ num }}" class="page-link">{{ num }}</a>
+                </li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item" aria-current="page">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                </li>
+                <li class="page-item" aria-current="page">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages}}">Last</a>
+                </li>
+                {% endif %}
+
             </ul>
-            
-          </div>
+
+        </div>
     </div>
 </section>
 <!-- Pagination End -->
 
+<style>
+    .autocomplete-result-list1{
+        background-color: #fff;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        border-color: #808080;
+    }
+    #id_title::placeholder {
+        text-indent: 25px;
+   }
+   #id_title {
+    text-indent: 25px;
+    border: 1px solid #ced4da !important;
+    }
+    .select .form-control{
+        border: 1px solid #ced4da !important;
+    }
+    .list{
+        width:100%;
+    }
+</style>
 
 <script>
-    [...document.getElementsByClassName("add-cart")].forEach(function(e){
-    e.addEventListener("click", function() {
-        
-        product_id= Number(this.getAttribute('value'))
-        console.log(product_id);
-            
-        const formData = new FormData();
-        //console.log(name);
-        formData.append('productid', product_id);
-        formData.append('productqty', 1);
+    new Autocomplete("#autocomplete1", {
 
-        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        console.log(formData);
-        fetch('{% url "cart:cart_add" %}', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            location.reload();
-            console.log('Success:', data);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+        search: input => {
+            console.log(input)
+            const url = `/shop/search/?title=${input}`
+            return new Promise(resolve => {
+                console.log(url)
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        resolve(data.data)
+                    })
+            })
+        }
     })
-  });
 </script>
+
+<script>
+    [...document.getElementsByClassName("add-cart")].forEach(function (e) {
+        e.addEventListener("click", function () {
+
+            product_id = Number(this.getAttribute('value'))
+            console.log(product_id);
+
+            const formData = new FormData();
+            //console.log(name);
+            formData.append('productid', product_id);
+            formData.append('productqty', 1);
+
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+            console.log(formData);
+            fetch('{% url "cart:cart_add" %}', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    location.reload();
+                    console.log('Success:', data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        })
+    });
+</script>
+
 
 {% endblock %}

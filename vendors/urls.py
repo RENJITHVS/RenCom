@@ -15,4 +15,5 @@ urlpatterns = [
         name="vendor-logout",
     ),
     path("vendor_settings/", views.vendor_document_update, name="vendor_settings"),
+     path("vendor_search/", views.search_products_vendor, name="vendor_search"),
 ]

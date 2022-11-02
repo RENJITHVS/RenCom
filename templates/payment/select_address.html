@@ -65,7 +65,7 @@
                   </div>
                 </div>
                 {% endfor %}
-                <a href="{% url 'payment:add_billing_details' %}" class="btn btn-primary">Add Address</a>
+                <a href="{% url 'payment:add_billing_details' %}" class="btn btn-primary my-1">Add Address</a>
             </div>
             <div class="col-lg-5">
                 <div class="card-price">
@@ -97,11 +97,8 @@
                     {% if request.session.coupon %}
                     <div class="card-price-list d-flex justify-content-between align-items-center">
                         <div class="item">
-                            <p>Discount</p>
+                            <p><span class="badge bg-primary">{{request.session.coupon}} </span></p>
                         </div>
-                        
-                        <span class="badge bg-primary">Promotion Applied with {{request.session.coupon}} </span>
-                        
                         <div class="price">
                             <p>- Rs {{ cart.get_coupon_amount }} </p>
                         </div>

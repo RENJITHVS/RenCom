@@ -267,14 +267,14 @@
             <div class="features-active">
                 {% for prod in fproducts %}
                 <div class="product-item">
-                    <div class="product-item-image text-left shadow">
+                    <div class="product-item-image text-left">
                         <a href="{{ prod.get_absolute_url }}" class="text-center"><img src="{{prod.thumbnail.url}}"
                                 alt="Product Name" class="img-fluid mx-auto"></a>
                         <div class="cart-icon">
                             {% if prod.attributes.first.offer_difference is not None %}<span
                                 class="badge badge-primary h-50"> {{ prod.attributes.first.offer_difference }}% off
                             </span>{% endif %}
-                            <a href="{% url 'customers:add_wishlist' prod.id %}"><i class="far fa-heart shadow"></i></a>
+                            <a href="{% url 'customers:add_wishlist' prod.id %}"><i class="far fa-heart"></i></a>
                         </div>
                     </div>
                     <div class="product-item-info">

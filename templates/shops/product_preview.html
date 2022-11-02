@@ -3,45 +3,39 @@
 {% block title %} {{ product.title }} {% endblock %}
 {% block content %}
 
+<!-- Product Details Area Start -->
 <section class="product">
     <div class="container-fluid px-5">
         <div class="row">
-            <div class="col-sm-12">
-                <div class="section-title">
-                    <h2>Product Preview</h2>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6 col-12">
-                <div class="column">
-                    <div id="img-container" class="mb-4">
+            <div class="col-lg-5 col-12">
+                <div class="col-12">
+                    <div id="img-container">
                         <div id="lens"></div>
-                        <img id="featured" src="{{ product.image.url }}">
+                        <img id="featured" src="{{ product.image.url }}" class='img-fluid'>
                     </div>
                     {% if product.images.all.count != 0 %}
-                    <div id="slide-wrapper" >
+                    <div id="slide-wrapper">
                         <img id="slideLeft" class="arrow" src="{{ product.image.url }}">
-                        
+
                         <div id="slider">
                             {% for pro in product.images.all %}
                             <img class="thumbnail " src="{{ pro.image.url }}">
                             {% endfor %}
                         </div>
-                        
+
                         <img id="slideRight" class="arrow" src="{{ product.image.url }}">
                     </div>
                     {% endif %}
-                    <a class="btn btn-primary mx-auto my-5" href="{% url 'shop:add_extra_images' product.slug %}"> Add More Images</a>
                 </div>
             </div>
-            
-            <div class="col-lg-6 col-12">
+            <div class="col-lg-7 col-12">
                 <div class="product-pricelist">
                     <h2>{{ product.title }}</h2>
                     <div class="product-pricelist-ratting">
                         <div class="price">
-                            <span>Rs {{ product.attributes.first.price}} </span> <del>{{ product.mrp_price}}</del>
+                            <span>Rs {{ product.attributes.first.price}} </span>
+                            <del>{{ product.mrp_price}}</del>
+
                         </div>
                         <div class="star">
                             <ul>
@@ -50,59 +44,60 @@
                                 {% endfor %}
 
                                 <li>{{product.get_avg_rating}}</li>
+                            </ul>
+                            <ul>
                                 <li class="point">({{product.count_review}} Rating)</li>
                             </ul>
                         </div>
                     </div>
-                    <p class="my-3">{{product.description|safe }}</p>
-
-                    <h6 class="mx-auto text-center mb-2"> Product variations<h6>
+                    <div class="product-description my-3"> 
+                        <p class="pr-5" style="text-align: justify">{{product.description|safe }}</p>
+                    </div>
+                   
                     <div class="row my-2">
                         <div class="col-12">
-                          <form>
-                            <div class="form-group row">
-                              <div class="col-12">
-                                <p class='py-2'>*we take 10% margin on every products</p>
-                                <div class="card-deck">
-                                {% for val in product.attributes.all %}
-                                  <div id="{{val.id}}-card"  class="card mb-4 col-6 " style="border-color: {{ val.color.color_code }}">
-                                    <div class="card-body" role="button">
-                                      <h5 class="card-title"><input id="{{val.id}}" type="radio">
-                                        <label for="price">Rs {{ val.price }}</label></h5>
-                                       <p> <small class="card-text"> <del> Rs {{ val.vendor_price }} </del></small></br>
-                                      <small class="card-text"> product color: {{ val.color.title }}</small><p>
+                            <form>
+                                <div class="form-group row">
+                                    {% if product.images.all.count != 0 %}
+                                    {% for val in product.attributes.all %}
+                                    <div id="{{val.id}}-card" class="card mb-4 col-12 col-md-4 mx-1"
+                                        style="border-color: {{ val.color.color_code }}">
+                                        <div class="card-body" role="button">
+                                            <h5 class="card-title">
+                                                <label for="price">Rs {{ val.price }}</label></h5>
+                                            <pclass="card-text"> your price <span class="badge badge-primary">Rs {{val.vendor_price}}</span></pclass=>
+                                            <p class="card-text"> product color: {{ val.color.title }}</p>
+                                        </div>
                                     </div>
-                                  </div>
-                            
-                                {% endfor %}
-                                
+
+                                    {% endfor %}
+                                    {% endif %}
                                 </div>
-                              </div>
-                            </div>
-                          </form>
+                            </form>
                         </div>
-                      </div>
-                    <div class="mt-4 d-flex justify-content-around">
-                        {% if not product.is_active %}
-                        <form action="{% url 'shop:publish_product' product.slug %}" method="POST">
-                            {% csrf_token %}
-                            <button class="btn btn-primary" type="submit" value=""> Publish</button>
-                        </form>
-                        {% else %}
-                        <form action="{% url 'shop:publish_product' product.slug %}" method="POST">
-                            {% csrf_token %}
-                            <button class="btn btn-warning" type="submit" value=""> Unpublish</button>
-                        </form>
-                        {% endif %}
-                        <a class="btn btn-secondary" href="{% url 'shop:update_product' product.slug %}">Edit
-
-                        </a>
-                        <!-- Button trigger modal -->
-                        <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete
-                        </a>
-
                     </div>
-                    <div class="product-pricelist-selector-button">
+                    <div class="product-pricelist-selector-button row">
+                        <div class="mt-4 d-flex justify-content-around">
+                            {% if not product.is_active %}
+                            <form action="{% url 'shop:publish_product' product.slug %}" method="POST">
+                                {% csrf_token %}
+                                <button class="btn btn-primary" type="submit" value=""> Publish</button>
+                            </form>
+                            {% else %}
+                            <form action="{% url 'shop:publish_product' product.slug %}" method="POST">
+                                {% csrf_token %}
+                                <button class="btn btn-warning" type="submit" value=""> Unpublish</button>
+                            </form>
+                            {% endif %}
+                            <a class="btn btn-secondary" href="{% url 'shop:update_product' product.slug %}">Edit
+    
+                            </a>
+                            <!-- Button trigger modal -->
+                            <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete
+                            </a>
+    
+                        </div>
+                    </div>
                         <div class="product-pricelist-selector-button-item">
                             <div class="shipping">
                                 <div class="icon">
@@ -125,6 +120,7 @@
                                                 stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4" />
                                         </g>
                                     </svg>
+
                                 </div>
                                 {% if product.delivery_charges != 0.00 %}
                                 <p>Shipping: <strong>Rs{{product.delivery_charges}}</strong></p>
@@ -132,8 +128,23 @@
                                 <p>Free Shipping </p>
                                 {% endif %}
                             </div>
-
-                            <div class="cash" style="margin-top:-15px">
+                            <div class="shipping">
+                                <div class="icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="17.5" height="17.5"
+                                        viewBox="0 0 17.5 17.5">
+                                        <g id="Icon" transform="translate(-2.25 -2.25)">
+                                            <path id="Path_20" data-name="Path 20"
+                                                d="M19,11a8,8,0,1,1-8-8A8,8,0,0,1,19,11Z" fill="none" stroke="#335aff"
+                                                stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                            <path id="Path_21" data-name="Path 21" d="M18,9v4.8l3.2,1.6"
+                                                transform="translate(-7 -2.8)" fill="none" stroke="#335aff"
+                                                stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        </g>
+                                    </svg>
+                                </div>
+                                <p>3 Days Delivery Time</p>
+                            </div>
+                            <div class="cash mb-4">
                                 <div class="icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" viewBox="0 0 10 16">
                                         <path id="Icon"
@@ -145,36 +156,25 @@
                             </div>
                         </div>
 
-                    </div>
+                
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="section-title mt-5">
-                    <h2>Product Reviews</h2>
-                </div>
-            </div>
-        </div>
-        <div class="row my-5">
-            {% if product.reviews.all|length == 0 %}
-                <p class='my-2 mx-auto'> No one added review yet</p>
-            {% else %}
+        <div class="container">
             {% for review in product.reviews.all %}
-            <div class="card p-3">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="user d-flex flex-row align-items-center">
-                        <img src="https://i.imgur.com/hczKIze.jpg" width="30" class="user-img rounded-circle mr-2">
+            <div class="card p-3 mt-4">
+                <div class="row justify-content-between my-1">
+                    <div class="user col-md-4">
+                        <img src="{{ review.user.profile_pic.url }}" width="30" class="user-img rounded-circle mr-2">
                         <span><small class="font-weight-bold text-primary">{{ review.user }}</small> </span>
-
                     </div>
-                    <small>{{ review.created_at| timesince }} ago</small>
+                    <small class="col-md-4 text-end">{{ review.created_at| timesince }} ago</small>
                 </div>
-                <div class="action d-flex justify-content-between mt-2 align-items-center">
-                    <div class="reply px-4">
+                <div class="action row justify-content-between my-1">
+                    <div class="reply col-md-4">
                         <small class="font-weight-bold">{{ review.review_text }}</small>
                     </div>
-                    <div class="icons align-items-center">
+                    <div class="icons col-md-4 text-end">
                         {% for star in review.review_rating|ljust:review.review_rating %}
                         <i class="fa fa-star text-warning"></i>
                         {% endfor %}
@@ -182,10 +182,11 @@
                 </div>
             </div>
             {% endfor %}
-            {% endif %}
         </div>
     </div>
 </section>
+<!-- Product Details Area End -->
+
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -230,8 +231,7 @@
     }
 
     #featured {
-        max-width: 500px;
-        max-height: 600px;
+
 
         cursor: pointer;
 
@@ -253,7 +253,9 @@
         opacity: 1;
     }
 
-
+    .active {
+        opacity: 1;
+    }
 
     #slide-wrapper {
         margin-top: 30px;
@@ -323,6 +325,11 @@
 
     }
 
+    .active {
+        border-color: #28a745 !important;
+        background-color: #f2f2f2;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.18), 0 3px 6px rgba(0, 0, 0, 0.23);
+    }
 
     .card {
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15), 0 2px 5px rgba(0, 0, 0, 0.2);

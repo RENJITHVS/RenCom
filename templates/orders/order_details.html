@@ -16,7 +16,6 @@
                         <li class="list-inline-item"><a href="{% url 'customers:wishlist' %}">My wishlist</a></li>
                         <li class="list-inline-item"><a href="{% url 'cart:cart_items' %}">My cart</a></li>
                         <li class="list-inline-item"><a href="#" class="active">Order</a></li>
-                        <li class="list-inline-item"><a href="{% url 'customers:logout' %}" class="mr-0">Log-out</a></li>
                     </ul>
                 </div>
                 <!-- Dashboard-Nav  End-->
@@ -31,6 +30,9 @@
                         </div>
                         <div class="name">
                             Name
+                        </div>
+                        <div class="price text-center">
+                            payment Method
                         </div>
                         <div class="price text-center">
                             Prices
@@ -56,7 +58,7 @@
                             </div>
                             <div class="name">
                                 <div class="name-text">
-                                    <p class="mb-1"> {{ product.product.title }}</p>
+                                    <p class="mb-1"> {{ product.product.title|striptags|truncatechars:80 }}</p>
                                 </div>
                                 <div class="button mt-2">
                                     {% if product.order_status != "Delivered" %}
@@ -73,7 +75,10 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="price text-center">
+                            <div class="price">
+                                <span>{{product.order.payment_option}}</span> 
+                            </div>
+                            <div class="price">
                                 <span>Rs {{product.price}}</span> 
                             </div>
                             <div class="rating">
@@ -115,6 +120,45 @@
                 </div>
                 <!-- Order Item End -->
         </div>
+    </div>
+</section>
+<!-- Pagination Start -->
+<section class="pagination my-2">
+    <div class="container">
+        <div class="d-flex justify-content-center">
+
+            <ul class="pagination my-1">
+              {% if orders.has_previous %}
+              <li class="page-item" aria-current="page">
+                <a class="page-link" href="?page=1">First</a>
+              </li>
+              <li class="page-item" aria-current="page">
+                <a class="page-link" href="?page={{ orders.previous_page_number }}">Previous</a>
+              </li>
+              {% endif %}
+    
+              {% for num in orders.paginator.page_range %}
+              {% if orders.number == num %}
+              <li class="page-item active"><a href="?page={{ num }}" class="page-link">{{ num }}</a>
+              </li>
+              {% elif num > orders.number|add:'-3' and num < orders.number|add:'3' %}
+              <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a>
+              </li>
+              {% endif %}
+              {% endfor %}
+    
+              {% if orders.has_next %}
+              <li class="page-item" aria-current="page">
+                <a class="page-link" href="?page={{ orders.next_page_number }}">Next</a>
+              </li>
+              <li class="page-item" aria-current="page">
+                <a class="page-link" href="?page={{ orders.paginator.num_pages}}">Last</a>
+              </li>
+              {% endif %}
+    
+            </ul>
+            
+          </div>
     </div>
 </section>
 <!-- Order Area End -->

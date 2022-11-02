@@ -23,6 +23,8 @@ from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 
+
+
 # import os
 
 
@@ -67,7 +69,7 @@ def generate_pdf(data):
             mail_subject,
             "hello",  # necessary to pass some message here
             settings.EMAIL_HOST_USER,
-            [to_email],
+            [to_email,],
         )
         email.attach_alternative(message, "text/html")
         email.attach(filename, pdf, "application/pdf")
@@ -196,12 +198,17 @@ def paypal_payment_complete(request):
     order_id = order.pk
 
     for item in cart:
-        OrderItem.objects.create(
+        order_item = OrderItem.objects.create(
             order_id=order_id,
             product=item["product"],
             price=item["price"],
             quantity=item["qty"],
         )
+        notify.send(
+                request.user,
+                recipient=item["product"].created_by.user,
+                verb=f"A order is placed with {order_item.order.order_key} and Payed Rs {order_item.price}",
+            )
 
     data = {
         "order_id": str(order_id),
@@ -268,7 +275,7 @@ def razorpay_payment_complete(request):
             notify.send(
                 request.user,
                 recipient=item["product"].created_by.user,
-                verb=f"A order is placed with {order_item.order.order_key}",
+                verb=f"A order is placed with {order_item.order.order_key} and Payed Rs {order_item.price}",
             )
 
         data = {
@@ -328,7 +335,7 @@ def order_without_payment(request):
         notify.send(
             sender=request.user,
             recipient=product.created_by.user,
-            verb=f"Order placed by {request.user.customerprofile}",
+            verb=f"Order placed by {request.user.customerprofile} as COD",
         )
 
     data = {

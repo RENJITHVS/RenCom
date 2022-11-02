@@ -9,43 +9,24 @@
 <section class="search">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="search-wrapper">
-                {{ products.form.title |as_crispy_field }}
-                <button type="submit" class="btn btn-primary btn-block mx-auto">Search</button>
+            <div class="autocomplete" id="autocomplete1">
+                <div class="input-group mb-3">
+                    <input type="text" name="title" style="height:3rem"
+                        class="form-control autocomplete-input my-1" id="id_title"
+                        placeholder="search your products.." {% if products.form.title.value is not None %} value="{{products.form.title.value}}" {% endif %}/>
+                    <button type="submit" class="btn btn-primary my-1" style="height:3rem;">Search</button>
+                    <ul class="autocomplete-result-list1 p-3"></ul>
+                </div>
             </div>
         </div>
     </div>
 </section>
 <!-- Catagory Search End -->
-
-<!-- Catagory item start -->
-{% comment %} <section class="categoryitem">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="categoryitem-wrapper">
-                <div class="categoryitem-wrapper-itembox">
-                    <h6>Brand</h6>
-                    {{ products.form.brand |as_crispy_field }}
-                </div>
-                
-                <div class="categoryitem-wrapper-itembox">
-                    <h6>Price Greater than</h6>
-                    {{ products.form.price__gt|as_crispy_field }}
-                </div>
-                <div class="categoryitem-wrapper-itembox">
-                    <h6>Price Less than</h6>
-                    {{ products.form.price__lt|as_crispy_field }}
-                </div>
-            </div>
-        </div>
-    </div>
-</section> {% endcomment %}
-<!-- Catagory item End -->
 </form> 
 
 <!-- Vendor Product Strat -->
 <section class="populerproduct bg-white p-0 shop-product mt-5">
-    <div class="container">
+    <div class="container-fluid px-3">
         <div class="row my-4">
                 <div class="col-6 text-left">
                     <h2>Your Products</h2>
@@ -58,36 +39,16 @@
         <div class="row">
             
             {% for product in page_obj %}
-            <div class="col-md-3 col-sm-6">
+            <div class="col-xl-2 col-md-3 col-sm-6">
                 <div class="product-item">
                     <div class="product-item-image">
                         <a href="{% url 'shop:product_preview' product.slug %}"><img src="{{product.thumbnail.url}}" alt="Product Name"
                                 class="img-fluid"></a>
+                        {% if product.is_active %}
                         <div class="cart-icon">
-                            {% if product.is_active %}<a href=""><span class="badge bg-primary">Published</span></a>{% endif %}
-                            {% comment %} <a class="add-cart" value={{ product.id }}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16.75" height="16.75"
-                                    viewBox="0 0 16.75 16.75">
-                                    <g id="Your_Bag" data-name="Your Bag" transform="translate(0.75)">
-                                        <g id="Icon" transform="translate(0 1)">
-                                            <ellipse id="Ellipse_2" data-name="Ellipse 2" cx="0.682" cy="0.714"
-                                                rx="0.682" ry="0.714" transform="translate(4.773 13.571)"
-                                                fill="none" stroke="#1a2224" stroke-linecap="round"
-                                                stroke-linejoin="round" stroke-width="1.5" />
-                                            <ellipse id="Ellipse_3" data-name="Ellipse 3" cx="0.682" cy="0.714"
-                                                rx="0.682" ry="0.714" transform="translate(12.273 13.571)"
-                                                fill="none" stroke="#1a2224" stroke-linecap="round"
-                                                stroke-linejoin="round" stroke-width="1.5" />
-                                            <path id="Path_3" data-name="Path 3"
-                                                d="M1,1H3.727l1.827,9.564a1.38,1.38,0,0,0,1.364,1.15h6.627a1.38,1.38,0,0,0,1.364-1.15L16,4.571H4.409"
-                                                transform="translate(-1 -1)" fill="none" stroke="#1a2224"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                stroke-width="1.5" />
-                                        </g>
-                                    </g>
-                                </svg>
-                            </a> {% endcomment %}
+                            <a href=""><span class="badge bg-primary">Published</span></a>
                         </div>
+                        {% endif %}
                     </div>
                     <div class="product-item-info">
                         <a href="{{ product.get_absolute_url }}">{{ product.title|truncatechars:20 }}</a>
@@ -141,5 +102,37 @@
     </div>
 </section>
 <!-- Pagination End -->
+
+<style>
+    .autocomplete-result-list1{
+        background-color: #fff;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        border-color: #808080;
+    }
+    #id_title::placeholder {
+        text-indent: 25px;
+   }
+   
+</style>
+<script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+
+<script>
+    new Autocomplete("#autocomplete1", {
+
+        search: input => {
+            console.log(input)
+            const url = `/vendor/vendor_search/?title=${input}`
+            return new Promise(resolve => {
+                console.log(url)
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        resolve(data.data)
+                    })
+            })
+        }
+    })
+</script>
 
 {% endblock %}

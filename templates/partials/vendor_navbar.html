@@ -2,7 +2,6 @@
 {% load notifications_tags %}
 <!-- Header Area Start -->
 <header class="header">
-
     <div class="header-bottom">
         <div class="container-fluid">
             <div class="d-none d-lg-block">
@@ -12,10 +11,6 @@
                                 src="{% static 'dist/images/logo/logo-vendor.png' %}" alt="logo"
                                 style="max-width:10rem" /></a>
                     </div>
-                    <ul class="main-menu d-flex align-items-center">
-                        <li><a class="active" href="{% url 'vendors:vendor_home' %}">Home</a></li>
-
-                    </ul>
 
                     <div class="ml-auto">
                         <ul class="d-flex">
@@ -29,7 +24,125 @@
                                     </a>
                                     <ul class="dropdown-menu dropdown-notifications">
                                         <li>
-                                            {% for notification in  user.notifications.unread|slice:":4" %}
+                                            {% for notification in  user.notifications.unread %}
+                                            <div class="mx-2">
+                                                <b>{{ notification.verb }}<b> </br>
+                                                        <small>{{notification.timestamp|timesince}} ago</small>
+                                            </div>
+                                            <div class="dropdown-divider"></div>
+                                            {% endfor %}
+                                        </li>
+                                    </ul>
+                                </div>
+                                {% live_notify_list list_class="dropdown-menu" %}
+                            </li>
+                            {% endif %}
+                            {% if request.user.is_authenticated and request.user.role == 'VENDOR' %}
+                            <li>
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{ request.user.full_name }} <svg xmlns="http://www.w3.org/2000/svg" width="18"
+                                            height="20" viewBox="0 0 18 20">
+                                            <g id="Account" transform="translate(1 1)">
+                                                <path id="Path_86" data-name="Path 86"
+                                                    d="M20,21V19a4,4,0,0,0-4-4H8a4,4,0,0,0-4,4v2"
+                                                    transform="translate(-4 -3)" fill="none" stroke="#000"
+                                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                                                <circle id="Ellipse_9" data-name="Ellipse 9" cx="4" cy="4" r="4"
+                                                    transform="translate(4)" fill="#fff" stroke="#000"
+                                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                                            </g>
+                                        </svg></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item"
+                                                href="{% url 'vendors:vendor_settings' %}">Settings</a></li>
+                                        <li><a class="dropdown-item"
+                                                href="{% url 'orders:vendor-orders-list' %}">Order-details</a></li>
+                                        <li><a class="dropdown-item" data-bs-toggle="modal"
+                                                data-bs-target="#logoutModal">Logout</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <aside class="d-lg-none">
+            <div id="mySidenav" class="sidenav">
+                <div class="close-mobile-menu">
+                    <a href="javascript:void(0)" id="menu-close" class="closebtn" onclick="closeNav()">&times;</a>
+                </div>
+
+                <li>
+                    {% if request.user.is_authenticated and request.user.role == 'VENDOR' %}
+                    <a>{{ request.user.full_name }} </a>
+                    {% else %}
+                    <a href="{% url 'vendors:vendor_login' %}"><svg xmlns="http://www.w3.org/2000/svg" width="18"
+                            height="20" viewBox="0 0 18 20">
+                            <g id="Account" transform="translate(1 1)">
+                                <path id="Path_86" data-name="Path 86" d="M20,21V19a4,4,0,0,0-4-4H8a4,4,0,0,0-4,4v2"
+                                    transform="translate(-4 -3)" fill="none" stroke="#000" stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-width="2" />
+                                <circle id="Ellipse_9" data-name="Ellipse 9" cx="4" cy="4" r="4"
+                                    transform="translate(4)" fill="#fff" stroke="#000" stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-width="2" />
+                            </g>
+                        </svg></a>
+                    {% endif %}
+                </li>
+                <li><a href="{% url 'orders:vendor-orders-list' %}">Dashboard</a></li>
+                <li><a href="{% url 'vendors:vendor_settings' %}">Profiles</a></li>
+                <li><a data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a></li>
+
+            </div>
+            <div class="mobile-nav d-flex align-items-center justify-content-between">
+                <div class="logo">
+                    <a href="{% url 'vendors:vendor_home' %}"><img src="{% static 'dist/images/logo/logo-vendor.png' %}"
+                            alt="logo" style="max-width:10rem" /></a>
+                </div>
+
+
+                <div class="menu-icon d-flex">
+                    <div class="hamburger-menu">
+                        <a style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+    <!-- Body overlay -->
+    <div class="overlay" id="overlayy"></div>
+</header>
+<!-- Header Area End -->
+
+{% comment %} <header class="header">
+
+    <div class="header-bottom">
+        <div class="container-fluid">
+            <div class="d-none d-lg-block">
+                <nav class="menu-area d-flex align-items-center">
+                    <div class="logo">
+                        <a href="{% url 'vendors:vendor_home' %}"><img
+                                src="{% static 'dist/images/logo/logo-vendor.png' %}" alt="logo"
+                                style="max-width:10rem" /></a>
+                    </div>
+
+                    <div class="ml-auto">
+                        <ul class="d-flex">
+                            {% if user.is_authenticated %}
+                            <li class="mx-3">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle notifications" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <i class="fa fa-bell" style="font-size:24px"></i>
+                                        <span class="badge">{% live_notify_badge %}</span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-notifications">
+                                        <li>
+                                            {% for notification in  user.notifications.unread %}
                                             <div class="mx-2">
                                                 <b>{{ notification.verb }}<b> </br>
                                                         <small>{{notification.timestamp|timesince}} ago</small>
@@ -63,7 +176,7 @@
                                         <li><a class="dropdown-item"
                                                 href="{% url 'vendors:vendor_settings' %}">Settings</a></li>
                                         <li><a class="dropdown-item"
-                                                href="{% url 'orders:vendor-orders-list' %}">Order-details</a></li>
+                                                href="{% url 'orders:vendor-orders-list' %}">Dashboard</a></li>
                                         <li><a class="dropdown-item" data-bs-toggle="modal"
                                                 data-bs-target="#logoutModal">Logout</a></li>
                                     </ul>
@@ -88,27 +201,12 @@
                 </nav>
             </div>
             <!-- Mobile Menu -->
-            {% comment %} <aside class="d-lg-none">
+            <aside class="d-lg-none">
                 <div id="mySidenav" class="sidenav">
                     <div class="close-mobile-menu">
                         <a href="javascript:void(0)" id="menu-close" class="closebtn" onclick="closeNav()">&times;</a>
                     </div>
-                    <div class="search-bar">
-                        <input type="text" placeholder="Search for product...">
-                        <div class="icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20.414" height="20.414"
-                                viewBox="0 0 20.414 20.414">
-                                <g id="Search_Icon" data-name="Search Icon" transform="translate(1 1)">
-                                    <ellipse id="Ellipse_1" data-name="Ellipse 1" cx="8.158" cy="8" rx="8.158" ry="8"
-                                        fill="none" stroke="#1a2224" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" />
-                                    <line id="Line_4" data-name="Line 4" x1="3.569" y1="3.5"
-                                        transform="translate(14.431 14.5)" fill="none" stroke="#1a2224"
-                                        stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                                </g>
-                            </svg>
-                        </div>
-                    </div>
+
                     <li><a href="index.html">Home</a></li>
                     <li><a href="shop.html">Men</a></li>
                     <li><a href="shop.html">Women</a></li>
@@ -216,11 +314,11 @@
                     <a style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</a>
                 </div>
         </div>
-        </aside> {% endcomment %}
+        </aside>
         <!-- Body overlay -->
         <div class="overlay" id="overlayy"></div>
     </div>
-</header>
+</header> {% endcomment %}
 <!-- Header Area End -->
 
 <!-- Modal -->
@@ -244,6 +342,9 @@
     }
 
     .dropdown-notifications {
+        height: 200px;
         width: 25rem;
+        overflow: hidden;
+        overflow-y: scroll;
     }
 </style>

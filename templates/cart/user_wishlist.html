@@ -16,7 +16,6 @@
                         <li class="list-inline-item"><a href="#" class="active">My wishlist</a></li>
                         <li class="list-inline-item"><a href="{% url 'cart:cart_items' %}">My cart</a></li>
                         <li class="list-inline-item"><a href="{% url 'orders:view-orders' %}">Order</a></li>
-                        <li class="list-inline-item"><a href="{% url 'customers:logout' %}" class="mr-0">Log-out</a></li>
                     </ul>
                 </div>
                 <!-- Dashboard-Nav  End-->
@@ -34,6 +33,9 @@
                     </div>
                     <div class="price">
                         Prices
+                    </div>
+                    <div class="price">
+                        <span>Shipping charge</span>
                     </div>
                     <div class="rating">
                         Rating
@@ -63,6 +65,9 @@
                         <div class="price">
                             <span>Rs {{ product.attributes.first.price }} </span> <br> Rs <del>{{ product.mrp_price }}</del>
                         </div>
+                        <div class="price">
+                            <span>Rs {{ product.delivery_charges }}</span>
+                        </div>
                         <div class="rating">
                             <li>
                             {% for star in product.get_avg_rating|ljust:product.get_avg_rating %}
@@ -90,56 +95,15 @@
         </div>
     </div>
 </section>
-<!-- Pagination Start -->
-<section class="pagination">
-    <div class="container">
-        <div class="d-flex justify-content-center">
 
-            <ul class="pagination my-1">
-              {% if page_obj.has_previous %}
-              <li class="page-item" aria-current="page">
-                <a class="page-link" href="?page=1">First</a>
-              </li>
-              <li class="page-item" aria-current="page">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-              </li>
-              {% endif %}
-    
-              {% for num in page_obj.paginator.page_range %}
-              {% if page_obj.number == num %}
-              <li class="page-item active"><a href="?page={{ num }}" class="page-link">{{ num }}</a>
-              </li>
-              {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-              <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a>
-              </li>
-              {% endif %}
-              {% endfor %}
-    
-              {% if page_obj.has_next %}
-              <li class="page-item" aria-current="page">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
-              </li>
-              <li class="page-item" aria-current="page">
-                <a class="page-link" href="?page={{ page_obj.paginator.num_pages}}">Last</a>
-              </li>
-              {% endif %}
-    
-            </ul>
-            
-          </div>
-    </div>
-</section>
-
-<!-- Pagination End -->
 <script>
     [...document.getElementsByClassName("add-to-cart")].forEach(function(e){
     e.addEventListener("click", function() {
-        console.log("hi")
         
         product_id= Number(this.getAttribute('value'))
         variation_id = Number(this.getAttribute('id'))
 
-        console.log(variation_id);
+        
             
         const formData = new FormData();
         //console.log(name);
@@ -147,7 +111,7 @@
         formData.append('productqty', 1);
         formData.append('variationid', variation_id);
         formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        console.log(formData);
+        
         fetch('{% url "cart:cart_add" %}', {
             method: 'POST',
             body: formData
@@ -156,10 +120,13 @@
         .then(data => {
             console.log(data)
             let quandity = Number(document.getElementById("cart-id").innerHTML);
-            quandity = quandity+data.qty;
-            document.getElementById("cart-id").innerHTML = quandity
-            console.log('Success:', data);
+            quandity = data.qty;
+            document.getElementById("cart-id").innerHTML = quandity     
         })
+        .then(data => {
+            console.log(product_id)
+            location.href = `/addwishlist/${product_id}/`;
+          })
         .catch(error => {
             console.error('Error:', error);
         });
