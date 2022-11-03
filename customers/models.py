@@ -7,7 +7,9 @@ from .managers import CustomUserManager
 from vendors.models import VendorProfile
 from PIL import Image
 from vendors.models import VendorProfile
-
+from django.core.files.storage import default_storage as storage
+from io import BytesIO
+from django.core.files import File
 
 class User(AbstractUser):
     class Role(models.TextChoices):
@@ -97,12 +99,27 @@ class CustomerProfile(models.Model):
     joined_on.short_description = "Joined on"
 
     def save(self, *args, **kwargs):
+        img = Image.open(self.profile_pic)
+        img.convert("RGB")
+        img.save("name.jpg")
+        img.thumbnail((300 , 300))
+
+        thumb_io = BytesIO()
+        img.save(thumb_io, "JPEG", quality=85)
+
+        self.profile_pic = File(thumb_io, name=self.profile_pic.name)
         super(CustomerProfile, self).save(*args, **kwargs)
-        img = Image.open(self.profile_pic.path)
-        if img.height > 300 or img.width > 300:
-            output_size = (300, 300)
-            img.thumbnail(output_size)
-            img.save(self.profile_pic.path)
+        
+        # img = Image.open(self.profile_pic)
+        # if img.height > 300 or img.width > 300:
+        #     output_size = (300, 300)
+        #     thumb = img.thumbnail(output_size)
+        #     fh = storage.open(self.profile_pic.name, "w")
+        #     picture_format = 'png'
+        #     thumb.save(fh, picture_format)
+        #     fh.close()
+        #     thumb.save(self.profile_pic.path)
+
 
 
 class VendorManager(BaseUserManager):

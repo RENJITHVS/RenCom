@@ -41,12 +41,12 @@
                     </form>
 
                     <div class="d-flex mx-auto">
-                        <ul>  {% if user.is_authenticated %}
+                        <ul> {% if user.is_authenticated %}
                             <li>
                                 <div class="dropdown">
                                     <a class="dropdown-toggle notifications" data-bs-toggle="dropdown"
                                         aria-expanded="false">
-                                        <i class="fa fa-bell" style="font-size:24px"></i>
+                                        <i class="fa fa-bell" aria-hidden="true"></i>
                                         <span class="badge">{% live_notify_badge %}</span>
                                     </a>
                                     <ul class="dropdown-menu dropdown-notifications">
@@ -165,8 +165,7 @@
                 <li><a href="{% url 'customers:settings-user' %}">Settings</a>
                 </li>
                 <li><a href="{% url 'orders:view-orders' %}">Orders</a></li>
-                <li><a data-bs-toggle="modal"
-                        data-bs-target="#logoutModal">Logout</a></li>
+                <li><a data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a></li>
             </div>
             <div class="mobile-nav d-flex align-items-center justify-content-between">
                 <div class="logo">

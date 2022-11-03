@@ -2,6 +2,9 @@ from django.conf import settings
 from django.db import models
 import datetime
 from uuid import uuid4
+from PIL import Image
+from io import BytesIO
+from django.core.files import File
 
 # Create your models here.
 def create_id():
@@ -41,3 +44,15 @@ class VendorProfile(models.Model):
         return self.user.date_joined
 
     joined_on.short_description = "Joined on"
+
+    def save(self, *args, **kwargs):
+        img = Image.open(self.profile_pic)
+        img.convert("RGB")
+        img.save("name.jpg")
+        img.thumbnail((300 , 300))
+
+        thumb_io = BytesIO()
+        img.save(thumb_io, "JPEG", quality=85)
+
+        self.profile_pic = File(thumb_io, name=self.profile_pic.name)
+        super(VendorProfile, self).save(*args, **kwargs)
