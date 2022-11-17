@@ -57,7 +57,16 @@
     </script>
     <script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
     <script>
-        {% if messages %} {%for message in messages %}
+        {%if messages %} 
+        {%for message in messages %}
+        Swal.fire({
+            position: 'top',
+            icon: '{{ message.tags }}',
+            title: '{{ message }}',
+            showConfirmButton: false,
+            //timer: 3500
+        }) {% endfor%} 
+        {% endif %}
          
     <style>
         .nice-select {

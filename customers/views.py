@@ -78,7 +78,7 @@ def CustomerloginPage(request):
                 return HttpResponseRedirect("/")
         else:
             messages.error(request, "Email and passwoed doesn't match")
-    return render(request, "user/Userlogin.html")
+    return render(request, "user/userlogin.html")
 
 
 def customerSignup(request):
@@ -113,7 +113,7 @@ def customerSignup(request):
             )
         else:
             pass
-    return render(request, "user/userSignup.html", {"form": registerForm})
+    return render(request, "user/usersignup.html", {"form": registerForm})
 
 
 def account_activate(request, uidb64, token):
